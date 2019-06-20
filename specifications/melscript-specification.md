@@ -4,9 +4,9 @@
 
 MelScript is a Lisp-like, purely functional, Turing-incomplete language for writing constraints in Themelio. It's the basic "medium-level" language used in Themelio constraints.
 
-It compiles in a very straightforward manner to constraint bytecode --- core functions map directly to bytecode, while everything else is macros layered on top. 
+It compiles in a very straightforward manner to constraint bytecode --- core functions map directly to bytecode, while everything else is macros layered on top.
 
-The basic data type of MelScript is a linked-list representation of a RLP-encoded object: either a bytestring, or a list of bytestrings. 
+The basic data type of MelScript is a linked-list representation of a RLP-encoded object: either a bytestring, or a list of bytestrings.
 
 ## Syntax
 
@@ -21,6 +21,7 @@ Literals are one of:
 ### Program structure
 
 Programs consist of:
+
 * Macro definitions
 * One body expression
 
@@ -28,27 +29,29 @@ Programs consist of:
 
 Macros look like:
 
-````scheme
+```scheme
 (macro (form args...) expr)
-````
+```
 
 which will replace `(form args..)` with `expr` in the body of the program.
 
 They may also simply define a constant:
 
-````scheme
+```scheme
 (macro form expr)
-````
+```
 
 ## Core forms
 
-All core functions have a fixed number of arguments and directly correspond to assembly. For example, the expression `(~add64 x-expr y-expr)` compiles to
-````
+All core functions have a fixed number of arguments and directly correspond to assembly. For example, the expression `(~add256 x-expr y-expr)` compiles to
+
+```text
 (compile y-expr)
 (compile x-expr)
-ADD64
-````
-and the semantics of the `ADD64` instruction is `push(pop() + pop())`.
+ADD256
+```
+
+and the semantics of the `ADD256` instruction is `push(pop() + pop())`.
 
 Core forms starting in a tilde should never appear directly in user code.
 
@@ -64,6 +67,14 @@ Arithmetic operations all operate on 256-bit big-endian unsigned integers. Only 
 (~rem256 x y)
 ```
 
+### Equality
+
+Equality is checked only on the first 32 bytes.
+
+```scheme
+(~equal256? x y)
+```
+
 ### Hashing
 
 Hashing takes a single, arbitrary-length input and returns a 32-byte hash. It takes variable time, but this is okay, since building a bigger input would have taken more instructions anyway.
@@ -77,8 +88,8 @@ Hashing takes a single, arbitrary-length input and returns a 32-byte hash. It ta
 Both Q and E signatures can be verified.
 
 ```scheme
-(sig-ok-Q? public-key msg-hash signature)
-(sig-ok-E? public-key msg-hash signature)
+(sigQ-ok? public-key msg-hash signature)
+(sigE-ok? public-key msg-hash signature)
 ```
 
 ### RLP operations
@@ -92,6 +103,23 @@ RLP structures are treated as nested Lisp-style linked lists. Explicit serializa
 empty
 ```
 
-### Bytecode weight
+## Bytecode weights
 
-The weight of a constraint is computed as $$\ell + \Sum_iw_i$$, where $$\ell$$ is the length of the 
+The weight of a constraint is computed as $$\ell + \sum_iw_i$$, where $$\ell$$ is the length of the constraint and $$w_i$$ is the weight of the ith instruction. Here are the weights of the instructions:
+
+| Instruction | Encoding | Weight |
+| :--- | :--- | :--- |
+| ADD256 | 0x10 | 4 |
+| SUB256 | 0x11 | 4 |
+| MUL256 | 0x12 | 6 |
+| DIV256 | 0x13 | 6 |
+| REM256 | 0x14 | 6 |
+| EQUAL256 | 0x15 | 4 |
+| HASH | 0x20 | 50 |
+| SIGEOK | 0x30 | 100 |
+| SIGQOK | 0x31 | 1000 |
+| CONS | 0x40 | 4 |
+| CAR | 0x41 | 4 |
+| CDR | 0x42 | 4 |
+| PUSH | 0x00 | 0 |
+

@@ -2,8 +2,6 @@
 
 * [Start here](README.md)
 
-## Learn
-
 ## Miscellaneous
 
 * [PRPoSW vs stablecoins](miscellaneous/cels-vs-stablecoins.md)
