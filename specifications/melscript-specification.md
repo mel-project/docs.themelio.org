@@ -103,6 +103,18 @@ RLP structures are treated as nested Lisp-style linked lists. Explicit serializa
 empty
 ```
 
+## Built-in macros
+
+### Arithmetic and equality
+
+Arithmetic and equality operators can take multiple arguments. 
+
+```scheme
+(+ x y z...) => (add256 x (add256 y (add256 z ...)))
+(= x y z...) => (equal256? x (equal256? y (equal256? z ...)))
+...
+```
+
 ## Bytecode weights
 
 The weight of a constraint is computed as $$\ell + \sum_iw_i$$, where $$\ell$$ is the length of the constraint and $$w_i$$ is the weight of the ith instruction. Here are the weights of the instructions:
