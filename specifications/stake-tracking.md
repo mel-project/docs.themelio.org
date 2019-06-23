@@ -4,8 +4,8 @@
 
 Staking information is tracked according to the following principles:
 
-* Lents trade freely on the chain with no limits.
-* Lents can be staked for a fixed, long period of time with special staking transactions. 
+* Mets trade freely on the chain with no limits.
+* Mets can be staked for a fixed, long period of time with special staking transactions. 
 * Voting power stays constant for medium-length periods of time to reduce "catching-up" time for thin clients.
 
 ## How are stakes managed?
@@ -28,7 +28,7 @@ type StakeDocEntry struct {
     SigningKey  []byte // first byte is algorithm, rest is PK, not public key hash
     StartEpoch  uint
     UnlockEpoch uint // epoch after the last voting epoch
-    Staked      uint // lents staked
+    Staked      uint // Mets staked
 }
 ```
 
@@ -77,10 +77,10 @@ The advantage of fixed bond periods is simply ease of implementation and underst
 
 Like all proof-of-stake systems, we suffer from a security problem known as **weak subjectivity**. Basically, clients that have been off for a very long time \(in our case, more than two epochs\) cannot defend against attacks by a quorum of _past_ stakeholders, as they can collude to sign a series of stake documents inconsistent with the main chain, and more importantly, they cannot be punished by slashing or consensus alarm since on the main chain their funds have already been unstaked, and even if the clients are not eclipsed and can see the main chain, they have no way of deciding.
 
-Vitalik Buterin already has a [pretty good blog post](https://blog.ethereum.org/2014/11/25/proof-stake-learned-love-weak-subjectivity/) arguing that this is not as bad as it sounds in the case of Casper. Given Celerium's properties, though, there are some even more important arguments against the idea that weak subjectivity is really bad:
+Vitalik Buterin already has a [pretty good blog post](https://blog.ethereum.org/2014/11/25/proof-stake-learned-love-weak-subjectivity/) arguing that this is not as bad as it sounds in the case of Casper. Given Themelio's properties, though, there are some even more important arguments against the idea that weak subjectivity is really bad:
 
-* Under a security model of "passive altruism", as used in Algorand etc, where due to transaction costs in planning an attack, most stakeholders stay honest unless doing so significantly damages their self-interest, weak subjectivity for Celerium disappears, as old-epoch quorums can then be trusted not to double-sign. This "passive altruism" can be as simple as deleting keys when bonds are redeemed.
-* In a security model where clients can get eclipsed by a bad network, proof of work suffers from a similar problem: an arbitrarily bad, arbitrarily low-difficulty fork can fool any client. The main assumption behind the "subjectivities", that the client can see all previous messages and must decide the correct fork, does not work when the network is adversarial. Celerium, however, assumes that clients' networks may be entirely adversarial for an unbounded time, in which case Nakamoto-style consensus completely fails, while the stake-document chain still works perfectly.
+* Under a security model of "passive altruism", as used in Algorand etc, where due to transaction costs in planning an attack, most stakeholders stay honest unless doing so significantly damages their self-interest, weak subjectivity for Themelio disappears, as old-epoch quorums can then be trusted not to double-sign. This "passive altruism" can be as simple as deleting keys when bonds are redeemed.
+* In a security model where clients can get eclipsed by a bad network, proof of work suffers from a similar problem: an arbitrarily bad, arbitrarily low-difficulty fork can fool any client. The main assumption behind the "subjectivities", that the client can see all previous messages and must decide the correct fork, does not work when the network is adversarial. Themelio, however, assumes that clients' networks may be entirely adversarial for an unbounded time, in which case Nakamoto-style consensus completely fails, while the stake-document chain still works perfectly.
 
 ### Can slashed stakeholders vote?
 

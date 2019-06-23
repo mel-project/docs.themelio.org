@@ -8,9 +8,9 @@ We represent structures in Go syntax, which should be fairly straightforward. Se
 
 ## Block headers
 
-Block headers in Celerium are designed to maximize the utility of ultrathin clients who only keep track of a reasonably recent, _single_ block header.
+Block headers in Themelio are designed to maximize the utility of ultrathin clients who only keep track of a reasonably recent, _single_ block header.
 
-Each Celerium block header is as follows:
+Each Themelio block header is as follows:
 
 ```text
 type BlockHeader struct {
@@ -154,7 +154,7 @@ When bonds
 
 ### Overview
 
-**Constraints** in Celerium correspond roughly to scripts in Bitcoin, except with a larger feature set and with no whitelist of formats that can be relayed. They are scripts written in a stack-based language that take a transaction \(and some other state such as the last block\) as an input and return a boolean; transactions must **satisfy** all their input TXO's constraints in order to validate. A constraint is satisfied if after running a transaction through the script, the stack has one element, `[]`.
+**Constraints** in Themelio correspond roughly to scripts in Bitcoin, except with a larger feature set and with no whitelist of formats that can be relayed. They are scripts written in a stack-based language that take a transaction \(and some other state such as the last block\) as an input and return a boolean; transactions must **satisfy** all their input TXO's constraints in order to validate. A constraint is satisfied if after running a transaction through the script, the stack has one element, `[]`.
 
 Constraints are represented as a , but usually written in a fairly readable yet easily hand-translatable format.
 

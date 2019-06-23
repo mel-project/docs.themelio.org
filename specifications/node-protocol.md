@@ -2,11 +2,11 @@
 
 ## Overview
 
-Celerium nodes --- both coordinators and auditors --- offer a uniform HTTP-based API for use by peer nodes and clients alike. 
+Themelio nodes --- both coordinators and auditors --- offer a uniform HTTP-based API for use by peer nodes and clients alike. 
 
 This API is designed for efficiency and would be used with middleware. It isn't particularly suited for direct "manual" usage by stuff like jQuery. Thus, it's broadly RESTful, but instead of the usual JSON, we generally use RLP values for efficiency. Whenever values are mentioned, they are RLP-encoded unless otherwise indicated. Key-value parameters are typically query strings for GET methods and form parameters for POST methods. 
 
-In this document we describe every method offered by a Celerium node, using `autonode.celerium.io` \(the DNS bootstrapping node\) as an example endpoint.
+In this document we describe every method offered by a Themelio node, using `autonode.themelio.org` \(the DNS bootstrapping node\) as an example endpoint.
 
 ## Consensus methods
 
@@ -20,7 +20,7 @@ These methods are used to securely obtain the latest block hash without trusting
 
   * Fastsync to obtain full state
 
-{% api-method method="get" host="http://autonode.celerium.io" path="/consensus" %}
+{% api-method method="get" host="http://autonode.themelio.org" path="/consensus" %}
 {% api-method-summary %}
 Latest consensus
 {% endapi-method-summary %}
@@ -62,7 +62,7 @@ Information about blocks are served under `/blocks/<height>`.
 
 **Note**: Information about blocks is generally limited to the last 100 blocks, unless in the case of archive nodes. 
 
-{% api-method method="get" host="http://autonode.celerium.io" path="/blocks/<height>/tx/<txhash>" %}
+{% api-method method="get" host="http://autonode.themelio.org" path="/blocks/<height>/tx/<txhash>" %}
 {% api-method-summary %}
 Individual transactions
 {% endapi-method-summary %}
@@ -108,7 +108,7 @@ Transaction not found
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="get" host="http://autonode.celerium.io" path="/blocks/<height>/header" %}
+{% api-method method="get" host="http://autonode.themelio.org" path="/blocks/<height>/header" %}
 {% api-method-summary %}
 Headers
 {% endapi-method-summary %}
@@ -151,7 +151,7 @@ Nonexistent block height
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="get" host="http://autonode.celerium.io" path="/blocks/<height>/fullblock" %}
+{% api-method method="get" host="http://autonode.themelio.org" path="/blocks/<height>/fullblock" %}
 {% api-method-summary %}
 Dumping entire block
 {% endapi-method-summary %}
@@ -193,7 +193,7 @@ Block height
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="get" host="http://autonode.celerium.io" path="/blocks/<height>/mbpt/<type>/<key>" %}
+{% api-method method="get" host="http://autonode.themelio.org" path="/blocks/<height>/mbpt/<type>/<key>" %}
 {% api-method-summary %}
 Digging into MBPTs
 {% endapi-method-summary %}
@@ -249,7 +249,7 @@ Block too old!
 
 Methods on transactions are generally under `/transactions`. These methods may or may not be supported!
 
-{% api-method method="post" host="http://autonode.celerium.io" path="/transactions/submit" %}
+{% api-method method="post" host="http://autonode.themelio.org" path="/transactions/submit" %}
 {% api-method-summary %}
 Submitting a transaction
 {% endapi-method-summary %}
@@ -311,7 +311,7 @@ Blockchain congested
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="get" host="http://autonode.celerium.io" path="/transactions/querycoins?height=...&conshash=..." %}
+{% api-method method="get" host="http://autonode.themelio.org" path="/transactions/querycoins?height=...&conshash=..." %}
 {% api-method-summary %}
 Query coins
 {% endapi-method-summary %}
