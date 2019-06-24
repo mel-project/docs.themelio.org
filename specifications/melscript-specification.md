@@ -14,7 +14,7 @@ The basic data type of MelScript is a linked-list representation of a RLP-encode
 
 Literals are one of:
 
-* Decimal numbers, always representing unsigned 64-bit big-endian: `12345`
+* Decimal numbers, always representing unsigned big-endian represented with the smallest number of bytes: `12345`
 * Hexadecimal bytestrings: `#xdeadbeef00`
 * Literal strings, interpreted as UTF-8: `"Hello World"`
 
@@ -30,7 +30,7 @@ Programs consist of:
 Macros look like:
 
 ```scheme
-(macro (form args...) expr)
+(define (form args...) expr)
 ```
 
 which will replace `(form args..)` with `expr` in the body of the program.
@@ -38,7 +38,7 @@ which will replace `(form args..)` with `expr` in the body of the program.
 They may also simply define a constant:
 
 ```scheme
-(macro form expr)
+(define form expr)
 ```
 
 ## Core forms
@@ -108,6 +108,10 @@ Both Q and E signatures can be verified.
 (sigQ-ok? public-key msg-hash signature)
 (sigE-ok? public-key msg-hash signature)
 ```
+
+**As a special case**, if both the `signature` and `msg-hash` field is zero-length, then we iterate through the `Signatures` field in the spending transaction to try to find a matching signature. This special case is used in the vast majority of single-signature and multisignature wallets.
+
+In general, using `sigQ-ok?` outside this special case (say, with `Data` members) requires some care, since signatures may be malleable.
 
 ### RLP operations
 
@@ -200,7 +204,7 @@ The weight of a constraint is computed as $$\ell + \sum_iw_i$$, where $$\ell$$ i
 | OR256  | 0x1b | 4 |
 | XOR256 | 0x1c | 4 |
 | IF256  | 0x1f | 4 |
-| EQUAL256 | 0x15 | 4 |
+| EQUAL256 | 0x20 | 4 |
 | HASH | 0x30 | 50 |
 | SIGEOK | 0x40 | 100 |
 | SIGQOK | 0x41 | 1000 |
