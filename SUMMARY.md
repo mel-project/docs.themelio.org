@@ -9,9 +9,12 @@
 
 ## Specifications
 
+* [Network protocols](specifications/network-protocols/README.md)
+  * [Client protocol](specifications/network-protocols/node-protocol.md)
+  * [State synchronization](specifications/network-protocols/block-synchronization.md)
+  * [Symphonia](specifications/network-protocols/symphonia.md)
 * [Stakeholder rewards](specifications/stakeholder-rewards.md)
 * [Block and transaction format](specifications/block-and-transaction-format.md)
-* [Node protocol](specifications/node-protocol.md)
 * [Stake tracking](specifications/stake-tracking.md)
 * [MelScript specification](specifications/melscript-specification.md)
 

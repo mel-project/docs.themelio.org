@@ -69,7 +69,7 @@ Arithmetic operations all operate on 256-bit big-endian unsigned integers. Only 
 
 ### Boolean operations
 
-Boolean operations are *bitwise* on the last 32 bytes. They only return 32 bytes. 
+Boolean operations are _bitwise_ on the last 32 bytes. They only return 32 bytes.
 
 ```scheme
 (~and256 x y)
@@ -78,7 +78,7 @@ Boolean operations are *bitwise* on the last 32 bytes. They only return 32 bytes
 (~not256 x)
 ```
 
-There's also a **non short-circuited** if operator, which treats its condition as "false" if its last 32 (or less) bytes are all zero, and "true" otherwise:
+There's also a **non short-circuited** if operator, which treats its condition as "false" if its last 32 \(or less\) bytes are all zero, and "true" otherwise:
 
 ```scheme
 (~if256 c true-case false-case)
@@ -111,7 +111,7 @@ Both Q and E signatures can be verified.
 
 **As a special case**, if both the `signature` and `msg-hash` field is zero-length, then we iterate through the `Signatures` field in the spending transaction to try to find a matching signature. This special case is used in the vast majority of single-signature and multisignature wallets.
 
-In general, using `sigQ-ok?` outside this special case (say, with `Data` members) requires some care, since signatures may be malleable.
+In general, using `sigQ-ok?` outside this special case \(say, with `Data` members\) requires some care, since signatures may be malleable.
 
 ### RLP operations
 
@@ -129,7 +129,7 @@ empty
 
 The execution environment is accessed through the special "function" `env`. This is literally compiled as, for example
 
-```
+```text
 PUSH "SELFHASH"
 ENV
 ```
@@ -155,7 +155,7 @@ Accessing a nonexistent environment variable will result in instantly failing th
 
 ### Arithmetic, boolean, and equality
 
-Arithmetic, boolean, and equality operators can take multiple arguments. 
+Arithmetic, boolean, and equality operators can take multiple arguments.
 
 ```scheme
 (+ x y z...) => (~add256 x (~add256 y (~add256 z ...)))
@@ -201,9 +201,9 @@ The weight of a constraint is computed as $$\ell + \sum_iw_i$$, where $$\ell$$ i
 | DIV256 | 0x13 | 6 |
 | REM256 | 0x14 | 6 |
 | AND256 | 0x1a | 4 |
-| OR256  | 0x1b | 4 |
+| OR256 | 0x1b | 4 |
 | XOR256 | 0x1c | 4 |
-| IF256  | 0x1f | 4 |
+| IF256 | 0x1f | 4 |
 | EQUAL256 | 0x20 | 4 |
 | HASH | 0x30 | 50 |
 | SIGEOK | 0x40 | 100 |

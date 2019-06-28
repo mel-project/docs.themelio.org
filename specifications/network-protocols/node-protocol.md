@@ -1,24 +1,12 @@
-# Node protocol
+# Client protocol
 
 ## Overview
 
-Themelio nodes --- both coordinators and auditors --- offer a uniform HTTP-based API for use by peer nodes and clients alike. 
-
-This API is designed for efficiency and would be used with middleware. It isn't particularly suited for direct "manual" usage by stuff like jQuery. Thus, it's broadly RESTful, but instead of the usual JSON, we generally use RLP values for efficiency. Whenever values are mentioned, they are RLP-encoded unless otherwise indicated. Key-value parameters are typically query strings for GET methods and form parameters for POST methods. 
-
-In this document we describe every method offered by a Themelio node, using `autonode.themelio.org` \(the DNS bootstrapping node\) as an example endpoint.
+In this document we describe every client-facing method offered by a Themelio node, using `autonode.themelio.org` \(the DNS bootstrapping node\) as an example endpoint.
 
 ## Consensus methods
 
-These methods are used to securely obtain the latest block hash without trusting the node, which is necessary for bootstrapping all subsequent trust. The general process of "catching up" is:
-
-* Get latest consensus and latest block header
-* Is the stake hash the same as what I have?
-  * Yes: validate signatures on consensus
-  * No: update stake log, then validate signatures
-* If full node:
-
-  * Fastsync to obtain full state
+These methods are used to securely obtain the latest block hash without trusting the node, which is necessary for bootstrapping all subsequent trust. 
 
 {% api-method method="get" host="http://autonode.themelio.org" path="/consensus" %}
 {% api-method-summary %}
@@ -26,7 +14,7 @@ Latest consensus
 {% endapi-method-summary %}
 
 {% api-method-description %}
-Returns the latest consensus.  **TBD**
+Returns the latest consensus. **TBD**
 {% endapi-method-description %}
 
 {% api-method-spec %}
@@ -58,9 +46,9 @@ Returns the latest consensus.  **TBD**
 
 ## Block methods
 
-Information about blocks are served under `/blocks/<height>`. 
+Information about blocks are served under `/blocks/<height>`.
 
-**Note**: Information about blocks is generally limited to the last 100 blocks, unless in the case of archive nodes. 
+**Note**: Information about blocks is generally limited to the last 100 blocks, unless in the case of archive nodes.
 
 {% api-method method="get" host="http://autonode.themelio.org" path="/blocks/<height>/tx/<txhash>" %}
 {% api-method-summary %}
@@ -90,7 +78,7 @@ Hexadecimal transaction hash
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 
 ```
 {% endapi-method-response-example %}
@@ -100,7 +88,7 @@ Hexadecimal transaction hash
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 Transaction not found
 ```
 {% endapi-method-response-example %}
@@ -132,7 +120,7 @@ Block height
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 0000000000000000000000000000000000000000000000000000000000000000444f02ba27e2cb72cb3ab39e390e6f46d22ebea980a0dab6264d9350f8aafb1f444f02ba27e2cb72cb3ab39e390e6f46d22ebea980a0dab6264d9350f8aafb1f444f02ba27e2cb72cb3ab39e390e6f46d22ebea980a0dab6264d9350f8aafb1f00000000000000000000000000000000
 ```
 {% endapi-method-response-example %}
@@ -142,9 +130,8 @@ Block height
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 Nonexistent block height
-
 ```
 {% endapi-method-response-example %}
 {% endapi-method-response %}
@@ -175,7 +162,7 @@ Block height
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 ...
 ```
 {% endapi-method-response-example %}
@@ -185,7 +172,7 @@ Block height
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 
 ```
 {% endapi-method-response-example %}
@@ -199,9 +186,7 @@ Digging into MBPTs
 {% endapi-method-summary %}
 
 {% api-method-description %}
-Returns an MBPT branch, starting from the root to the leaf, as an RLP array of nodes.   
-  
-Unlike the other methods, this one is guaranteed to work only for the **latest** block!
+Returns an MBPT branch, starting from the root to the leaf, as an RLP array of nodes.Unlike the other methods, this one is guaranteed to work only for the **latest** block!
 {% endapi-method-description %}
 
 {% api-method-spec %}
@@ -227,7 +212,7 @@ Hexadecimal key into the MBPT
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 ...
 ```
 {% endapi-method-response-example %}
@@ -237,7 +222,7 @@ Hexadecimal key into the MBPT
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 Block too old!
 ```
 {% endapi-method-response-example %}
@@ -247,7 +232,7 @@ Block too old!
 
 ## Methods on transactions
 
-Methods on transactions are generally under `/transactions`. These methods may or may not be supported!
+Methods on transactions are generally under `/transactions`. 
 
 {% api-method method="post" host="http://autonode.themelio.org" path="/transactions/submit" %}
 {% api-method-summary %}
@@ -273,7 +258,7 @@ Raw transaction data
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 Transaction accepted
 ```
 {% endapi-method-response-example %}
@@ -283,7 +268,7 @@ Transaction accepted
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 Malformed transaction
 ```
 {% endapi-method-response-example %}
@@ -293,7 +278,7 @@ Malformed transaction
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 Fee too low
 ```
 {% endapi-method-response-example %}
@@ -303,7 +288,7 @@ Fee too low
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 Blockchain congested
 ```
 {% endapi-method-response-example %}
@@ -339,47 +324,11 @@ block height whose state we're querying
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 
 ```
 {% endapi-method-response-example %}
 {% endapi-method-response %}
 {% endapi-method-spec %}
 {% endapi-method %}
-
-{% api-method method="get" host="" path="" %}
-{% api-method-summary %}
-
-{% endapi-method-summary %}
-
-{% api-method-description %}
-
-{% endapi-method-description %}
-
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-path-parameters %}
-{% api-method-parameter name="" type="string" required=false %}
-
-{% endapi-method-parameter %}
-{% endapi-method-path-parameters %}
-{% endapi-method-request %}
-
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```
-
-```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
-
-## Coordinator BFT methods
-
-These methods are used exclusively in the coordinators' consensus process.
 
