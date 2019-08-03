@@ -17,4 +17,5 @@
 * [Block and transaction format](specifications/block-and-transaction-format.md)
 * [Stake tracking](specifications/stake-tracking.md)
 * [MelScript specification](specifications/melscript-specification.md)
+* [Building and validating blocks](specifications/building-and-validating-blocks.md)
 

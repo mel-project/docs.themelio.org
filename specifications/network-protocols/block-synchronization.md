@@ -19,9 +19,9 @@ type msgHandshake struct {
 }
 ```
 
-After the handshake, the node with higher TipHeight becomes **sender**, and the other **receiver**. If TipHeight is identical, the node with higher TipHash is sender. 
+After the handshake, the node with higher TipHeight becomes **sender**, and the other **receiver**. If TipHeight is identical, the node with higher TipHash is sender.
 
-If TipHash is identical, exit the protocol \(nothing to sync\). 
+If TipHash is identical, exit the protocol \(nothing to sync\).
 
 ### Confirming metadata
 
@@ -36,7 +36,7 @@ type msgMetadata struct {
 }
 ```
 
-`TipProof` is an app-dependent proof about the tip. In Symphonia it's a signed 
+`TipProof` is an app-dependent proof about the tip. In Symphonia it's a signed
 
 The receiver then decides its course of action:
 
@@ -62,19 +62,13 @@ The receiver sends a request that's a simple string `batch`.
 
 The sender then simply spams a bunch of `chainstructs.Block` to the client.
 
-The sender sends the messages from **higher to lower block numbers**. This allows the client to verify that each block correctly commits to its ancestor. 
+The sender sends the messages from **higher to lower block numbers**. This allows the client to verify that each block correctly commits to its ancestor.
 
 ## One-by-one sync
 
 During one-by-one sync, clients request specific blocks.
 
-Clients request a block by sending its hash as a single RLP value, while senders just respond by sending a single `chainstructs.Block`. 
+Clients request a block by sending its hash as a single RLP value, while senders just respond by sending a single `chainstructs.Block`.
 
 Clients should give up under memory pressure to prevent DoS.
-
-## 
-
-
-
-### 
 
