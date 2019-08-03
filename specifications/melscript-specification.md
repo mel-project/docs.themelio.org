@@ -141,8 +141,8 @@ Accessing a nonexistent environment variable will result in instantly failing th
 (env 'SELFHASH)
 
 ;; Transaction output in which the constraint is embedded, as an RLP structure
-(env 'SELFTXO) ; TxOutput structure
-(env 'SELFTXI) ; TxInput structure
+(env 'SELFTXOH) ; TxOutputAndHeight structure
+(env 'SELFTXI)  ; TxInput structure
 
 ;; Spender (the transaction spending the coin having this constraint)
 (env 'SPENDTX) ; whole transaction as RLP, with ZEROED-OUT SIGNATURE FIELD! (for hash)
