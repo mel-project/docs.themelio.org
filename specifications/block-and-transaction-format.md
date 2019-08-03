@@ -62,7 +62,7 @@ type Transaction struct {
     Outputs []TxOutput
     Fee     uint
     Scripts []melscript.Script
-    Data    *melscript.RLPList
+    Data    []byte
     Sigs    []TxSig
 }
 
@@ -76,7 +76,7 @@ type TxInput struct {
 type TxOutput struct {
     ScriptHash   celcrypt.Bytes32
     Value        uint
-    CoinType     []byte
+    CoinType     string
 }
 
 // TxSig is an algorithm-agnostic signature structure.
