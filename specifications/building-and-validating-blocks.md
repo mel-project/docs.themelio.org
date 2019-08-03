@@ -10,7 +10,7 @@ This page documents an elegant way of both validating and incrementally building
 
 There are three steps to validate a block.
 
-**Creating effects**. We create the _effects_ of all the **non-coinbase** transactions first, without validating anything. We loop across all transactions in the block, adding their UTXOs to a _proposed new state tree_. No checking is done at all.
+**Creating effects**. We create the _effects_ of all the **non-coinbase** transactions first, without validating anything. We loop across all transactions in the block, adding their UTXOs to a _proposed new state tree_. No checking is done at all except for fees.
 
 **Validating transactions**. We then do a _parallel_ loop over the transactions, marking any UTXOs we spend into a concurrent map and aborting if we attempt to add into the map something we already have added or is not in the proposed new state tree. During this step, every transaction is validated according to their kind-specific rules \(stuff like money balancing, fees, etc\).
 
