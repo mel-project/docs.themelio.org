@@ -68,13 +68,13 @@ type Transaction struct {
 
 // TxInput is a transaction input.
 type TxInput struct {
-    TxHash celcrypt.Bytes32
+    TxHash melcrypt.Bytes32
     Index  uint
 }
 
 // TxOutput is a transaction output.
 type TxOutput struct {
-    ScriptHash   celcrypt.Bytes32
+    ScriptHash   melcrypt.Bytes32
     Value        uint
     CoinType     string
 }
@@ -111,7 +111,7 @@ To register a puzzle, a transaction with `Kind == 0x10` is broadcast, with `Data
 
 ```go
 type PuzzleRegister struct {
-    ScriptHash celcrypt.Bytes32 
+    ScriptHash melcrypt.Bytes32 
     Difficulty uint
 }
 ```

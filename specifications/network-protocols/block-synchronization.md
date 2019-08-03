@@ -15,7 +15,7 @@ type msgHandshake struct {
     // Height of "tip" block (simply highest if ReqCommit)
     TipHeight uint 
     // Hash of "tip" block
-    TipHash celcrypt.Bytes32
+    TipHash melcrypt.Bytes32
 }
 ```
 
