@@ -12,7 +12,7 @@
 * [Network protocols](specifications/network-protocols/README.md)
   * [Client protocol](specifications/network-protocols/node-protocol.md)
   * [State synchronization](specifications/network-protocols/block-synchronization.md)
-  * [Symphonia](specifications/network-protocols/symphonia.md)
+  * [Symphonia \(TBD\)](specifications/network-protocols/symphonia.md)
 * [Stakeholder rewards](specifications/stakeholder-rewards.md)
 * [Block and transaction format](specifications/block-and-transaction-format.md)
 * [Stake tracking](specifications/stake-tracking.md)

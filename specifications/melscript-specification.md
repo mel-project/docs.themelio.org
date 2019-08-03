@@ -134,7 +134,7 @@ PUSH "SELFHASH"
 ENV
 ```
 
-Accessing a nonexistent environment variable will result in instantly failing the constraint.
+Accessing a nonexistent environment variable will result in instantly failing the constraint. The following environment variables are available:
 
 ```scheme
 ;; Hash of the compiled constraint code itself 
@@ -145,7 +145,8 @@ Accessing a nonexistent environment variable will result in instantly failing th
 (env 'SELFTXI) ; TxInput structure
 
 ;; Spender (the transaction spending the coin having this constraint)
-(env 'SPENDTX) ; whole transaction as RLP
+(env 'SPENDTX) ; whole transaction as RLP, with ZEROED-OUT SIGNATURE FIELD! (for hash)
+(env 'SPENDSIGS) ; signature field of the transaction
 
 ;; Last block header (if TX at block n, header n-1)
 (env 'LASTHEADER)

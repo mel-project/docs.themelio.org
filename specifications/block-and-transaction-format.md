@@ -61,7 +61,8 @@ type Transaction struct {
     Inputs  []TxInput
     Outputs []TxOutput
     Fee     uint
-    Data    []byte
+    Scripts []melscript.Script
+    Data    *melscript.RLPList
     Sigs    []TxSig
 }
 
@@ -73,9 +74,9 @@ type TxInput struct {
 
 // TxOutput is a transaction output.
 type TxOutput struct {
-    Constraint ConsScript
-    Value      uint
-    CoinType   []byte
+    ScriptHash   celcrypt.Bytes32
+    Value        uint
+    CoinType     []byte
 }
 
 // TxSig is an algorithm-agnostic signature structure.
@@ -86,9 +87,11 @@ type TxSig struct {
 }
 ```
 
-As in all classic UTXO-based blockchains, each transaction is at its core collection of inputs and outputs, each input spending a previous transaction's output. Every output includes a **constraint script**, which constrains what sort of transaction may spend it --- for example, by requiring the transaction spending it to have a signature from a particular public key. An output also indicates the **coin type**; it's either "C" \(for cels\) or "L" \(for lents\) or a custom user-created token, as we will describe later.
+As in all classic UTXO-based blockchains, each transaction is at its core a collection of inputs and outputs, each input spending a previous transaction's output. Every output includes a **constraint script**, which constrains what sort of transaction may spend it --- for example, by requiring the transaction spending it to have a signature from a particular public key. An output also indicates the **coin type**; it's either "C" for mels \("coins"\) or "L" for mets \("land"\) or a custom user-created token, as we will describe later.
 
-Unlike Bitcoin, however, we do not supply input scripts to satisfy individual output constraints; the entire transaction is fed as the input to each output constraint it attempts to spend. Another difference is that the **fee**, which is always denominated in cels, is explicit; this mostly simplifies implementation.
+Unlike Bitcoin, however, we do not supply input scripts to satisfy individual output constraints; the entire transaction is fed as the input to each output constraint it attempts to spend. Another difference is that the **fee**, which is always denominated in mels, is explicit; this mostly simplifies implementation. 
+
+Furthermore, outputs always specify constraint scripts by their **script hash**, not by an actual script. When inputs are spent, scripts with the right hash must exist in the Scripts field of the transaction. This is actually very important, as it ensures that the fees associated with running the script are incurred when the script is actually run, not when the script is first put on the blockchain. This aligns fees with actual stakeholder costs, reducing a potentially huge source of fee market distortion. 
 
 The **kind** of a transaction determines the interpretation of the other fields. The default kind, used in all usual fund-transferring contexts, is `0x00`; other kinds are used for special transactions, such as minting new currency and staking.
 
@@ -98,7 +101,7 @@ Some notes:
 * Sigs is intended only for cryptographic signatures indicating "who" sent the transaction for satisfying some input constraint, as its contents are not included in cryptographic hashes and cannot be relied on. Non-signature constraint-satisfaction data, or just random metadata, should be placed in Data instead.
 * The maximum size of a transaction is 1 MB.
 
-### Minting new cels
+### Minting new mels
 
 As described in the Melmint document, minting in Themelio is a two-step process involving **registering** and **solving** puzzles.
 
@@ -108,12 +111,12 @@ To register a puzzle, a transaction with `Kind == 0x10` is broadcast, with `Data
 
 ```go
 type PuzzleRegister struct {
-    Constraint ConsScript
+    ScriptHash celcrypt.Bytes32 
     Difficulty uint
 }
 ```
 
-`Constraint` poses an additional constraint on what sort of transaction is allowed to solve the puzzle. Typically it checks a signature to make sure the person solving the puzzle is the same minter that posed the puzzle.
+`ScriptHash` poses an additional constraint on what sort of transaction is allowed to solve the puzzle. Typically it checks a signature to make sure the person solving the puzzle is the same minter that posed the puzzle.
 
 Registration puzzles' inputs and outputs are validated as usual.
 
@@ -127,54 +130,9 @@ type PuzzleSolve struct {
 }
 ```
 
-The transaction inputs and outputs are validated as usual, except the input number of cels is incremented by the reward determined by the difficulty of the puzzle. The result is a transaction with more output than input, thus minting new cels.
+The transaction inputs and outputs are validated as usual, except the input number of mels is incremented by the reward determined by the difficulty of the puzzle. The result is a transaction with more output than input, thus minting new mels.
 
 ### Staking and unstaking
 
-#### Staking
-
-To stake a bond, a transaction with `Kind == 0x51` is broadcast, with `Data` looking like:
-
-```go
-type StakeBond struct {
-    Host string
-    Deposit uint
-}
-```
-
-`Host` specifies the consensus-protocol host \(generally a public key\), while `Deposit` is the size of the bond in microlents, which must be at least 1000 lents \($$10^9$$ microlents\), all of which must "disappear" from the transaction inputs.
-
-The bond will last for exactly 500,000 blocks. That is, if the staking transaction happens in block $$n$$, then the stake will be active from block $$n+1$$ to $$n+500000$$, inclusive.
-
-#### Unstaking
-
-When bonds
-
-## Constraint scripting
-
-### Overview
-
-**Constraints** in Themelio correspond roughly to scripts in Bitcoin, except with a larger feature set and with no whitelist of formats that can be relayed. They are scripts written in a stack-based language that take a transaction \(and some other state such as the last block\) as an input and return a boolean; transactions must **satisfy** all their input TXO's constraints in order to validate. A constraint is satisfied if after running a transaction through the script, the stack has one element, `[]`.
-
-Constraints are represented as a , but usually written in a fairly readable yet easily hand-translatable format.
-
-### List of opcodes
-
-| Opcode | Encoding | Input | Output | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| `pushbts` | 0x10 | \(none\) | data | next 8 bytes is length of data to push |
-| `checksig` | 0x50 | sigalg, pubkey | \[1\], \[0\] | checks whether or not the tx has a valid signature |
-|  |  |  |  |  |
-
-### Examples
-
-\(Note: push is a macro\)
-
-#### Check ed25519 signature
-
-```text
-push 0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
-push "E"
-checksig
-```
+TBD!!
 

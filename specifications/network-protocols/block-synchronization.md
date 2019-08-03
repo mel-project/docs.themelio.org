@@ -12,8 +12,6 @@ After connecting, both parties **simultaneously** send an initial handshake mess
 
 ```go
 type msgHandshake struct {
-    // Require state to be fully committed
-    ReqCommit bool
     // Height of "tip" block (simply highest if ReqCommit)
     TipHeight uint 
     // Hash of "tip" block
@@ -23,7 +21,7 @@ type msgHandshake struct {
 
 After the handshake, the node with higher TipHeight becomes **sender**, and the other **receiver**. If TipHeight is identical, the node with higher TipHash is sender. 
 
-If TipHash is identical, exit the protocol \(nothing to sync\). If ReqCommit isn't identical, exit the protocol \(we're wanting two different things\).
+If TipHash is identical, exit the protocol \(nothing to sync\). 
 
 ### Confirming metadata
 
