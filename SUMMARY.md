@@ -4,7 +4,7 @@
 
 ## Miscellaneous
 
-* [PRPoSW vs stablecoins](miscellaneous/cels-vs-stablecoins.md)
+* [Mel - a "semi-stable" coin](miscellaneous/cels-vs-stablecoins.md)
 * [BFT consensus \(outdated\)](miscellaneous/untitled-1.md)
 
 ## Specifications
