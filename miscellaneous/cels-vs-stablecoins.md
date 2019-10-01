@@ -88,6 +88,62 @@ There is also significant evidence that commodities with relatively elastic orig
 
 ![Price of platinum over time](../.gitbook/assets/screenshot-from-2018-09-26-17-00-46.png)
 
-## Is Elasticoin enough?
+## Towards a more complete system
+
+### Is Elasticoin enough?
+
+Is Elasticoin sufficient for holding the price of a coin close to its minting cost? The picture on top appears to show that as long as demand doesn't fall below the "knee" in the supply curve, the price will stay stable. Unfortunately, this is very misleading. 
+
+The reason is that total money supply cannot be reduced during periods of low demand. Thus, as demand increases beyond the "knee", the "knee" will follow the intersection of the demand and supply cuve, but when demand falls, the "knee" will stay at at a higher level while the price falls.
+
+This does not mean that Elasticoin is pointless though. Elasticoin's main stabilizing is *not* in fact keeping the equilibrium price in a regime where the supply is infinitely elastic. Instead, it stabilizes prices largely by cutting off speculative demand: the histogram of future possible prices no longer contains any prices above the minting cost, and this reduces the attraction of mel speculation enough that the much more organically and predictably growing consumptive demand can take over. Under a model where Elasticoin demand slowly but surely grows, mel prices will be very stable, and dips in price will be small.
+
+However, there doesn't mean we can't do a lot better. We can in fact use the central insight of Elasticoin --- than an endogenous price signal can be built using NIPoSW --- to build a much more robust "semi-stablecoin".
+
+## ~~Seigniorage~~ Shares, all over again
+
+Recall that in Themelio, just like a seigniorage-shares system, has both shares (mets) and coins (mels). The similarities end here though, as mets in Themelio are much closer to true equity positions, giving holders both consensus voting power and revenue captured by the system through fees and rewards. However, we can use such a valuable, albeit short-run volatile, asset to design a semi-stable coin.
+
+We first construct a *price feed* that gives an accurate current exchange rate between computation power and mels. This is done through the following process:
+
+- Elasticoin is used verbatim to mint **ergs** representing units of sequential computation.
+
+- Ergs circulate on-chain like any other currency, with the exception that a punitive 1% per block demurrage applies.
+
+- A small amount of mels are printed *ex nihilo* and auctioned off for ergs, which are then destroyed.
+
+- The erg/mel exchange rate thus established is then considered the computation/mel exchange rate.
+
+We then create a monetary policy regime that targets a 1:1 erg/mel exchange rate.
+
+- When the mel price rises above 1 erg/mel, we simply allow free conversion of ergs into mels. This becomes the original Elasticoin system and keeps down the mel price.
+
+- When the mel price falls below 1 erg/mel, we do a **met dilution**. New mets are rapidly created and auctioned off for mels until the mel price returns to normal. This effectively expropriates met-holders, a risk that would be baked into the market's valuation of mets.
+
+The important thing to note there is that **the met market cap is disconnected from seignorage or other monetary-policy tools**. Instead, it's based on the discounted expected revenue stream of fees and block rewards, which is tied to the long-term economic activitiy level of Themelio. Thus, shocks to mel demand by themselves will not cause the spiraling peg collapse that threatens seignorage shares.
+
+Thus, in this system, the **mets in circulation** are the implicit reserves backing mel value.
+
+#### A back-of-the-envelope stability calculation
+
+We conclude with a simple modeling of the stability of the system. Let's conservatively assume that the "taxes" collected by the Themelio protocol that ultimately accrue to stakeholders annually amount to 1% of the on-chain economic activity. Thus, if G is the total economic activity, then under a 3% discount rate then the NPV of all the mets is 0.32G. 
+
+How much liquid money does an economy need? The USD M1/GDP ratio has always stayed around 0.2. Mels have a consumptive use and lacking a central bank interested in monetary inflation would likely generate even smaller equilibrium money supplies. Even assuming that 0.2G worth of mels are in circulation, the met market cap is still more than sufficient to back all the mels.
+
+Of course, in a smaller economy it's very likely that significantly more than 1% of activity accrues to stakeholders, making the stabilization even safer.
+
+(Note that *seigniorage* shares rather then equity shares cannot hope to capture nearly as much revenue --- 1% GDP or more seignorage every year is far too high to avoid hyperinflation)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
