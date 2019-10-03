@@ -88,9 +88,7 @@ There is also significant evidence that commodities with relatively elastic orig
 
 ![Price of platinum over time](../.gitbook/assets/screenshot-from-2018-09-26-17-00-46.png)
 
-## Towards a more complete system
-
-### Is Elasticoin enough?
+## Is Elasticoin enough?
 
 Is Elasticoin sufficient for holding the price of a coin close to its minting cost? The picture on top appears to show that as long as demand doesn't fall below the "knee" in the supply curve, the price will stay stable. Unfortunately, this is very misleading. 
 
@@ -134,16 +132,78 @@ Of course, in a smaller economy it's very likely that significantly more than 1%
 
 (Note that *seigniorage* shares rather then equity shares cannot hope to capture nearly as much revenue --- 1% GDP or more seignorage every year is far too high to avoid hyperinflation)
 
+## Two problems
 
+### Continual met dilution
 
+Initially, stakeholders assume a negligible chance of expropriation. But when we hyperinflate mets to offset sudden mel dumping, this can set off a panic where the discount rate for calculating the NPV of a met skyrockets, destroying met value and with it mel backing. This can happen even if stakeholders know that the mel dumping is irrational and demand will stabilize in the future.
 
+We need some way of assuring that mets in the long run revert to the mean. This means that we do in fact need to borrow the concept of seigniorage shares.
 
+### How to properly do a mel auction
 
+Use Elasticoin to mint demurraging ergs that people can use to bid in mel auctions.
 
+The problem is that the market may be extremely thin, dominated by one "irrational" guy in his basement sitting on a pile of free electricity. This causes issues of mels being overvalued in the mel/erg market.
 
+This means that we must have some way of allowing arbitrage to make irrational behavior unboundedly costly.
 
+## A complete description
 
+### Mel auction
 
+The first part of our mechanism is the *mel auction*. Every 100 blocks (50 mins), m$ mels are created and auctioned off. This is done for a temporary currency known as the *erg*. Every erg (1000$ milliergs, the on-chain unit) is created through wasting 24 hours of recent sequential computation as defined using the Elasticoin algorithm, while the value of each erg coin depreciates by 0.1% rounded up every single block. This halves the value of every erg coin around every 700 blocks, or 5 hours 50 minutes, forcing users to quickly participate in auctions.
 
+This is done through a very simple first-price non-sealed auction. Anybody can submit specially-typed **bid transactions**. Bid transactions have the following invariants:
 
+- The "kind" is set to a magic value
 
+- Output 0 is denominated in ergs and is the amount of ergs that the bidder wishes to pay for the nanomels. This is locked until the end of the auction (if the auction is at block 100, only spendable after block 201).
+
+- Output 1 is denominated in mels and is the amount mels the bidder wishes to buy. This mel is excess above the amount input to the transaction, and is locked until the end of the auction.
+
+Bids are accepted over the 100 blocks until the next auction. At the beginning of the next auction, new mels are minted to fill bids.
+
+Bids are filled from the highest to lowest price, with TXID acting as a tiebreaker, while skipping over any bids that are too big:
+
+```lua
+for bid in bids:    if bid.size <= remaining_to_auction:        fill(bid)
+```
+
+To fill a bid, a synthetic **mint transaction** is created on the blockchain. Mint transactions have the following invariants:
+
+- They spend Output 0 of the bid transaction they are filling and no other outputs
+
+- They can always spend a bid transaction regardless of its script hash.
+
+To reject a bid, we synthesize a special **reject transaction** that simply destroys Output 1 before it can be spent.
+
+Both mint and reject transactions are entirely synthetic, in the sense that nobody may actually broadcast them and their existence is entirely predictable from other state. We use transactions instead of sudden changes in state to preserve more general properties of the blockchain (like a TXID committing to the entire relevant state history).
+
+### The control loop
+
+Every new auction, we calculate a value \Delta_m. This is the value we adjust $m$ by to maintain a 1 erg/mel price.
+
+At the end of each auction, we take the average mel price in ergs/mel (that is, all ergs destroyed / all mels created) as $p$. If p>1 we set \Delta_m=0.01m, while if p<0.95 we set $\Delta_m=-0.01m$.
+
+This seems to be a very crude adjustment mechanism. Intuitively it may seem that we want a PID controller of sorts. But markets have two properties that make them perilous to control using more complicated algorithms:
+
+- They fundamentally don't have a linear or even consistent frequency response like a physical system. No amount of theory or experience can allow proper tuning of a PID loop.
+
+- Markets are inherently forward-looking, and rational markets should never be "overdamped" or "underdamped" as both situations would present time-arbitrage opportunities.
+
+Thus, a simple rule suffices.
+
+### Removing money from circulation
+
+When $m$ is less than 1 mel, we still continually auction 1 mel, but remove m-1 mels from circulation every auction cycle. This is done by an auction going the other way: anybody can submit transactions asking for t mets in exchange for \ell mels, of the same format but differently marked from mel-auction transactions. Orders are then filled in descending order of \ell/t using freshly minted mets until m-1 mels are removed from circulation, all orders are satisfied, or the supply of mets has grown by 1%$, whichever comes first. Mels that weren't successfully removed this round carry over to the next round.
+
+One possible concern might be that stakeholders have a strong incentive to front-run this auction to prevent new mets from diluting their share. However, this requires bidding and sacrificing lots of mels, which accomplishes the same purpose of removing mels from circulation.
+
+A more likely scenario is that stakeholders are incentivized to censor these transactions if the benefit of preventing met dilution outweights the cost of loss of confidence in using mel. This may be countered by penalizing the stakeholders by decrementing their stakes by at most 1% (that is, multiplying their stakes by 1 - 0.01(m-1-r))
+
+This forces stakeholders to either liquidate their assets for mels to make up the difference themselves, eating all the cost of stabilizing the currency, or simply allowing the dilution to happen, "socializing" the costs onto other stakeholders. Rationally selfish actors will choose the latter, so censorship and front-running should not happen.
+
+### Seignorage revenue
+
+How do we produce seignorage revenue for the stakeholders? I think that a simple fixed-rate seignorage tax on newly created mels should suffice.
