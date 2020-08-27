@@ -19,3 +19,7 @@
 * [MelScript specification](specifications/melscript-specification.md)
 * [Building and validating blocks](specifications/building-and-validating-blocks.md)
 
+## Whitepapers
+
+* [Themelio: a stable blockchain for an unstable world](whitepapers/themelio-a-stable-blockchain-for-an-unstable-world.md)
+
