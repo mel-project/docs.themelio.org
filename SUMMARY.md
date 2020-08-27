@@ -4,8 +4,9 @@
 
 ## Miscellaneous
 
-* [Mel - a "semi-stable" coin](miscellaneous/cels-vs-stablecoins.md)
-* [BFT consensus \(outdated\)](miscellaneous/untitled-1.md)
+## Whitepapers
+
+* [Themelio: a stable blockchain for an unstable world](whitepapers/themelio-a-stable-blockchain-for-an-unstable-world.md)
 
 ## Specifications
 
@@ -18,8 +19,4 @@
 * [Stake tracking](specifications/stake-tracking.md)
 * [MelScript specification](specifications/melscript-specification.md)
 * [Building and validating blocks](specifications/building-and-validating-blocks.md)
-
-## Whitepapers
-
-* [Themelio: a stable blockchain for an unstable world](whitepapers/themelio-a-stable-blockchain-for-an-unstable-world.md)
 

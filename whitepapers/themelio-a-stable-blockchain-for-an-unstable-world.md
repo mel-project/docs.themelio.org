@@ -164,9 +164,9 @@ Now, assume that Bob wants to send his friend Alice $2.5. He creates a new trans
 * $A\_1$ with value $2.5 and a constraint requiring Alice's signature.
 * $B\_6$ with value $0.5 and a constraint requiring Bob's signature.
 
-and informs Alice about $A\_1$. Bob now "owns" $B\_4,B\_5,B\_6$ with a total value of $2.5, and Alice owns $A\_1$ with a total value of $2.5, just as we wanted. Note that Bob had to give himself a new coin for the transaction to balance; this new coin is known as a _change output_. Figure [\[fig:utxo\]](){reference-type="ref" reference="fig:utxo"} from bitcoin.org shows a complex series of interdependent coin-based transactions.
+and informs Alice about $A\_1$. Bob now "owns" $B\_4,B\_5,B\_6$ with a total value of $2.5, and Alice owns $A\_1$ with a total value of $2.5, just as we wanted. Note that Bob had to give himself a new coin for the transaction to balance; this new coin is known as a _change output_. This picture from bitcoin.org shows a complex series of interdependent coin-based transactions:
 
-{width="\linewidth"}
+![](../.gitbook/assets/utxo.svg)
 
 Transactions are batched into an ever-growing series of _blocks_, each one containing transactions settled in a particular time period. Transactions within a block have no defined order --- the block that a transaction belongs to is the smallest unit of time on the blockchain. Finally, blocks are guaranteed to be _consistent_ , so all users of the blockchain see the same blocks and the same transaction DAG.
 
@@ -206,7 +206,9 @@ We can also access certain facts about the blockchain external to the transactio
 
 The most useful constraints in MelScript are not the simple filters demonstrated above, but constraints that constrain constraints. This allows us to embed a wide variety of decentralized, permissionless secure data structures within the transaction graph, which we might call _coin structures_.
 
-This is confusing, so let's illustrate the concept with an example. Catena \[@tomescu2017catena\] is an append-only log originally implemented in Bitcoin. The basic idea is simple: a central authority can transparently publish a log of messages by building a transaction chain, each spending the first output coin of the previous transaction. Since coins cannot be spent twice, the authority cannot rewrite, reorder, or delete any log entries after they are published. Figure [\[fig:catena\]](){reference-type="ref" reference="fig:catena"} is an example of a Catena log.
+This is confusing, so let's illustrate the concept with an example. Catena \[@tomescu2017catena\] is an append-only log originally implemented in Bitcoin. The basic idea is simple: a central authority can transparently publish a log of messages by building a transaction chain, each spending the first output coin of the previous transaction. Since coins cannot be spent twice, the authority cannot rewrite, reorder, or delete any log entries after they are published. Here's an illustration of a Catena log:
+
+![](../.gitbook/assets/screenshot-from-2020-08-27-17-14-00.png)
 
 In Bitcoin and other existing coin-based blockchains, Catena logs must be maintained by central authorities. Coins forming the chain must be "owned" by the log publisher, lest someone spend them for other purposes and ruin the log. This prevents the use of Catena in applications without a central publisher. In Themelio, however, we can easily write a MelScript constraint that only allows transactions that grow the Catena chain to spend the coin. Any coin with the following constraint is forced to be the start of a permissionless Catena chain that can never be broken:
 
@@ -227,9 +229,9 @@ The second innovation that sets Themelio apart from other blockchains is its dee
 
 This means that in existing coin-based blockchains, even simple applications like cryptocurrency wallets can't be secure and scalable at the same time. Either every user downloads the huge and growing transaction history, or a centralized server that does sync the blockchain is trusted to provide users with information .
 
-\centering {width="60%"}
+In Themelio, though, coins are first-class citizens. Participants synchronize the coin state, not the entire blockchain history. History older than a few weeks is not required to be stored by the protocol. Sparse Merkle trees committing to data about the coin state allow thin clients to securely obtain information about coins without trusting anyone. Apps see the coin state as a secure database they can freely query. Thus, coin-driven applications, ranging from simple wallets to constraint-driven apps like Bitforest, can scale without needing any centralized trust.
 
-In Themelio, though, coins are first-class citizens. Participants synchronize the coin state, not the entire blockchain history. History older than a few weeks is not required to be stored by the protocol. Sparse Merkle trees committing to data about the coin state allow thin clients to securely obtain information about coins without trusting anyone. Apps see the coin state as a secure database they can freely query. Thus, coin-driven applications, ranging from simple wallets to constraint-driven apps like Bitforest, can scale without needing any centralized trust. Figure [\[fig:coinint\]](){reference-type="ref" reference="fig:coinint"} shows the "worldview" of a Bitcoin node as compared to a Themelio node.
+![The &quot;worldview&quot; of a Bitcoin vs Themelio node](../.gitbook/assets/coinint-eps-converted-to.png)
 
 ### Consensus and trust <a id="ss:consensus"></a>
 
@@ -284,7 +286,7 @@ First of all, for money we want flexible, demand-responsive monetary policies to
 
 Furthermore, demand for equity shares in an efficient market is driven largely by speculation on future cash flow, while demand for cash derives from the need for a medium of exchange. We don't want users of a currency to be forced to speculate on the future transaction fees of a blockchain. Furthermore, increases in currency adoption as a means of exchange shouldn't drive destabilizing bubbles in currency value.
 
-Themelio therefore uses an independent currency, the symet, for the role of equity stake. This allows us to use an innovative, decentralized mechanism to stabilize the price of mels \(discussed in [2.4.1](){reference-type="ref" reference="ss:elasticoin"}\) while keeping equity-like behavior for the "investor" token.
+Themelio therefore uses an independent currency, the symet, for the role of equity stake. This allows us to use an innovative, decentralized mechanism to stabilize the price of mels while keeping equity-like behavior for the "investor" token.
 
 **Achieving high performance**
 
@@ -368,15 +370,17 @@ So clients simply have to catch up on all the new stake documents they missed --
 
 Finally, we examine the cryptocurrency economy of Themelio, based on a low-volatility currency called the **mel**.
 
-#### Mels: low-volatility money <a id="ss:elasticoin"></a>
+#### Mels: an endogenous stablecoin <a id="ss:elasticoin"></a>
 
-Mels \(TMEL\) are optimized to be the day-to-day transaction currency on Themelio. One can imagine decentralized apps, grocery stores, and peer-to-peer finance to conduct transactions mainly denominated in TMEL.
+Mels are optimized to be the day-to-day transaction currency on Themelio. One can imagine decentralized apps, grocery stores, and peer-to-peer finance to conduct transactions mainly denominated in mel.
 
-The most important attribute of the mel is its _low price volatility_. All mels are minted through a currency issuance algorithm we published \[@dong2018bitforest\] called Elasticoin. With Elasticoin, we fix the _cost_ of minting new coins to 24 hours of provable sequential computation, instead of using the fixed _schedule_ of mining that Bitcoin or Ethereum uses.
+The biggest feature of the mel is that it is an **endogenous stablecoin**. This is a completely novel asset class introduced by Themelio, and it means that the mel maintains a stable value without being pegged to any external asset, such as US dollars or gold. Mels maintain their value without non-endogenously-trusted parties present in every other stablecoin system, such as oracles, governance DAOs, and issuers. 
 
-A fixed minting cost makes supply highly elastic --- increases in mel price above cost will increase supply, while mels trading below cost will dry up the supply of new mels. Elasticoin has a rather elaborate mechanism to make sure that the minting cost does indeed track the cost of running sequential computation for a day, even as computers get faster.
+The "magic" behind mel through a currency issuance algorithm we published at [CryptoEconSys 2020](https://assets.pubpub.org/1tfwdfex/01581339020290.pdf) called Melmint. The details are available in the paper, but the basic objective of Melmint is to peg the value of 1 mel to 1 "DOSC", a unit that tracks the cost of 24 hours of sequential computation.
 
-Although simply fixing the cost to produce new mels will reduce its volatility drastically compared to fixed-schedule coins like Bitcoin, it's not completely sufficient for making the mel a useful currency. After all, it's conceivable nobody wants mels at all, making its price go to zero, and it wouldn't matter how much it costs to mint new mels since nobody even wants existing ones. Thus, we ensure that mels are always in demand by specifying that transaction fees must be paid in mels.
+![](../.gitbook/assets/graphviz-2-.svg)
+
+By having a stable purchasing power without sacrificing trust, mels would make it much easier to build secure financial assets, transact in cryptocurrency, and protect wealth with Themelio's endogenous trust.
 
 #### Better transaction fees
 
@@ -391,10 +395,6 @@ Thus, we abandon the traditional fee auction model in favor of a system inspired
 Every time a new block is created, the stakeholder proposing the block can adjust the base fee multiplier by up to 1% upwards or downwards --- the base fee multiplier then reflects the stake-weighted median of the stakeholders' preferences. Base fees, except for an eighth which is burned, are deposited into a special _fee pool_ regardless of who included the transaction into the blockchain; the stakeholder creating a block then withdraws a tiny fraction \($1/65536$\) of the fee pool. The net effect is that the base fee of a transaction is distributed to all stakeholders regardless of who made the block that contains the transaction.
 
 Tips, on the other hand, are simply paid to the block producer, like fees in traditional blockchains. We expect tips to be a small fraction of total fees, and they give an incentive for block producers to actually include transactions instead of freeloading on a fee pool replenished by other, more honest block producers.
-
-{width="0.5\linewidth"}
-
-Figure [\[fig:fees\]](){reference-type="ref" reference="fig:fees"} illustrates the flow of funds every time a new block is created.
 
 Why do our changes to the fee market fix its problems? First of all, fee volatility is greatly reduced. When demand fluctuates in the short term, it would be block sizes that fluctuate, not fees. Stakeholders adjust the base fee multiplier to maximize revenue and limit block sizes, but not rigidly at a defined size. One might object that stakeholders can collude to recreate Bitcoin's fee market --- by holding down the multiplier to zero, enforcing an unofficial block size limit, and auctioning off block space based on tips. But a rational stakeholder cartel will not do so, as assuming no change in demand, this will simply greatly increase income volatility without increasing expected total income, while in reality volatile fees will probably scare away some users, actually reducing revenue. Incidentally, this is also why we award base fees to stakeholders rather than burning them as in EIP-1559, since burning base fees will make colluding to create a fee aucion highly profitable.
 
