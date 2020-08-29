@@ -159,10 +159,10 @@ Every coin represents a given amount of cryptocurrency, known as its _value_, an
 
 Let's illustrate how coin-based transactions work with a simple example. Assume there are 5 coins identified as $B_1,\dots,B_{5}$, each worth $1, and each having an unlock constraint specifying "any transaction that spends me must have Bob's signature". Informally, we say that Bob owns 5 coins, each one worth $1. Bob "owning" a coin simply means Bob knowing how to satisfy the coin's unlock constraint.
 
-Now, assume that Bob wants to send his friend Alice $2.5. He creates a new transaction spending $B\_1,B\_2,B\_3$ as input, with two outputs:
+Now, assume that Bob wants to send his friend Alice $2.5. He creates a new transaction spending $$B\_1,B\_2,B\_3$$ as input, with two outputs:
 
-* $A\_1$ with value $2.5 and a constraint requiring Alice's signature.
-* $B\_6$ with value $0.5 and a constraint requiring Bob's signature.
+* $$A\_1$$ with value $2.5 and a constraint requiring Alice's signature.
+* $$B\_6$$ with value $0.5 and a constraint requiring Bob's signature.
 
 and informs Alice about $A\_1$. Bob now "owns" $B\_4,B\_5,B\_6$ with a total value of $2.5, and Alice owns $A\_1$ with a total value of $2.5, just as we wanted. Note that Bob had to give himself a new coin for the transaction to balance; this new coin is known as a _change output_. This picture from bitcoin.org shows a complex series of interdependent coin-based transactions:
 
