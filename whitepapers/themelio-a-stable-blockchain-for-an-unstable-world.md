@@ -249,15 +249,22 @@ From this overview we can already see that the trust model of Themelio differs s
 
 #### Stakeholders: the oligarchy
 
-**Bonded proof of stake**
+**Synkletos: a new approach to proof-of-stake**
 
-In Themelio, a fairly classical Byzantine-resistant fault tolerant algorithm, similar to that used in Tendermint \[@kwon2014tendermint\], is used between the stakeholders to establish consensus on the content of the blockchain. The stakeholders form an "oligarchy": most users are not stakeholders, yet they get to decide the authoritative state of the network.
+In Themelio, a Byzantine-resistant fault tolerant algorithm based on HotStuff is used between the stakeholders to establish consensus on the content of the blockchain. The stakeholders form an "oligarchy": most users are not stakeholders, yet they get to decide the authoritative state of the network. We call Themelio's consensus algorithm, together with the cryptoeconomic mechanisms that keep stakeholders honest, **Synkletos**, after the Greek name for the Byzantine Senate.
 
-How does anybody become a stakeholder, and how is power distributed between the stakeholders? Themelio uses a variation on a classic technique known as bonded proof of stake, used in systems like Tendermint and Casper. We keep track of a special secondary currency on the blockchain known as the _sym_. syms are traded freely alongside mels, the main cryptocurrency of Themelio, with a regulated supply of 1 sym per block \(1.05 million syms per year\). They can be thought of as "shares" in a decentralized corporation in charge of deciding new blocks.
+Synkletos keeps track of a special secondary currency on the blockchain known as the _sym_. Syms are traded freely alongside mels, the main cryptocurrency of Themelio, with a regulated supply of 1 sym per block \(1.05 million syms per year\). They can be thought of as "shares" in a decentralized corporation in charge of deciding new blocks.
 
 In order to become a stakeholder, one _stakes_ at least 1,000 syms, locking them up for a fixed period of time \(at least 500,000 blocks, or approximately 6 months\) as a performance bond. During that period of time, the stakeholder obtains voting rights in the consensus algorithm in proportion to the amount of syms staked. The central security assumption Themelio uses is that _at least 2/3 of the staked syms are in the hands of honest stakeholders_ --- a fundamental property of Byzantine-fault-tolerant consensus means we can't get a better threshold.
 
-Themelio's system is a variation on _proof of stake_ \(PoS\), a family of blockchain consensus algorithms including Tendermint and Casper. In proof of stake, influence over the consensus process is in proportion to owning an asset, in this case syms. Why did we choose PoS over other consensus algorithms, such as the venerable proof of work \(PoW\) of Bitcoin, or the proof of authority \(PoA\) found in consortium and private chains? The Ethereum Proof-of-Stake FAQ \[@buterin2019pos\] give a strong general defense of PoS; we highlight some properties of PoS we consider especially important for Themelio:
+Two important questions remain:
+
+- Why do we use proof of stake rather than another consensus mechanism?
+- How does Synkletos incentivize stakeholders to behave honestly, and what makes Synkletos' approach unique?
+
+**Why proof-of-stake?**
+
+Synkletos is a variation on _proof of stake_ \(PoS\), a family of blockchain consensus algorithms including Tendermint and Casper. In proof of stake, influence over the consensus process is in proportion to owning an asset, in this case syms. Why did we choose PoS over other consensus algorithms, such as the venerable proof of work \(PoW\) of Bitcoin, or the proof of authority \(PoA\) found in consortium and private chains? The Ethereum Proof-of-Stake FAQ \[@buterin2019pos\] give a strong general defense of PoS; we highlight some properties of PoS we consider especially important for Themelio:
 
 - **Higher security margin**: Attacking a PoS blockchain directly requires expending an vast amount of resources to buy up stake. This is equivalent to around 1/3 of the total value of staking coins \(a proxy of the economic value of the blockchain system\). Thus, as usage increases, PoS security will proportionately strengthen until it becomes practically invulnerable to attacks on the consensus protocol. Proof-of-work blockchains like Bitcoin, however, can be subverted quite cheaply. Attacks reverting a full hour of Bitcoin transactions cost less than $1,000,000 \[@crypto51\], pocket change compared to the almost $100 billion Bitcoin market capitalization. Finally, proof of authority, which is not a decentralized solution, is very fragile to centralized attack vectors such as hacking or government regulation.
 - **Immediate finality**: PoS allows easy, secure finality using asynchronous Byzantine fault-tolerant consensus protocols. This means that even if networks are unreliable or malicious, a block that is successfully appended to the blockchain will never be reverted. This eliminates the unpredictable behavior found in "chain-based" consensus protocols like proof of work, such as forks, block reorganizations, and eclipse attacks.
@@ -267,11 +274,11 @@ Themelio's system is a variation on _proof of stake_ \(PoS\), a family of blockc
 
 How do we incentivize stakeholders to behave honestly? We use a carrot-and-stick approach commonly found in systems using bonded proof of stake. Honest stakeholders earn _rewards_ over time in proportion to the amount of syms they stake, while misbehaving stakeholders can have their entire stake _slashed_ given evidence of misbehavior.
 
-\centering Rewards to stakeholders come from two sources: sym inflation and transaction fees. Stakeholders proposing new blocks earn rewards of 1 newly minted sym per block, just like how Bitcoin miners earn a fixed per-block reward. This implicitly taxes unstaked syms, discourages holding syms without staking them. Since we mint a fixed amount of syms every block, the growth rate in the number of syms approaches zero. Figure [\[fig:metinflation\]](){reference-type="ref" reference="fig:metinflation"} illustrates the decreasing monetary inflation rate of syms.
+Rewards to stakeholders come from two sources: **sym inflation** and **transaction fees**. Stakeholders proposing new blocks earn rewards of 1 newly minted sym per block, just like how Bitcoin miners earn a fixed per-block reward. This implicitly taxes unstaked syms, discouraging holding syms without staking them. Unlike in most other blockchains, inflation is not intended to be the main source of stakeholder income. Since we mint a fixed amount of syms every block, the growth rate in the number of syms as well as the "interest rate" of staking syms approaches zero, making inflation significant only as a short-term bootstrapping subsidy until fees reach a significant level.
 
-Transaction fees, denominated in mels, are imposed on every transaction on the network. These fees also go entirely to the stakeholders as an additional source of income. The details of exactly how much transaction fees are charged and exactly how they are paid out to stakeholders are a little complicated, as Themelio uses a unique transaction fee model, different from that of other cryptocurrencies, in order to make it easier for clients to calculate appropriate fees. A reasonable approximation to Themelio's rather complex fee system is that stakeholders can extract most of the economic value generated by transactions as fees.
+Instead, **transaction fees** are used as the main source of stakeholder revenue. Transaction fees, denominated in mels, are imposed on every transaction on the network. Themelio uses a unique mechanism, described in brief in the last section of this whitepaper, to charge a slowly varying uniform fee voted on collectively by the stakeholders. This mechanism, which is crucial to Synkletos' cryptoeconomic security, allows fees to be a significant and stable source of income for stakeholders, while avoiding well-known game-theoretical attacks such as [fee-stealing](https://www.cs.princeton.edu/~smattw/CKWN-CCS16.pdf) associated with conventional auction-based fee markets.
 
-Slashing is the "stick" for punishing cryptographically provable misbehavior. The last step of our Byzantine-fault-tolerant consensus protocol has all stakeholders _commit_ to a particular block by signing it cryptographically. Honest stakeholders will always commit a valid block and never "go back" on their collective decision. Thus, we have two _slashing conditions_ which leave cryptographic proof that a certain stakeholder is dishonest:
+**Slashing** is the "stick" for punishing cryptographically provable misbehavior. The last step of our Byzantine-fault-tolerant consensus protocol has all stakeholders _commit_ to a particular block by signing it cryptographically. Honest stakeholders will always commit a valid block and never "go back" on their collective decision. Thus, we have two _slashing conditions_ which leave cryptographic proof that a certain stakeholder is dishonest:
 
 - **Equivocation**, where a stakeholder commits to two different blocks with the same block height
 - **Invalid block**, where a stakeholder commits to an invalid block
@@ -286,15 +293,15 @@ First of all, for money we want flexible, demand-responsive monetary policies to
 
 Furthermore, demand for equity shares in an efficient market is driven largely by speculation on future cash flow, while demand for cash derives from the need for a medium of exchange. We don't want users of a currency to be forced to speculate on the future transaction fees of a blockchain. Furthermore, increases in currency adoption as a means of exchange shouldn't drive destabilizing bubbles in currency value.
 
-Themelio therefore uses an independent currency, the sym, for the role of equity stake. This allows us to use an innovative, decentralized mechanism to stabilize the price of mels while keeping equity-like behavior for the "investor" token.
+Themelio therefore uses an independent currency, the **sym**, for the role of equity stake. An independent equity token also turns out to be crucial for establishing backing capital to stabilize the price of mels, as detailed in the Melmint paper.
 
 **Achieving high performance**
 
-Scalable blockchains with immediate finality need a way to limit the number of consensus participants. This is because Byzantine fault-tolerant consensus algorithms have rapidly increasing overhead with increasing participants. To achieve our key design goal of scalability and performance, we are forced to limit the number of stakeholders to below a few thousand.
+Scalable blockchains with immediate finality need a way to limit the number of consensus participants. This is because Byzantine fault-tolerant consensus algorithms have rapidly increasing overhead with increasing participants. To achieve reasonable scalability and performance, we are forced to limit the number of stakeholders to below a few thousand.
 
 Themelio's way of restricting the number of stakeholders is through the minimum requirement of 1,000 syms staked per validator. Essentially, we limit entry into the oligarchy of stakeholders to only the richest sym holders. Since sym supply follows a fixed schedule, this places a hard limit of a few hundred new validators a year, so that growth in overhead won't outpace growth in computational capacity.
 
-Although this is a very simple mechanism of restricting the number of consensus participants, it does not seem to be popular among existing proof-of-stake variants. We think this is most likely because a large minimum stake is politically unappealing. After all, it "disenfranchises" the vast majority of potential stakeholders and institutes a "plutocracy"! Unfortunately, other approaches that superficially sound more decentralized tend to have crippling problems. Ironically, they end up a lot more vulnerable to centralized threats.
+A large minimum stake seems, on the surface, unfair and unappealing. After all, it "disenfranchises" the vast majority of potential stakeholders and institutes a "plutocracy"! Unfortunately, other approaches that superficially sound more decentralized tend to have crippling incentive problems. Ironically, they end up a lot more vulnerable to centralized threats.
 
 For example, a common method of deriving a small amount of participants from a large body of coinholders is _delegated proof of stake_ \(DPoS\). In DPoS, coinholders vote for people with voting power proportional to their coin ownership, and only the few with the most votes become "delegates" and participate in consensus. EOS is a popular blockchain using DPoS.
 
@@ -304,7 +311,7 @@ _Sortition_ is another approach, used most notably in Algorand \[@gilad2017algor
 
 Sortition eliminates most of the politics-like problems of DPoS, allowing protocol incentives like rewards and slashing to work fairly well. Unfortunately, severe problems remain. Randomly selecting participants trustlessly turns out to be a surprisingly hard cryptogrpahic problem --- a corrupt lottery can reliably elect malicious committees. Bribery attacks also become much easier, since instead of buying 1/3 of the coins, attackers can simply bribe the current committee, who has only a small fraction of the stake. Complex consensus protocols and advanced, non-quantum-resistant cryptographic techniques can reduce both challenges. But "fancy" mechanisms generally go against Themelio's philosophy of future-proof simplicity.
 
-A point must be made that _blockchain consensus is not analogous to political governance_. Themelio's "plutocratic oligarchy" of stakeholders certainly does not make for an effective way of electing a parliament. But for blockchains, it yields highly robust and decentralized security. It disperses control over blockchain consensus to the few hundred people most invested in the health of the network. At the same time, the protocol keeps them correctly behaving with massive carrots and sticks. Stakeholders do not decide political questions for the Themelio community; their only job is to run the consensus algorithm correctly.
+A point must be made that _blockchain consensus is not analogous to political governance_. Themelio's "plutocratic oligarchy" of stakeholders certainly does not make for an effective way of electing a parliament. But for blockchains, it yields highly robust and decentralized security. It disperses control over blockchain consensus to the few hundred people most invested in the health of the network. At the same time, the Synkletos protocol keeps them correctly behaving with massive carrots and sticks. Stakeholders do not decide political questions for the Themelio community; their only job is to run the consensus algorithm correctly.
 
 Thus, we do not believe that Themelio's "plutocratic" bonded proof of stake is any more vulnerable to centralized threats than PoS blockchains without minimum stake amounts. Even so, Themelio has a system of _auditors_ keeping stakeholders in check, ensuring that even a fully corrupted quorum of stakeholders cannot do much damage.
 
@@ -390,7 +397,7 @@ As in Bitcoin and other public blockchains, each transaction in Themelio include
 - **Complex client-side fee estimation**. It's far from trivial how much fees to bid in order to get transactions confirmed in a traditional fee market. Wallets need complicated algorithms to estimate the right amount of fee based on looking at unconfirmed transactions --- which thin clients can't even securely monitor.
 - **Stakeholder incentive problems**. In a proof-of-stake system like Themelio, we want stakeholder income to come primarily from transaction fees. That way, stakes have values in proportion to the value of the system, making attacks harder as usage grows \(and damage increases\), while giving stakeholders a disincentive to collude to run Themelio into the ground. But a conventional fee market encourages stakeholders to hide transactions from each other --- a transaction you include in a block is a transaction fee that I didn't get --- leading to all sorts of pathological "fee-stealing" strategies unless stakeholders have a different source of income. This is why Bitcoin and Ethereum rely heavily on inflation, not fees, to reward block producers, but we don't want that in Themelio.
 
-Thus, we abandon the traditional fee auction model in favor of a system inspired by EIP-1559 \[@eip1559\]. Every transaction pays a mel-denominated fee that has two components. A mandatory _base fee_ is calculated by multiplying by the _base fee multiplier_ the _weight_ of a transaction, a metric that roughly measures its cost. Transaction senders can then add a _tip_ above and beyond the base fee.
+Thus, we abandon the traditional fee auction model in favor of a system inspired by EIP-1559 \[@eip1559\], which also turns out to be crucial for Synkletos' security. Every transaction pays a mel-denominated fee that has two components. A mandatory _base fee_ is calculated by multiplying by the _base fee multiplier_ the _weight_ of a transaction, a metric that roughly measures its cost. Transaction senders can then add a _tip_ above and beyond the base fee.
 
 Every time a new block is created, the stakeholder proposing the block can adjust the base fee multiplier by up to 1% upwards or downwards --- the base fee multiplier then reflects the stake-weighted median of the stakeholders' preferences. Base fees, except for an eighth which is burned, are deposited into a special _fee pool_ regardless of who included the transaction into the blockchain; the stakeholder creating a block then withdraws a tiny fraction \($1/65536$\) of the fee pool. The net effect is that the base fee of a transaction is distributed to all stakeholders regardless of who made the block that contains the transaction.
 
@@ -400,7 +407,7 @@ Why do our changes to the fee market fix its problems? First of all, fee volatil
 
 Secondly, clients no longer need complex algorithms to compute fees. The base fee plus a small tip will be sufficient in all cases to get a transaction onto the blockchain as fast as possible. Applications like wallets or payment processors would easily predict the amount of fees needed.
 
-Finally, although we still reward stakeholders with some sym inflation to discourage passive sym-holding, the use of a fee pool ensures that even though stakeholders are rewarded mostly from fees, there's no incentive to steal fees. In fact, one can think of the fee pool as a sort of long-term trust fund, derived from fees, for a stable Bitcoin-like block reward.
+Finally, although we still reward stakeholders with some sym inflation to bootstrap network growth, the use of a fee pool ensures that even though stakeholders are rewarded mostly from fees, there's no incentive to steal fees. In fact, one can think of the fee pool as a sort of long-term trust fund, derived from fees, for a stable Bitcoin-like block reward.
 
 ## Applications and protocols
 
@@ -483,34 +490,6 @@ As described, metachains would be public and permissionless, but similar techniq
 
 Public blockchains, as originally envisioned, herald a fundamental revolution in the way trust works in distributed systems. Unfortunately, they have not seen widespread usage in production systems, outside of a few applications using private blockchains that eschew most of blockchains' distinctiveness. Blockchain development has also run into many serious obstacles, such as scalability and governance.
 
-In this proposal, we argued that the main reason for the seeming failure of public blockchains is an incorrect layering paradigm --- current blockchains are generally too close to the application layer, forcing complex blockchain implementations on one hand and "leaky", rigid applications on the other hand. We propose that the correct paradigm for blockchains is that of a minimal root of trust, providing a magic ingredient of endogenous trust to applications that mostly run outside the blockchain.
+In this whitepaper, we argued that the main reason for the seeming failure of public blockchains is an incorrect layering paradigm --- current blockchains are generally too close to the application layer, forcing complex blockchain implementations on one hand and "leaky", rigid applications on the other hand. We propose that the correct paradigm for blockchains is that of a minimal root of trust, providing a magic ingredient of endogenous trust to applications that mostly run outside the blockchain.
 
 We described Themelio, a blockchain we developed to support this vision, using many novel technologies and design tradeoffs not seen in current blockchains. We also illustrated the wide range of applications that can be developed using Themelio within a blockchain-minimizing paradigm.
-
-\printbibliography
-
-```text
-blockchains like Bitcoin, but Themelio guarantees immediate,
-permanent consistency. This is because we use a Byzantine
-fault-tolerant consensus algorithm, as we will discuss in
-[2.3](#ss:consensus){reference-type="ref" reference="ss:consensus"}
-```
-
-```text
-clients verify claims that a certain transaction exists. SPV is
-unable to defend against dishonest nodes that hide coins or claim
-that spent coins are unspent, rendering basic wallet information
-untrustworthy.
-```
-
-```text
-financial sense
-```
-
-```text
-security through coordination problems", a concept explored in a
-blog post by Vitalik Buterin [@buterin2017coordination]. Attacks by
-cartels are made impractical because they would require coordinating
-many users to achieve a cartel-favorable result after the nuke and
-manual recovery.
-```
