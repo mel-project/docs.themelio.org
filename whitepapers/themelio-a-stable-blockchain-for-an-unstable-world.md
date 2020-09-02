@@ -20,5 +20,7 @@ We then describe the Themelio blockchain in a high-level fashion, focusing on th
 
 Finally, we explore possible applications of Themelio, ranging from simple payment systems to autonomous decentralized applciations.
 
-{% file src="../.gitbook/assets/whitepaper.pdf" caption="Read full whitepaper" %}
+{% file src="../.gitbook/assets/whitepaper \(1\).pdf" caption="Read full PDF" %}
+
+
 
