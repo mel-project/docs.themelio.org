@@ -12,5 +12,5 @@
 
 ## Try Themelio
 
-* [Getting started with the Alphanet](try-themelio/getting-started-with-the-alphanet.md)
+* [Your first alphanet transaction](try-themelio/getting-started-with-the-alphanet.md)
 
