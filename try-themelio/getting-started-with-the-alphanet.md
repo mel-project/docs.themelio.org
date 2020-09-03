@@ -21,15 +21,23 @@ $ cargo install --git https://github.com/themeliolabs/themelio-core.git
 
 This will take a while as `cargo` downloads and compiles the entire Themelio codebase and all its dependencies.
 
-## Using the wallet
+## Create Alice's and Bob's wallets
 
-### Starting the wallet
+Before we send any transactions, we first create two wallets between which we will send money.
 
-`themelio-core` is a monolithic program with a large number of subcommands that each implement some Themelio-related service. Right now all you want is to run a thin client, so run
+### Start the client
+
+`themelio-core` is a monolithic program with a large number of subcommands that each implement some Themelio-related service. Right now all you want is to run a thin-client wallet, so run
 
 ```text
 $ themelio-core anet-client
+
+[anet client v0.1.0]>
 ```
+
+You should see a command prompt show up. This prompt will be the main interface you use to interact with Themelio's alphanet as a thin client.
+
+### Creating two wallets
 
 
 
