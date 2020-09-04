@@ -1,4 +1,4 @@
-# Your first alphanet transaction
+# My first alphanet transaction
 
 This document will guide you through setting up a Themelio alphanet client and sending your first transaction. Before you follow the steps listed here, you probably want to read the introduction to Themelio to understand some basic concepts.
 
@@ -44,8 +44,8 @@ To create a wallet, use the `wallet-new` command:
 ```text
 [anet client v0.1.0]% wallet-new alice
 >> Created wallet "alice"
->> Address: THQ2Q-JHSKJ-7VTMR-3BKM4-VPXGE-GT4LH-NBPDE-ZWIG4-UTXJE-JKZHH-GUWJA
->> Secret: d41279293facd91d854ce55f7310d3e2ced0bc64cd906e52774912ac9ce6a592
+>> Address: <ALICE_ADDRESS>
+>> Secret: <ALICE_SECRET>
 ```
 
 This generates and stores to disk a new wallet called "alice", printing out the **address** and the **secret**. Note both of these values.
@@ -63,7 +63,7 @@ Repeat the process for Bob, and you're done for this step.
 We first need to open Alice's wallet using the secret:
 
 ```text
-[anet client v0.1.0]% wallet-open alice d41279293facd91d854ce55f7310d3e2ced0bc64cd906e52774912ac9ce6a592
+[anet client v0.1.0]% wallet-open alice <ALICE_SECRET>
 >> Wallet unlocked successfully!
 [anet client v0.1.0](alice)%
 ```
@@ -80,8 +80,68 @@ Let's print 1000 mels:
 [anet client v0.1.0](alice)% faucet 1000 TML
 >> Faucet transaction for 1000 broadcast!
 >> Waiting for confirmation...
->> CID=0475c44ade579a35bdb4b094817ff1eb828fad0c05b95e256f84b332cfbdc02d
+>> Confirmed at block 10!
+>> CID=<FAUCET_CID>
 ```
+
+This gives us a **coin ID**, or CID, that we use as a "receipt" to insert coins into the wallet:
+
+```text
+[anet client v0.1.0](alice)% coin-add <FAUCET_CID>
+>> Syncing state...
+>> Coin found! Added 1000.0000 TML to wallet
+```
+
+## Send money to Bob
+
+### Send the transaction
+
+Now we are ready to send money to Bob. Let's send over 500 TML:
+
+```text
+[anet client v0.1.0](alice)% tx-send <BOB_ADDRESS> 500 TML
+>> Syncing state...
+>> Fee required: 0.0123 TML. Accept? [y/n] y
+>> Transaction <TXID> broadcast!
+>> Waiting for confirmation...
+>> Confirmed at block 10!
+>> CID=<ALICE_TO_BOB_CID>
+```
+
+This gives us another CID that Bob will use to receive the money.
+
+### Open Bob's wallet
+
+We now open Bob's wallet to receive Alice's money:
+
+```text
+[anet client v0.1.0](alice)% exit
+[anet client v0.1.0]% wallet-open bob <BOB_SECRET>
+>> Wallet unlocked successfully!
+[anet client v0.1.0](bob)%
+```
+
+### Receiving the money
+
+We use the CID to receive the money from Alice:
+
+```text
+[anet client v0.1.0](bob)% coin-add <ALICE_TO_BOB_CID>
+>> Syncing state...
+>> Coin found! Added 500.0000 TML to wallet
+```
+
+## Congratulations!
+
+You've successfully sent 500 mels from Alice to Bob. Alice now has 499.987 TML in her wallet, while Bob has 500 TML.
+
+## Next steps
+
+In this guide, you used a validating thin client that does not synchronize the entire blockchain state. This has slightly less security and doesn't allow much functionality without a reliable Internet connection, so in some applications you would want to run an auditor node to replicate and fully validate blocks. That's covered in the next guide \(under construction\)
+
+
+
+
 
 
 
