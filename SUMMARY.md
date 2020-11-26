@@ -14,3 +14,7 @@
 
 * [My first alphanet transaction](try-themelio/getting-started-with-the-alphanet.md)
 
+## Specifications
+
+* [High-level MelScript language](specifications/high-level-melscript-language.md)
+
