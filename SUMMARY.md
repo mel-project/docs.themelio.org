@@ -18,3 +18,7 @@
 
 * [High-level MelScript language](specifications/high-level-melscript-language.md)
 
+---
+
+* [MelVM specification](melvm-specification.md)
+
