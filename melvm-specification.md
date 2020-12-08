@@ -1,4 +1,4 @@
-# MelVM specification
+# MelVM: low-level covenant VM
 
 ## Overview
 
@@ -33,11 +33,24 @@ As well as two **product types**:
 
 The stack is just a FIFO stack of `Value`s, while the heap is a mapping from 16-bit **addresses** to `Value`s.
 
+## Execution model
+
+MelVM takes as input:
+
+* An **initial stack** consisting of two items:
+  * On the very top, the spending transaction
+  * Underneath it, a custom input \(e.g. an index indicating which signature spends the coin\)
+* An **initial heap** consisting of the following items:
+  * Addr 0x10: the fully decoded _previous_ block header \(e.g. if the covenant is spent in block 100, this is header 99\)
+  * Addr  
+
 ## List of opcodes
 
 In the "meaning" field, all expressions are evaluated left to right. For example, `pop() - pop()` means pop a value `x`, then another value `y`, and then compute `x-y`.
 
 ### Arithmetic
+
+Overflow always wraps. Whether or not the previous instruction overflowed can be queried.
 
 | Opcode | Encoding | Meaning |
 | :--- | :--- | :--- |
@@ -46,6 +59,7 @@ In the "meaning" field, all expressions are evaluated left to right. For example
 | MUL | 0x12 | `push(pop() * pop())` |
 | DIV | 0x13 | `push(pop() / pop())` |
 | REM | 0x14 | `push(pop() % pop())` |
+| OFLO | 0x15 | `push(overflowed ? 1 : 0)`  |
 
 ### Logic
 
@@ -74,11 +88,56 @@ Operators take in a bytestring and return a bytestring
 | LOAD | 0x40 | `push(heap[pop()])` |
 | STORE | 0x41 | `heap[pop()] = pop()` |
 
-### Vector operations
+### Vectors
+
+Despite their appearance, these operations, as well as those for bytestrings, are all quasi-constant-time because vectors and bytestrings can be represented as RRB trees or similar. 
+
+| Opcode | Encoding | Meaning |
+| :--- | :--- | :--- |
+| VEMPTY | 0x50 | `push(empty vector)` |
+| VREF | 0x51 | `push(pop()[pop()])` |
+| VLENGTH | 0x52 | `push(pop().length)` |
+| VAPPEND | 0x53 | `push(pop() || pop())` |
+| VPUSH | 0x54 | `push(pop().push(pop()))` |
+| VSLICE | 0x55 | `push(pop[pop()..pop()])` |
+| VGETSTRUCT | 0x56 | `push(pop().is_struct)` |
+| VSETSTRUCT | 0x57 | `push(pop() with is_struct set)` |
+
+### Bytestrings
+
+| Opcode | Encoding | Meaning |
+| :--- | :--- | :--- |
+| BEMPTY | 0x60 | `push(empty bytestring)` |
+| BREF | 0x61 | `push(pop()[pop()])` |
+| BLENGTH | 0x62 | `push(pop().length)` |
+| BAPPEND | 0x63 | `push(pop() || pop())` |
+| BPUSH | 0x64 | `push(pop().push(pop()))` |
+| BSLICE | 0x65 | `push(pop[pop()..pop()])` |
 
 ### Control flow
 
+| Opcode | Encoding | Meaning |
+| :--- | :--- | :--- |
+| JMP\(n\) | 0xa0 | Jump n instructions forward |
+| BEZ\(n\) | 0xa1 | If `pop()` is zero, jump n |
+| BNZ\(n\) | 0xa2 | If `pop()` isn't zero, jump n |
+| LOOP\(n, body\) | 0xb0 + u16be + u16be | Loop `body` `n` times |
+
+### Type conversions
+
+| Opcode | Encoding | Meaning |
+| :--- | :--- | :--- |
+| ITOB | 0xc0 | Pops an integer and converts to bytes |
+| BTOI | 0xc1 | Pops bytes and converts first 32B to integer |
+| SERIAL\(n\) | 0xd0 | Bincode-serialize with "weight limit". If more than n nodes are visited abort. |
+| DESERIAL\(n\) | 0xd1 | Bincode-deserialize with length limit. |
+
 ### Literals
+
+| Opcode | Encoding | Meaning |
+| :--- | :--- | :--- |
+| PUSHB\(bytes\) | 0xf0 + u8 length + bytes | Push the bytes to the stack |
+| PUSHI\(int\) | 0xf1 + u256be | Push the integer to the stack |
 
 
 

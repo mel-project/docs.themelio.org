@@ -20,5 +20,5 @@
 
 ---
 
-* [MelVM specification](melvm-specification.md)
+* [MelVM: low-level covenant VM](melvm-specification.md)
 
