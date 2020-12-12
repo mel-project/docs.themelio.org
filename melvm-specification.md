@@ -74,12 +74,12 @@ All operators operate on integers and are bitwise.
 
 ### Cryptography
 
-Operators take in a bytestring and return a bytestring
+Operators take in a bytestring and return a bytestring.
 
 | Opcode | Encoding | Meaning |
 | :--- | :--- | :--- |
-| HASH | 0x30 | `push(blake3(pop))` |
-| SIGEOK | 0x32 | `push(ed25519_verify(msg = pop(), pk = pop(), sig = pop()))` |
+| HASH\(n\) | 0x30 + u16be | `push(blake3(pop()[..n]))` |
+| SIGEOK\(n\) | 0x32 + u16be | `push(ed25519_verify(msg = pop()[..n], pk = pop(), sig = pop()))` |
 
 ### Heap access
 
@@ -100,8 +100,6 @@ Despite their appearance, these operations, as well as those for bytestrings, ar
 | VAPPEND | 0x53 | `push(pop() || pop())` |
 | VPUSH | 0x54 | `push(pop().push(pop()))` |
 | VSLICE | 0x55 | `push(pop[pop()..pop()])` |
-| VGETSTRUCT | 0x56 | `push(pop().is_struct)` |
-| VSETSTRUCT | 0x57 | `push(pop() with is_struct set)` |
 
 ### Bytestrings
 
@@ -129,8 +127,8 @@ Despite their appearance, these operations, as well as those for bytestrings, ar
 | :--- | :--- | :--- |
 | ITOB | 0xc0 | Pops an integer and converts to bytes |
 | BTOI | 0xc1 | Pops bytes and converts first 32B to integer |
-| SERIAL\(n\) | 0xd0 | Bincode-serialize with "weight limit". If more than n nodes are visited abort. |
-| DESERIAL\(n\) | 0xd1 | Bincode-deserialize with length limit. |
+| ~~SERIAL\(n\)~~ | ~~0xd0~~ | ~~Serialize with "weight limit". If more than n nodes are visited abort.~~ |
+| ~~DESERIAL\(n\)~~ | ~~0xd1~~ | ~~Bincode-deserialize with length limit~~. |
 
 ### Literals
 
