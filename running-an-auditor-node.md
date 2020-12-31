@@ -1,10 +1,10 @@
 # Running an auditor node
 
-This document will guide you through setting up an **auditor** which is the equivalent of a **full node** in most other blockchains. An auditor replicates every consensus-confirmed block, validating its contents and ensuring network security while providing a local cache of the entire blockchain states.
+This document will guide you through setting up an **auditor**, which is the equivalent of a **full node** in most other blockchains. An auditor replicates every consensus-confirmed block, validating its contents and ensuring network security while providing a local cache of the entire blockchain state.
 
 ## Assumptions
 
-All the instructions here assume that you have an up-to-date `themelio-core` binary installed. If not, just install with `cargo`:
+All the instructions here assume that you have an up-to-date `themelio-core` binary installed. If not, simply install it with `cargo`:
 
 ```text
 $ cargo install --git https://github.com/themeliolabs/themelio-core.git
@@ -45,7 +45,7 @@ Your auditor is now running and replicating blocks within the auditor peer-to-pe
 
 ## Connecting a client to the auditor
 
-One of the most common uses of a local auditor node is to connect a thin client to it to not depend on a remote server for availability and latency. Try [following the alphanet client tutorial](getting-started-with-the-alphanet.md), except by running
+One of the most common uses of a local auditor node is to connect to a thin client in order to free the thin client from depending on a remote server for availability and latency. Try [following the alphanet client tutorial](getting-started-with-the-alphanet.md), except by running
 
 ```text
 themelio-core anet-client --connect 127.0.0.1:11814
