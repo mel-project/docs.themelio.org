@@ -16,7 +16,7 @@ All the instructions here assume that
 Install `themelio-core` with `cargo` directly from GitHub:
 
 ```text
-$ cargo install --git https://github.com/themeliolabs/themelio-core.git
+$ cargo install --git https://github.com/themeliolabs/themelio-core.git themelio-core
 ```
 
 `cargo` downloads and compiles the entire Themelio codebase and all its dependencies. This will take a while.
@@ -63,7 +63,7 @@ Repeat the process for Bob, and you're done for this step.
 We first need to open Alice's wallet using the secret:
 
 ```text
-[anet client v0.1.0]% wallet-open alice <ALICE_SECRET>
+[anet client v0.1.0]% wallet-unlock alice <ALICE_SECRET>
 >> Wallet unlocked successfully!
 [anet client v0.1.0](alice)%
 ```

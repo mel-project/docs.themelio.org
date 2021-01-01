@@ -48,7 +48,7 @@ Your auditor is now running and replicating blocks within the auditor peer-to-pe
 One of the most common uses of a local auditor node is to connect to a thin client in order to free the thin client from depending on a remote server for availability and latency. Try [following the alphanet client tutorial](getting-started-with-the-alphanet.md), except by running
 
 ```text
-themelio-core anet-client --connect 127.0.0.1:11814
+themelio-core anet-client --bootstrap 127.0.0.1:11814
 ```
 
 
