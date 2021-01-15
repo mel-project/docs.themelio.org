@@ -1,6 +1,6 @@
-# High-level MelScript language
+# MelScript: high-level covenant language
 
-The high-level MelScript language \(not yet named\) is essentially an extension of simply typed lambda calculus, packaged in a friendly syntax.
+The high-level MelScript language is essentially an extension of simply typed lambda calculus, packaged in a friendly syntax.
 
 ## Structure of a HLMS covenant
 

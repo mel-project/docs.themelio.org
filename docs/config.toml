@@ -6,7 +6,7 @@ theme = "dot"
 # site title
 title = "Themelio Knowledge Base"
 # disable language
-disableLanguages = []
+disableLanguages = ["fr"]
 # google analytics
 googleAnalytics = "" # paste your analytics ID here. (Ex: UA-123-45)
 # unsafe html
@@ -59,7 +59,7 @@ link = "#"
 languageName = "En"
 languageCode = "en-us"
 weight = 1
-copyright = "Copyright © 2020 a Hugo theme by [Gethugothemes](https://gethugothemes.com/)"
+copyright = "Copyright © 2020 Themelio Labs (https://themelio.org/)"
 
 # banner
 [Languages.en.params.banner]
@@ -126,7 +126,7 @@ hasChildren = true
 languageName = "Fr"
 languageCode = "fr-fr"
 weight = 2
-copyright = "Copyright © 2020 un thème Hugo par [Gethugothemes](https://gethugothemes.com/)"
+copyright = "Copyright © 2020 Themelio Labs (https://themelio.org/)"
 
 # banner
 [Languages.fr.params.banner]

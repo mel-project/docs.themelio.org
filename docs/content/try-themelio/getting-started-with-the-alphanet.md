@@ -1,6 +1,6 @@
 # My first alphanet transaction
 
-This document will guide you through setting up a Themelio alphanet client and sending your first transaction. Before you follow the steps listed here, you probably want to read the introduction to Themelio to understand some basic concepts.
+This document will guide you through setting up a Themelio alphanet client and sending your first transaction. Before you follow the steps listed here, you probably want to read [the introduction to Themelio](./) to understand some basic concepts.
 
 ## Assumptions
 
@@ -16,18 +16,18 @@ All the instructions here assume that
 Install `themelio-core` with `cargo` directly from GitHub:
 
 ```text
-$ cargo install --git https://github.com/themeliolabs/themelio-core.git
+$ cargo install --git https://github.com/themeliolabs/themelio-core.git themelio-core
 ```
 
-This will take a while as `cargo` downloads and compiles the entire Themelio codebase and all its dependencies.
+`cargo` downloads and compiles the entire Themelio codebase and all its dependencies. This will take a while.
 
 ## Create Alice's and Bob's wallets
 
-Before we send any transactions, we first create two wallets between which we will send money.
+Before we send any transactions, we first create two wallets between which we can send money.
 
 ### Start the client
 
-`themelio-core` is a monolithic program with a large number of subcommands that each implement some Themelio-related service. Right now all you want is to run a thin-client wallet, so run
+`themelio-core` is a monolithic program with a large number of subcommands that each implement some Themelio-related service. Right now, all you want is to run a thin-client wallet, so run
 
 ```text
 $ themelio-core anet-client
@@ -63,7 +63,7 @@ Repeat the process for Bob, and you're done for this step.
 We first need to open Alice's wallet using the secret:
 
 ```text
-[anet client v0.1.0]% wallet-open alice <ALICE_SECRET>
+[anet client v0.1.0]% wallet-unlock alice <ALICE_SECRET>
 >> Wallet unlocked successfully!
 [anet client v0.1.0](alice)%
 ```
@@ -72,7 +72,7 @@ This gives us a command prompt within the context of the `alice` wallet.
 
 ### Use the alphanet faucet
 
-Themelio's alphanet has a _faucet_ facility that allows anybody to print mels out of thin air. The faucet would obviously be removed in the mainnet, but it allows easy testing on the alphanet.
+Themelio's alphanet has a _faucet_ facility that allows anybody to print mels out of thin air. The faucet allows easy testing on the alphanet and would of course be removed in the mainnet.
 
 Let's print 1000 mels:
 
@@ -137,7 +137,7 @@ You've successfully sent 500 mels from Alice to Bob. Alice now has 499.987 TML i
 
 ## Next steps
 
-In this guide, you used a validating thin client that does not synchronize the entire blockchain state. This has slightly less security and doesn't allow much functionality without a reliable Internet connection, so in some applications you would want to run an auditor node to replicate and fully validate blocks. That's covered in the next guide \(under construction\)
+In this guide, you used a validating thin client that does not synchronize the entire blockchain state. This has slightly less security and doesn't allow much functionality without a reliable Internet connection, so in some applications you would want to run an auditor node to replicate and fully validate blocks. That's covered in the next guide.
 
 
 
