@@ -1,10 +1,7 @@
 ################################# Default configuration ###################
-# provide your domain here
 baseURL = "https://docs.themelio.org/"
-# theme
 theme = "dot"
-# site title
-title = "Themelio Knowledge Base"
+title = "themelio"
 # disable language
 disableLanguages = ["fr"]
 # google analytics
