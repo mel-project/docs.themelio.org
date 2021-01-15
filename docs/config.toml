@@ -80,42 +80,13 @@ link = "contact"
 ################## english navigation #################
 [[Languages.en.menu.main]]
 name = "Home"
-url = "/"
+url = "https://themelio.org/"
 weight = 1
 
 [[Languages.en.menu.main]]
-name = "Faq"
-url = "faq"
+name = "Resources"
+url = "https://themelio.org/resources.html"
 weight = 2
-
-[[Languages.en.menu.main]]
-name = "contact"
-url = "contact"
-weight = 3
-
-# Dropdown menu
-[[Languages.en.menu.main]]
-weight = 4
-name = "docs"
-hasChildren = true
-
-  [[Languages.en.menu.main]]
-  parent = "docs"
-  name = "Installation"
-  url = "installation"
-  weight = 1
-
-  [[Languages.en.menu.main]]
-  parent = "docs"
-  name = "Billing and Pricing"
-  url = "billing-pricing"
-  weight = 2
-
-  [[Languages.en.menu.main]]
-  parent = "docs"
-  name = "Features"
-  url = "features"
-  weight = 3
 
 
 ################################### Franch Language ######################
@@ -155,31 +126,3 @@ name = "Faq"
 url = "faq"
 weight = 2
 
-[[Languages.fr.menu.main]]
-name = "contact"
-url = "contact"
-weight = 3
-
-# Dropdown menu
-[[Languages.fr.menu.main]]
-weight = 4
-name = "docs"
-hasChildren = true
-
-  [[Languages.fr.menu.main]]
-  parent = "docs"
-  name = "Installation"
-  url = "installation"
-  weight = 1
-
-  [[Languages.fr.menu.main]]
-  parent = "docs"
-  name = "Billing and Pricing"
-  url = "billing-pricing"
-  weight = 2
-
-  [[Languages.fr.menu.main]]
-  parent = "docs"
-  name = "Features"
-  url = "features"
-  weight = 3
