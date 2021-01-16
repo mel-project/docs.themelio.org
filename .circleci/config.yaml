@@ -1,0 +1,26 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: cibuilds/hugo:latest
+    working_directory: ~/docs
+    environment:
+      HUGO_BUILD_DIR: ~/docs/public
+    steps:
+      - run: apk update && apk add git
+      - checkout
+      - run: git submodule sync && git submodule update --init
+      - run: HUGO_ENV=production hugo -v -d $HUGO_BUILD_DIR
+      - run: htmlproofer $HUGO_BUILD_DIR --allow-hash-href --check-html --empty-alt-ignore --disable-external
+      - add_ssh_keys:
+          fingerprints:
+            - "xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx"
+      - run: echo $REMOTE_HOSTKEY >> ~/.ssh/known_hosts
+      - deploy:
+          name: deploy
+          command: |
+            if [ "${CIRCLE_BRANCH}" = "master" ]; then
+              rsync -avce ssh $HUGO_BUILD_DIR your-user@your-host:/path/to/your/website
+            else
+              echo "Not master branch, dry run only"
+            fi
