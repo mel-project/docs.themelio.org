@@ -1,16 +1,27 @@
-# Glossary
-
+---
+title: "Glossary"
+date: 2018-12-29T11:02:05+06:00
+lastmod: 2020-01-05T10:42:26+06:00
+weight: 1
+draft: false
+# search related keywords
+keywords: [""]
+---
 **State elements** constitute the components of the **world state**
 
 * **Blocks** are defined by their constituent **transactions**, optionally with a consensus proof
 * **Consensus proofs** are attached to blocks, turning them into **confirmed** blocks.
 * The world state contains **history** and **coin state**
 
+---
+
 Each **transaction** has:
 
 * **Transaction inputs**, each of which spends a **coin** \(mapping in the coin state\) by **unlocking** its covenant
 * **Transaction outputs**, each of which has a **value**, a **denomination**, and a MelVM **covenant**
 * **Attached data**
+
+---
 
 Currencies:
 
@@ -23,14 +34,11 @@ Currencies:
 * **Sym** and **syms** is similar.
 * Actual usage that emerges will probably be different and will be "correct".
 
+---
+
 Algorithms:
 
 * The PoS system as a whole is **Synkletos**.
 * **Symphonia** is an internal name referring to a particular implementation of non-pipelined HotStuff. It's not really an "official" part of Themelio's definition.
 * **Melmint** is the cryptocurrency issuance mechanism. It's not a currency.
   * _In the last week Melmint minted a record 3 megamels onto the Themelio blockchain, half of which were locked up and reissued as ERC-20 tokens._
-
-\_\_
-
-
-

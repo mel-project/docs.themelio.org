@@ -2,13 +2,13 @@
 title: "Themelio Knowledge Base"
 date: 2018-12-28T11:02:05+06:00
 icon: "ti-credit-card"
-description: "Lorem ipsum dolor sit amet ipsum dolor sit amet ipsum dolor sit amet"
+description: ""
 type : "docs"
 ---
 
 # Table of contents
 
-* [Themelio overview](README.md)
+* [Themelio overview](table-of-contents/_index.en.md)
 
 ## Whitepapers
 
