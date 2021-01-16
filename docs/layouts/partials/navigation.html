@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md {{ if .IsHome }}navbar-dark{{ else }}navbar-light{{ end }}">
+<nav class="navbar navbar-expand-md navbar-light">
   <div class="container">
     <a class="navbar-brand px-2" href="{{ site.BaseURL | relLangURL }}">
       {{ $logo:= site.Params.logo }}
@@ -20,7 +20,7 @@
     </button>
 
     <div class="collapse navbar-collapse text-center" id="navigation">
-      <ul class="navbar-nav ml-auto">
+      <ul class="navbar-nav mr-auto">
         {{ range site.Menus.main }}
         <!-- {{ if .HasChildren }}
         <li class="nav-item dropdown">
@@ -40,6 +40,39 @@
         </li>
         <!-- {{ end }} -->
         {{ end }}
+      </ul>
+
+      <ul>
+<!-- 
+        <input id="search" class="form-control" placeholder="{{ .Site.Params.banner.placeholder }}">
+        <i class="ti-search search-icon"></i> -->
+
+        <!-- Javascript -->
+        <!-- {{ $currentNode := . }}
+        {{ $currentNode.Scratch.Set "pages" .Site.Pages }}
+        {{ $pages := ($currentNode.Scratch.Get "pages") }}
+        <script>
+          $(function() {
+          var projects = [
+            {{ range $pages }}
+            {
+              value: "{{ .Title }}",
+              label: "<p>{{.Plain}}</p>{{range.Params.Keywords}}<p>{{.}}</p>{{end}}",
+              url:"{{ .Permalink }}"
+            },
+            {{ end }}
+          ];
+          $( "#search" ).autocomplete({
+            source: projects
+          })
+          .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+            return $( "<li>" )
+            .append( "<a href=" + item.url + " + \" &quot;\" +  >" + item.value + "</a>" + item.label )
+            .appendTo( ul );
+          };
+          });
+        </script> -->
+
       </ul>
       <!-- Language List -->
       {{- if site.IsMultiLingual }}
