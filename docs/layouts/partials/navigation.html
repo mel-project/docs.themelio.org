@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light">
+<nav class="navbar py-3 navbar-expand-md navbar-light">
   <div class="container">
     <a class="navbar-brand px-2" href="{{ site.BaseURL | relLangURL }}">
       {{ $logo:= site.Params.logo }}
@@ -22,80 +22,44 @@
     <div class="collapse navbar-collapse text-center" id="navigation">
       <ul class="navbar-nav mr-auto">
         {{ range site.Menus.main }}
-        <!-- {{ if .HasChildren }}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            {{ .Name }}
-          </a>
-          <div class="dropdown-menu">
-            {{ range .Children }}
-            <a class="dropdown-item" href="{{ .URL | absLangURL }}">{{ .Name }}</a>
-            {{ end }}
-          </div>
-        </li>
-        {{ else }} -->
         <li class="nav-item">
           <a class="nav-link text-dark" href="{{ .URL | absLangURL }}">{{ .Name }}</a>
         </li>
-        <!-- {{ end }} -->
         {{ end }}
       </ul>
 
-      <ul>
-<!-- 
-        <input id="search" class="form-control" placeholder="{{ .Site.Params.banner.placeholder }}">
-        <i class="ti-search search-icon"></i> -->
+      <ul class="navbar-nav ml-auto">
+        <div class="position-relative">
 
-        <!-- Javascript -->
-        <!-- {{ $currentNode := . }}
-        {{ $currentNode.Scratch.Set "pages" .Site.Pages }}
-        {{ $pages := ($currentNode.Scratch.Get "pages") }}
-        <script>
-          $(function() {
-          var projects = [
-            {{ range $pages }}
-            {
-              value: "{{ .Title }}",
-              label: "<p>{{.Plain}}</p>{{range.Params.Keywords}}<p>{{.}}</p>{{end}}",
-              url:"{{ .Permalink }}"
-            },
-            {{ end }}
-          ];
-          $( "#search" ).autocomplete({
-            source: projects
-          })
-          .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-            return $( "<li>" )
-            .append( "<a href=" + item.url + " + \" &quot;\" +  >" + item.value + "</a>" + item.label )
-            .appendTo( ul );
-          };
-          });
-        </script> -->
-
+          <i class="ti-search search-icon"></i>
+          <input  id="search" class="form-control" placeholder="{{ .Site.Params.banner.placeholder }}">
+          <!-- Javascript -->
+          {{ $currentNode := . }}
+          {{ $currentNode.Scratch.Set "pages" .Site.Pages }}
+          {{ $pages := ($currentNode.Scratch.Get "pages") }}
+          <script>
+            $(function() {
+              var projects = [
+                {{ range $pages }}
+              {
+                value: "{{ .Title }}",
+                        label: "<p>{{.Plain}}</p>{{range.Params.Keywords}}<p>{{.}}</p>{{end}}",
+                      url:"{{ .Permalink }}"
+              },
+              {{ end }}
+            ];
+              $( "#search" ).autocomplete({
+                source: projects
+              })
+                      .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+                return $( "<li>" )
+                        .append( "<a href=" + item.url + " + \" &quot;\" +  >" + item.value + "</a>" + item.label )
+                        .appendTo( ul );
+              };
+            });
+          </script>
+        </div>
       </ul>
-      <!-- Language List -->
-      {{- if site.IsMultiLingual }}
-      <select class="lang-list {{ if not .IsHome }}dark{{ end }}" id="select-language"
-        onchange="location = this.value;">
-        {{ $siteLanguages := site.Languages}}
-        {{ $pageLang := .Page.Lang}}
-        {{ range .Page.AllTranslations }}
-        {{ $translation := .}}
-        {{ range $siteLanguages }}
-        {{ if eq $translation.Lang .Lang }}
-        {{ $selected := false }}
-        {{ if eq $pageLang .Lang}}
-        <option id="{{ $translation.Language }}" value="{{ $translation.Permalink }}" selected>{{ .LanguageName }}
-        </option>
-        {{ else }}
-        <option id="{{ $translation.Language }}" value="{{ $translation.Permalink }}">{{ .LanguageName }}</option>
-        {{ end }}
-        {{ end }}
-        {{ end }}
-        {{ end }}
-      </select>
-      {{ end }}
     </div>
   </div>
 </nav>
