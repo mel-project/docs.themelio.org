@@ -1,12 +1,12 @@
 ---
 title: "Themelio Knowledge Base"
 date: 2018-12-28T11:02:05+06:00
-icon: "ti-credit-card"
+icon: ""
 description: ""
 type : "docs"
 ---
 
-# Table of contents
+## Table of contents
 
 * [Themelio overview](table-of-contents/_index.en.md)
 
