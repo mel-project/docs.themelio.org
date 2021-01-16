@@ -7,18 +7,17 @@ draft: false
 # search related keywords
 keywords: [""]
 ---
-
-# Themelio overview
-
 ## What is Themelio?
 
 Themelio is a public blockchain that enables open, secure, and decentralized apps that work reliably and can't be taken down. An example is Mel, an independent, stable-value cryptocurrency that anyone can freely use. Inspired by previous blockchains like Bitcoin and Ethereum, Themelio nontheless takes a radically different design approach inspired by that of the Internet.
 
-![](.gitbook/assets/hourglass.png)
+![This is an image](/images/hourglass.png)
 
 Traditional blockchains either implement one application or try to provide a comprehensive solution to all use cases—in this aspect they are like pre-Internet telecom protocols. Like those protocols, they suffer from damaging _application-protocol friction._ While basic infrastructure like Ethereum or the telephone network is very difficult to change once widely adopted, application requirements constantly and unpredictably evolve. This inevitably causes either poor usability, destabilizing protocol upgrades, or both, as exemplified in highly contentious blockchain hard forks like Ethereum's DAO fork or Bitcoin's SegWit upgrade.
 
 Themelio, on the other hand, is designed as a radically simple, stable, and long-term foundation that can power a vast and diverse ecosystem precisely by focusing only on the functionality that all apps need. As such, we envision Themelio to play a fundamental and uniquitous role in the security infrastructure of a new and decentralized Internet, much like IP, the [protocol from 1983](https://tools.ietf.org/html/rfc791) that still underpins Internet communication.
+
+---
 
 ## Stability: the heart of Themelio
 
@@ -49,7 +48,9 @@ Synkletos is based on Byzantine fault-tolerant proof-of-stake consensus between 
 
 Unlike present blockchains' fee systems, Synkletos drives staker income largely from stabilized, market-determined fees rather than inflation-based block rewards. This aligns incentives between stakers and users, rendering collusion between stakers to subvert the protocol unprofitable even with a small number of stakers, while making fees much stabler and fee estimation trivial.
 
-You can find [a detailed treatment of Synkletos right here](synkletos-themelios-collusion-resistant-consensus-mechanism.md) in this knowledge base.  
+You can find [a detailed treatment of Synkletos right here](../whitepapers/synkletos) in this knowledge base.  
+
+---
 
 ## Get started now!
 
