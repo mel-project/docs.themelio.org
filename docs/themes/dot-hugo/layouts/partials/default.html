@@ -3,19 +3,22 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-3">
-          <ul class="sidebar">
+        <div class="sidebar">
+          <ul class="list-styled">
             {{ $currentNode := . }}
-<!--            <a class="back-btn" href="{{ .Site.BaseURL | relLangURL }}"></a>-->
+            <a class="back-btn" href="{{ .Site.BaseURL | relLangURL }}"></a>
             {{range .Site.Home.Sections.ByWeight}}
-            {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode}}
+              {{ if eq .FirstSection $currentNode.FirstSection }}
+              {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode}}
+              {{ end }}
             {{ end }}
           </ul>
+        </div>
       </div>
       <div class="col-lg-9">
         <div class="p-lg-5 p-4 bg-white">
-          <h1 class="mb-1">{{ .Title }}</h1>
+          <h2 class="mb-5">{{ .Title }}</h2>
           {{ if .Content }}
-          <hr/>
           <div class="content">{{.Content}}</div>
           {{ else }}
           <div class="bg-light p-4">
@@ -88,7 +91,7 @@
   </a>
   {{ $numberOfPages := (add (len .Pages) (len .Sections)) }}
   {{ if ne $numberOfPages 0 }}
-    <ul class="col-lg-12">
+    <ul>
       {{ range .Pages.ByWeight }}
         {{ if and .Params.hidden (not $.showhidden) }}
         {{else}}
@@ -98,6 +101,5 @@
     </ul>
   {{ end }}
 </li>
-
 {{ end }}
 {{ end }}

@@ -1,23 +1,11 @@
 ---
-title: "Themelio: A stable blockchain for an unstable world"
+title: "Themelio"
 date: 2018-12-29T11:02:05+06:00
 lastmod: 2020-01-05T10:42:26+06:00
 weight: 8
 draft: false
 # search related keywords
 keywords: [""]
----
-
----
-author:
-  - Yuhao Dong
-bibliography:
-  - whitepaper.bib
-title: 'Themelio: a new paradigm for decentralizing the Internet'
-description: >-
-  An overview of the motivation and design of Themelio. Read this to understand
-  why we made a new blockchain and why Themelio is different from other
-  blockchains.
 ---
 
 ## Abstract
