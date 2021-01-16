@@ -1,3 +1,12 @@
+---
+title: "Alphanet Client"
+date: 2018-12-29T11:02:05+06:00
+lastmod: 2020-01-05T10:42:26+06:00
+weight: 9
+draft: false
+# search related keywords
+keywords: [""]
+---
 # My first alphanet transaction
 
 This document will guide you through setting up a Themelio alphanet client and sending your first transaction. Before you follow the steps listed here, you probably want to read [the introduction to Themelio](./) to understand some basic concepts.

@@ -1,3 +1,12 @@
+---
+title: "Running an auditor node"
+date: 2018-12-29T11:02:05+06:00
+lastmod: 2020-01-05T10:42:26+06:00
+weight: 9
+draft: false
+# search related keywords
+keywords: [""]
+---
 # Running an auditor node
 
 This document will guide you through setting up an **auditor**, which is the equivalent of a **full node** in most other blockchains. An auditor replicates every consensus-confirmed block, validating its contents and ensuring network security while providing a local cache of the entire blockchain state.
