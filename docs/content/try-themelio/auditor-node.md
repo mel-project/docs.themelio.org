@@ -48,9 +48,7 @@ Dec 29 20:48:00.285 DEBUG blksync_loop:apply_block: themelio_core::storage: appl
 
 Your auditor is now running and replicating blocks within the auditor peer-to-peer gossip network.
 
-{% hint style="info" %}
 **Note**: right now the auditor implementation is not very useful, since not much happens in the network that's interesting to replicate!
-{% endhint %}
 
 ## Connecting a client to the auditor
 
@@ -59,8 +57,3 @@ One of the most common uses of a local auditor node is to connect to a thin clie
 ```text
 themelio-core anet-client --bootstrap 127.0.0.1:11814
 ```
-
-
-
-## 
-

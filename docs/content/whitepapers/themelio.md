@@ -1,5 +1,5 @@
 ---
-title: "Themelio"
+title: "Themelio: a stable blockchain for an unstable world"
 date: 2018-12-29T11:02:05+06:00
 lastmod: 2020-01-05T10:42:26+06:00
 weight: 8
@@ -16,7 +16,4 @@ We then describe the Themelio blockchain in a high-level fashion, focusing on th
 
 Finally, we explore possible applications of Themelio, ranging from simple payment systems to autonomous decentralized applciations.
 
-{% file src=".gitbook/assets/whitepaper \(3\).pdf" %}
-
-
-
+[Read full PDF](/assets/themelio.pdf)
