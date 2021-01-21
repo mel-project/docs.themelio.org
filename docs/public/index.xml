@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Themelio Knowledge Base on themelio</title>
+    <link>https://docs.themelio.org/</link>
+    <description>Recent content in Themelio Knowledge Base on themelio</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright © 2020 Themelio Labs (https://themelio.org/)</copyright>
+    <lastBuildDate>Fri, 28 Dec 2018 11:02:05 +0600</lastBuildDate><atom:link href="https://docs.themelio.org/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Themelio: a stable blockchain for an unstable world</title>
+      <link>https://docs.themelio.org/whitepapers/themelio/</link>
+      <pubDate>Sat, 29 Dec 2018 11:02:05 +0600</pubDate>
+      
+      <guid>https://docs.themelio.org/whitepapers/themelio/</guid>
+      <description>Abstract Themelio is a decentralized, public blockchain designed to support a new blockchain paradigm, where the blockchain is used as a low-level, stable, and simple root of trust rather than an application or full-featured application platform. We present evidence that this new paradigm is crucial for blockchains to fully realize their key feature of endogenous trust, or trust generated not through preexisting trust in protocol participants but through internal cryptoeconomic mechanisms.</description>
+    </item>
+    
+    <item>
+      <title>My first alphanet transaction</title>
+      <link>https://docs.themelio.org/try-themelio/alphanet-client/</link>
+      <pubDate>Sat, 29 Dec 2018 11:02:05 +0600</pubDate>
+      
+      <guid>https://docs.themelio.org/try-themelio/alphanet-client/</guid>
+      <description>This document will guide you through setting up a Themelio alphanet client and sending your first transaction. Before you follow the steps listed here, you probably want to read the introduction to Themelio to understand some basic concepts.
+Assumptions All the instructions here assume that
+ You&amp;rsquo;re running a Unix (Linux or macOS) system. The alphanet client should work on Windows, but it isn&amp;rsquo;t well-tested. You have a working Internet connection You have git installed You have a stable Rust compiler, including the cargo command  Install themelio-core Install themelio-core with cargo directly from GitHub:</description>
+    </item>
+    
+    <item>
+      <title>Running an auditor node</title>
+      <link>https://docs.themelio.org/try-themelio/auditor-node/</link>
+      <pubDate>Sat, 29 Dec 2018 11:02:05 +0600</pubDate>
+      
+      <guid>https://docs.themelio.org/try-themelio/auditor-node/</guid>
+      <description>Running an auditor node This document will guide you through setting up an auditor, which is the equivalent of a full node in most other blockchains. An auditor replicates every consensus-confirmed block, validating its contents and ensuring network security while providing a local cache of the entire blockchain state.
+Assumptions All the instructions here assume that you have an up-to-date themelio-core binary installed. If not, simply install it with cargo:</description>
+    </item>
+    
+    <item>
+      <title>Synkletos: Themelio&#39;s collusion-resistant consensus mechanism</title>
+      <link>https://docs.themelio.org/whitepapers/synkletos/</link>
+      <pubDate>Sat, 29 Dec 2018 11:02:05 +0600</pubDate>
+      
+      <guid>https://docs.themelio.org/whitepapers/synkletos/</guid>
+      <description>Abstract In this whitepaper, we discuss Synkletos, the core cryptoeconomic mechanism that powers Themelio&amp;rsquo;s proof-of-stake consensus. Consensus algorithms used to secure public blockchains differ significantly in their design constraints from those driving traditional fault-tolerant distributed systems. This is because blockchains must rigorously model trust within a game-theoretical model, rather than simply making assumptions about fault tolerance. To truly achieve incentive-compatible security, we cannot rely on the typical approach of considering ideal honest behavior and then positing an adversary with certain powers.</description>
+    </item>
+    
+    <item>
+      <title>Melmint: trustless stable cryptocurrency</title>
+      <link>https://docs.themelio.org/whitepapers/melmint/</link>
+      <pubDate>Sat, 29 Dec 2018 11:02:05 +0600</pubDate>
+      
+      <guid>https://docs.themelio.org/whitepapers/melmint/</guid>
+      <description>Note: this is a minimally revised version of a paper we published at CryptoEconSys 2020
+Decentralized cryptocurrencies have gathered increasing interest in the past few years, raising hopes of a new era of non-sovereign electronic money. Unfortunately, cryptocurrencies perform poorly as actual money due to their unacceptably volatile purchasing power. &amp;ldquo;Stablecoins&amp;rdquo; aiming to reduce this volatility, on the other hand, tend to peg to an external currency like the US dollar, gravely weakening the decentralization that makes cryptocurrencies so attractive.</description>
+    </item>
+    
+    <item>
+      <title>MelVM</title>
+      <link>https://docs.themelio.org/specifications/melvm-specification/</link>
+      <pubDate>Sat, 29 Dec 2018 11:02:05 +0600</pubDate>
+      
+      <guid>https://docs.themelio.org/specifications/melvm-specification/</guid>
+      <description>MelVM: low-level covenant VM Overview MelVM is the low-level, stack-based virtual machine that powers Themelio covenants. By only allowing looping for a fixed number of iterations, MelVM makes the worst-case cost of each covenant computable, trading off Turing completeness. Unlike Bitcoin scripts, however, MelVM covenants can compute all primitive recursive functions, allowing expressing almost all &amp;ldquo;interesting&amp;rdquo; constructs.
+Memory model MelVM uses a Harvard architecture where the code itself is not part of the memory space.</description>
+    </item>
+    
+    <item>
+      <title>MelScript</title>
+      <link>https://docs.themelio.org/specifications/melscript-specification/</link>
+      <pubDate>Sat, 29 Dec 2018 11:02:05 +0600</pubDate>
+      
+      <guid>https://docs.themelio.org/specifications/melscript-specification/</guid>
+      <description>MelScript specification Basic concepts MelScript is a Lisp-like, purely functional, Turing-incomplete language for writing constraints in Themelio. It&amp;rsquo;s the basic &amp;ldquo;medium-level&amp;rdquo; language used in Themelio constraints.
+It compiles in a very straightforward manner to constraint bytecode &amp;mdash; core functions map directly to bytecode, while everything else is macros layered on top.
+The basic data type of MelScript is a linked-list representation of a RLP-encoded object: either a bytestring, or a list of bytestrings.</description>
+    </item>
+    
+    <item>
+      <title>Glossary</title>
+      <link>https://docs.themelio.org/specifications/glossary/</link>
+      <pubDate>Sat, 29 Dec 2018 11:02:05 +0600</pubDate>
+      
+      <guid>https://docs.themelio.org/specifications/glossary/</guid>
+      <description>State elements constitute the components of the world state
+ Blocks are defined by their constituent transactions, optionally with a consensus proof Consensus proofs are attached to blocks, turning them into confirmed blocks. The world state contains history and coin state   Each transaction has:
+ Transaction inputs, each of which spends a coin (mapping in the coin state) by unlocking its covenant Transaction outputs, each of which has a value, a denomination, and a MelVM covenant Attached data   Currencies:</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -14,10 +14,10 @@ This document will guide you through setting up a Themelio alphanet client and s
 
 All the instructions here assume that
 
-* You're running a Unix \(Linux or macOS\) system. The alphanet client should work on Windows, but it isn't well-tested.
-* You have a working Internet connection
-* You have `git` installed
-* You have a stable Rust compiler, including the `cargo`  command
+- You're running a Unix \(Linux or macOS\) system. The alphanet client should work on Windows, but it isn't well-tested.
+- You have a working Internet connection
+- You have `git` installed
+- You have a stable Rust compiler, including the `cargo` command
 
 ## Install themelio-core
 
@@ -58,9 +58,7 @@ To create a wallet, use the `wallet-new` command:
 
 This generates and stores to disk a new wallet called "alice", printing out the **address** and the **secret**. Note both of these values.
 
-{% hint style="warning" %}
-The wallet secret **will not be saved to disk!** You should back up the secret somewhere safe if you need to recover the contents of the wallet.
-{% endhint %}
+> The wallet secret **will not be saved to disk!** You should back up the secret somewhere safe if you need to recover the contents of the wallet.
 
 Repeat the process for Bob, and you're done for this step.
 
@@ -146,10 +144,3 @@ You've successfully sent 500 mels from Alice to Bob. Alice now has 499.987 TML i
 ## Next steps
 
 In this guide, you used a validating thin client that does not synchronize the entire blockchain state. This has slightly less security and doesn't allow much functionality without a reliable Internet connection, so in some applications you would want to run an auditor node to replicate and fully validate blocks. That's covered in the next guide.
-
-
-
-
-
-
-

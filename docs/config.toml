@@ -1,7 +1,7 @@
 ################################# Default configuration ###################
 baseURL = "https://docs.themelio.org/"
 theme = "dot-hugo"
-title = "themelio"
+title = "Themelio knowledge base"
 # disable language
 disableLanguages = ["fr"]
 # google analytics
@@ -14,21 +14,22 @@ unsafe = true
 ############################# Default Parameters ##########################
 [params]
 # logo is for all page
-logo = "images/logo-text.svg"
+logo = "images/logo-icon.png"
 # logo white is for homepage logo, you can use colorful logo too...
 logo_white = ""
 # when logo is empty, it will shown your site title
 
 # customize color
-primary_color = "#02007e"
+primary_color = "#00a6b3"
 body_color = "#f9f9f9"
-text_color = "#636363"
+text_color = "#242738"
 text_color_dark = "#242738"
 white_color = "#ffffff"
 light_color = "#f8f9fa"
 
 # font family
-font_family = "lato" # Choose font family from : https://fonts.google.com/
+font_family = "Inter" # Choose font family from : https://fonts.google.com/
+font_family_display = "HK Grotesk" # Choose font family from : https://fonts.google.com/
 
 # contact form action
 contact_form_action = "#" # contact form works with : https://formspree.io

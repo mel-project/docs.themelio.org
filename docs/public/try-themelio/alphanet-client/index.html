@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <title>My first alphanet transaction</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="generator" content="Hugo 0.75.1" />
+  
+  <!-- ** CSS Plugins Needed for the Project ** -->
+  
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://docs.themelio.org/plugins/bootstrap/bootstrap.min.css">
+
+  <!-- themefy-icon -->
+  <link rel="stylesheet" href="https://docs.themelio.org/plugins/themify-icons/themify-icons.css">
+
+  <!--Favicon-->
+  <link rel="icon" href="https://docs.themelio.org/images/favicon.png" type="image/x-icon">
+
+  <!-- fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+  
+  <style>
+  :root{
+    --primary-color:#02007e;
+    --body-color:#f9f9f9;
+    --text-color:#636363;
+    --text-color-dark:#242738;
+    --white-color:#ffffff;
+    --light-color:#f8f9fa;
+    --font-family:Lato;
+  }
+  </style>
+
+<!-- Main Stylesheet -->
+
+<link href="https://docs.themelio.org/css/style.min.css" rel="stylesheet" media="screen"/>
+  
+<!-- ** JS Plugins Needed for the Project ** -->
+
+<!-- jquiry -->
+<script src="https://docs.themelio.org/plugins/jquery/jquery-1.12.4.js"></script>
+
+<!-- jquary ui -->
+<script src="https://docs.themelio.org/plugins/jquery/jquery-ui.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://docs.themelio.org/plugins/bootstrap/bootstrap.min.js"></script>
+
+<!-- match-height JS -->
+<script src="https://docs.themelio.org/plugins/match-height/jquery.matchHeight-min.js"></script>
+
+
+  
+
+  <!-- create /layouts/partials/overrides/header.html in your own theme or root directory to add your custom content here -->
+
+
+</head>
+
+  
+  <body>
+
+    <!-- header -->
+    <header class="shadow-bottom sticky-top bg-white">
+      <nav class="navbar py-3 navbar-expand-md navbar-light">
+  <div class="container">
+    <a class="navbar-brand px-2" href="/">
+      
+      
+      
+      
+      <img class="img-fluid" src="https://docs.themelio.org/images/logo-text.svg" alt="themelio">
+      
+      
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation"
+      aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse text-center" id="navigation">
+      <ul class="navbar-nav mr-auto">
+        
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="https://themelio.org/">Home</a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="https://themelio.org/resources.html">Resources</a>
+        </li>
+        
+      </ul>
+
+      <ul class="navbar-nav ml-auto">
+        <div class="position-relative">
+
+          <i class="ti-search search-icon"></i>
+          <input  id="search" class="form-control" placeholder="">
+          
+          
+          
+          
+          <script>
+            $(function() {
+              var projects = [
+                
+              {
+                value: "Themelio overview",
+                        label: "<p>What is Themelio? Themelio is a public blockchain that enables open, secure, and decentralized apps that work reliably and can\u0026rsquo;t be taken down. An example is Mel, an independent, stable-value cryptocurrency that anyone can freely use. Inspired by previous blockchains like Bitcoin and Ethereum, Themelio nontheless takes a radically different design approach inspired by that of the Internet.\nTraditional blockchains either implement one application or try to provide a comprehensive solution to all use cases—in this aspect they are like pre-Internet telecom protocols. Like those protocols, they suffer from damaging application-protocol friction. While basic infrastructure like Ethereum or the telephone network is very difficult to change once widely adopted, application requirements constantly and unpredictably evolve. This inevitably causes either poor usability, destabilizing protocol upgrades, or both, as exemplified in highly contentious blockchain hard forks like Ethereum\u0026rsquo;s DAO fork or Bitcoin\u0026rsquo;s SegWit upgrade.\nThemelio, on the other hand, is designed as a radically simple, stable, and long-term foundation that can power a vast and diverse ecosystem precisely by focusing only on the functionality that all apps need. As such, we envision Themelio to play a fundamental and uniquitous role in the security infrastructure of a new and decentralized Internet, much like IP, the protocol from 1983 that still underpins Internet communication.\n Stability: the heart of Themelio Themelio\u0026rsquo;s core mission is to serve as a stable root of endogenous trust. Endogenous trust, or trust that emerges from within the protocol rather than from its users, is the \u0026ldquo;killer feature\u0026rdquo; of blockchains. It allows us to trust the blockchain with minimal assumptions about who runs it. Endogenous trust distinguishes blockchains from all previous protocols, including decentralized and federated ones like BitTorrent and IRC. By focusing on this one key aspect of blockchains and implementing it exceptionally well, Themelio aims to support a new blockchain-rooted, multi-layered paradigm of decentralized Internet apps.\nEssential to endogenous trust is stability. Unstable protocols need regular tweaks, making \u0026ldquo;governance\u0026rdquo;—exogenous interventions in the protocol—necessary for blockchains that implement them. Unstable cryptocurrencies make securely storing and measuring value on the blockchain difficult, spawning a decentralized finance (DeFi) ecosystem heavily reliant on fiat-pegged stablecoins, oracles, and other instances of exogenous trust. Furthermore, unstable, unintuitive behavior (such as fee levels that vary wildly over time, error-prone smart contract VMs, and nondeterministic consensus) make developing secure applications that correctly leverage the blockchain\u0026rsquo;s endogenous trust rather than rely on exogenous trust in third parties surprisingly difficult. It is no surprise, then, that Themelio\u0026rsquo;s most important design decisions are focused on stability.\nStable protocol The most important pillar of Themelio\u0026rsquo;s stability is its stable protocol. Themelio\u0026rsquo;s core blockchain logic is much simpler than other general-purpose blockchains like Ethereum and Tezos. It employs a seemingly rudimentary transaction model based on spending coins, i.e., unspent transaction outputs, or UTXOs. With a small, carefully selected set of additional features, this allows Themelio to power entire application classes impossible with conventional coin-based blockchains like Bitcoin and Litecoin.\nThe two most important of these \u0026ldquo;superpowers\u0026rdquo; are MelVM and state commitments. MelVM is a non-Turing-complete virtual machine that nevertheless can compute all primitive recursive functions and enables attaching sophisticated covenants to coins. It powers on-chain protocols like tokens and financial instruments without the pitfalls of stateful smart contracts. Then, state commitments use sparse Merkle trees to commit in the block header all the information needed to validate transactions, like the set of all unspent coins. This enables scaling strategies crucial to global adoption, such as full nodes with limited storage space and thin clients that can securely verify much more information than conventional techniques like Bitcoin\u0026rsquo;s SPV allows.\nStable cryptocurrency The second pillar of Themelio\u0026rsquo;s stability is Mel, its base cryptocurrency. Mel is the first ever endogenous stablecoin: a cryptocurrency that keeps a relatively stable purchasing power without pegs to external assets like the US dollar. The purchasing power a mel is backed by Melmint, an equity-based stablecoin mechanism similar to Basis and Seigniorage Shares, with two crucial differences:\n Instead of a price oracle, we use an auction mechanism to measure the on-chain value of a day of sequential computation, or \u0026ldquo;DOSC\u0026rdquo;. The value of 1 DOSC at a given time is the cost of 24 hours of sequential computation on the fastest processor available at that time \u0026mdash; a value that maintained surprisingly stable purchasing power over the last two decades. This frees Mel entirely from trust in external oracles and fiat currency. Rather than shares backed by future stablecoin issuance, Melmint issues Sym, Themelio\u0026rsquo;s proof-of-stake token, to support the mel\u0026rsquo;s value in times of decreasing demand. This eliminates \u0026ldquo;death spiral\u0026rdquo; scenarios common in dual-token stablecoin mechanisms and guarantees Mel\u0026rsquo;s stability as a blockchain\u0026rsquo;s base currency even when issuance is expected to decline.  We\u0026rsquo;ve published Melmint as a peer-reviewed paper at Cryptoeconomic Systems 2020, and a further revised version is available here for those interested in the technical details of Melmint.\nStable behavior Finally, stable behavior during blockchain operation is crucial to developing apps that leverage endogenous trust reliably and securely. This is largely supported by Synkletos, the cryptoeconomic protocol that secures Themelio\u0026rsquo;s consensus and powers its on-chain fee economy.\nSynkletos is based on Byzantine fault-tolerant proof-of-stake consensus between \u0026ldquo;stakers\u0026rdquo; with a separate token, Sym. Sym is fixed-issuance like traditional cryptocurrencies and pays dividends from transaction fees. By using BFT consensus, Synkletos ensures that transactions are either fully confirmed or not present in the blockchain, eliminating the complex latency-dependent guesswork required in \u0026ldquo;chain-based\u0026rdquo; blockchains like Bitcoin and Ethereum when deciding whether or not to permanently trust a transaction.\nUnlike present blockchains\u0027 fee systems, Synkletos drives staker income largely from stabilized, market-determined fees rather than inflation-based block rewards. This aligns incentives between stakers and users, rendering collusion between stakers to subvert the protocol unprofitable even with a small number of stakers, while making fees much stabler and fee estimation trivial.\nYou can find a detailed treatment of Synkletos right here in this knowledge base.\n Get started now! Themelio has launched its alphanet. This gives us a proof-of-concept to tinker with that you can also participate in. At this point, development is highly agile and prioritizes flexibility over stability.\nTo get started, you can learn more about Themelio in this knowledge base, join our Discord channel, and try transacting in some placeholder \u0026ldquo;Monopoly money\u0026rdquo; with our alphanet wallet.\n</p><p></p>",
+                      url:"https:\/\/docs.themelio.org\/table-of-contents\/"
+              },
+              
+              {
+                value: "Whitepapers",
+                        label: "<p></p><p></p>",
+                      url:"https:\/\/docs.themelio.org\/whitepapers\/"
+              },
+              
+              {
+                value: "Themelio: a stable blockchain for an unstable world",
+                        label: "<p>Abstract Themelio is a decentralized, public blockchain designed to support a new blockchain paradigm, where the blockchain is used as a low-level, stable, and simple root of trust rather than an application or full-featured application platform. We present evidence that this new paradigm is crucial for blockchains to fully realize their key feature of endogenous trust, or trust generated not through preexisting trust in protocol participants but through internal cryptoeconomic mechanisms.\nWe then describe the Themelio blockchain in a high-level fashion, focusing on three areas key to its overall theme of extreme stability and strong endogenoust rust: a traditional yet enhanced UTXO model with features that allow powerful programmability and composability, a novel proof-of-stake system with unusually strong cryptoeconomic guarantees, and Themelio\u0026rsquo;s unique cryptocurrency the mel, which achieves stablecoin-like low volatility without any compromises in decentralization and security.\nFinally, we explore possible applications of Themelio, ranging from simple payment systems to autonomous decentralized applciations.\nRead full PDF\n</p><p></p>",
+                      url:"https:\/\/docs.themelio.org\/whitepapers\/themelio\/"
+              },
+              
+              {
+                value: "My first alphanet transaction",
+                        label: "<p>This document will guide you through setting up a Themelio alphanet client and sending your first transaction. Before you follow the steps listed here, you probably want to read the introduction to Themelio to understand some basic concepts.\nAssumptions All the instructions here assume that\n You\u0026rsquo;re running a Unix (Linux or macOS) system. The alphanet client should work on Windows, but it isn\u0026rsquo;t well-tested. You have a working Internet connection You have git installed You have a stable Rust compiler, including the cargo command  Install themelio-core Install themelio-core with cargo directly from GitHub:\n$ cargo install --git https:\/\/github.com\/themeliolabs\/themelio-core.git themelio-core cargo downloads and compiles the entire Themelio codebase and all its dependencies. This will take a while.\nCreate Alice\u0026rsquo;s and Bob\u0026rsquo;s wallets Before we send any transactions, we first create two wallets between which we can send money.\nStart the client themelio-core is a monolithic program with a large number of subcommands that each implement some Themelio-related service. Right now, all you want is to run a thin-client wallet, so run\n$ themelio-core anet-client [anet client v0.1.0]% You should see a command prompt show up. This prompt will be the main interface you use to interact with Themelio\u0026rsquo;s alphanet as a thin client.\nCreate two wallets To create a wallet, use the wallet-new command:\n[anet client v0.1.0]% wallet-new alice \u0026gt;\u0026gt; Created wallet \u0026#34;alice\u0026#34; \u0026gt;\u0026gt; Address: \u0026lt;ALICE_ADDRESS\u0026gt; \u0026gt;\u0026gt; Secret: \u0026lt;ALICE_SECRET\u0026gt; This generates and stores to disk a new wallet called \u0026ldquo;alice\u0026rdquo;, printing out the address and the secret. Note both of these values.\n{% hint style=\u0026ldquo;warning\u0026rdquo; %} The wallet secret will not be saved to disk! You should back up the secret somewhere safe if you need to recover the contents of the wallet. {% endhint %}\nRepeat the process for Bob, and you\u0026rsquo;re done for this step.\nAdd money to Alice\u0026rsquo;s wallet Open Alice\u0026rsquo;s wallet We first need to open Alice\u0026rsquo;s wallet using the secret:\n[anet client v0.1.0]% wallet-unlock alice \u0026lt;ALICE_SECRET\u0026gt; \u0026gt;\u0026gt; Wallet unlocked successfully! [anet client v0.1.0](alice)% This gives us a command prompt within the context of the alice wallet.\nUse the alphanet faucet Themelio\u0026rsquo;s alphanet has a faucet facility that allows anybody to print mels out of thin air. The faucet allows easy testing on the alphanet and would of course be removed in the mainnet.\nLet\u0026rsquo;s print 1000 mels:\n[anet client v0.1.0](alice)% faucet 1000 TML \u0026gt;\u0026gt; Faucet transaction for 1000 broadcast! \u0026gt;\u0026gt; Waiting for confirmation... \u0026gt;\u0026gt; Confirmed at block 10! \u0026gt;\u0026gt; CID=\u0026lt;FAUCET_CID\u0026gt; This gives us a coin ID, or CID, that we use as a \u0026ldquo;receipt\u0026rdquo; to insert coins into the wallet:\n[anet client v0.1.0](alice)% coin-add \u0026lt;FAUCET_CID\u0026gt; \u0026gt;\u0026gt; Syncing state... \u0026gt;\u0026gt; Coin found! Added 1000.0000 TML to wallet Send money to Bob Send the transaction Now we are ready to send money to Bob. Let\u0026rsquo;s send over 500 TML:\n[anet client v0.1.0](alice)% tx-send \u0026lt;BOB_ADDRESS\u0026gt; 500 TML \u0026gt;\u0026gt; Syncing state... \u0026gt;\u0026gt; Fee required: 0.0123 TML. Accept? [y\/n] y \u0026gt;\u0026gt; Transaction \u0026lt;TXID\u0026gt; broadcast! \u0026gt;\u0026gt; Waiting for confirmation... \u0026gt;\u0026gt; Confirmed at block 10! \u0026gt;\u0026gt; CID=\u0026lt;ALICE_TO_BOB_CID\u0026gt; This gives us another CID that Bob will use to receive the money.\nOpen Bob\u0026rsquo;s wallet We now open Bob\u0026rsquo;s wallet to receive Alice\u0026rsquo;s money:\n[anet client v0.1.0](alice)% exit [anet client v0.1.0]% wallet-open bob \u0026lt;BOB_SECRET\u0026gt; \u0026gt;\u0026gt; Wallet unlocked successfully! [anet client v0.1.0](bob)% Receiving the money We use the CID to receive the money from Alice:\n[anet client v0.1.0](bob)% coin-add \u0026lt;ALICE_TO_BOB_CID\u0026gt; \u0026gt;\u0026gt; Syncing state... \u0026gt;\u0026gt; Coin found! Added 500.0000 TML to wallet Congratulations! You\u0026rsquo;ve successfully sent 500 mels from Alice to Bob. Alice now has 499.987 TML in her wallet, while Bob has 500 TML.\nNext steps In this guide, you used a validating thin client that does not synchronize the entire blockchain state. This has slightly less security and doesn\u0026rsquo;t allow much functionality without a reliable Internet connection, so in some applications you would want to run an auditor node to replicate and fully validate blocks. That\u0026rsquo;s covered in the next guide.\n</p><p></p>",
+                      url:"https:\/\/docs.themelio.org\/try-themelio\/alphanet-client\/"
+              },
+              
+              {
+                value: "Running an auditor node",
+                        label: "<p>Running an auditor node This document will guide you through setting up an auditor, which is the equivalent of a full node in most other blockchains. An auditor replicates every consensus-confirmed block, validating its contents and ensuring network security while providing a local cache of the entire blockchain state.\nAssumptions All the instructions here assume that you have an up-to-date themelio-core binary installed. If not, simply install it with cargo:\n$ cargo install --git https:\/\/github.com\/themeliolabs\/themelio-core.git Running the auditor To run an auditor, just run:\n$ themelio-core anet-node --bootstrap 94.237.109.116:11814 You should see output similar to the following:\nDec 29 20:47:55.627 INFO run_main:run_node: themelio_core: themelio-core v0.1.0 initializing... Dec 29 20:47:55.627 INFO run_main:run_node: themelio_core: bootstrapping with [94.237.109.116:11814] Dec 29 20:47:55.627 INFO run_main:run_node:open_testnet{path=\u0026#34;\/tmp\/testnet\u0026#34;}: themelio_core::storage: creating a testnet genesis state from scratch Dec 29 20:47:56.526 DEBUG blksync_loop:apply_block: themelio_core::storage: apply_block at height 0 with 0 transactions Dec 29 20:47:56.526 DEBUG blksync_loop:apply_block: themelio_core::storage: apply_block special case when height is zero Dec 29 20:47:56.527 DEBUG blksync_loop:apply_block: themelio_core::storage: block 0, txcount=0, hash=#\u0026lt;f8dbd36a0f\u0026gt; APPLIED Dec 29 20:47:57.377 DEBUG blksync_loop:apply_block: themelio_core::storage: apply_block at height 1 with 0 transactions Dec 29 20:47:57.377 DEBUG blksync_loop:apply_block: themelio_core::storage: block 1, txcount=0, hash=#\u0026lt;c2182ca753\u0026gt; APPLIED Dec 29 20:47:58.379 DEBUG blksync_loop:apply_block: themelio_core::storage: apply_block at height 2 with 0 transactions Dec 29 20:47:58.380 DEBUG blksync_loop:apply_block: themelio_core::storage: block 2, txcount=0, hash=#\u0026lt;d741c12dcc\u0026gt; APPLIED Dec 29 20:47:59.336 DEBUG blksync_loop:apply_block: themelio_core::storage: apply_block at height 3 with 0 transactions Dec 29 20:47:59.337 DEBUG blksync_loop:apply_block: themelio_core::storage: block 3, txcount=0, hash=#\u0026lt;f6a0829cd2\u0026gt; APPLIED Dec 29 20:48:00.285 DEBUG blksync_loop:apply_block: themelio_core::storage: apply_block at height 4 with 0 transactions Your auditor is now running and replicating blocks within the auditor peer-to-peer gossip network.\nNote: right now the auditor implementation is not very useful, since not much happens in the network that\u0026rsquo;s interesting to replicate!\nConnecting a client to the auditor One of the most common uses of a local auditor node is to connect to a thin client in order to free the thin client from depending on a remote server for availability and latency. Try following the alphanet client tutorial, except by running\nthemelio-core anet-client --bootstrap 127.0.0.1:11814 </p><p></p>",
+                      url:"https:\/\/docs.themelio.org\/try-themelio\/auditor-node\/"
+              },
+              
+              {
+                value: "Synkletos: Themelio\u0027s collusion-resistant consensus mechanism",
+                        label: "<p>Abstract In this whitepaper, we discuss Synkletos, the core cryptoeconomic mechanism that powers Themelio\u0026rsquo;s proof-of-stake consensus. Consensus algorithms used to secure public blockchains differ significantly in their design constraints from those driving traditional fault-tolerant distributed systems. This is because blockchains must rigorously model trust within a game-theoretical model, rather than simply making assumptions about fault tolerance. To truly achieve incentive-compatible security, we cannot rely on the typical approach of considering ideal honest behavior and then positing an adversary with certain powers. Unfortunately, game-theoretical analysis of multi-party coordination problems, of which blockchain consensus is an instance, tends to be pernicuously difficult, leading to most consensus algorithms in use lacking formal analysis.\nSynkletos is a blockchain consensus algorithm designed through a novel approach that drastically simplifies incentive analysis. Instead of modeling the ideal blockchain as decentralized parties participating in a coordination game to produce a certain optimal behavior, we start by proposing an ideal monopoly blockchain, where blockchain rules are such that even a selfish monopoly will behave in a \u0026ldquo;faulty\u0026rdquo; way. We then design an simple incentive structure and consensus algorithm based on a variation of proof of stake that incentivizes any number of uncoordinated or coordinated parties to simulate such a monopoly as a whole. We argue that such a mechanism, though it is slightly less economically efficient compared to systems such as Nakamoto consensus that rely on noncoordination assumptions, is much easier to analyze and far more robust to game-theoretical attacks. Finally, we validate this by constructing Synkletos for Themelio and running an agent-based incentive simulation.\nRead full PDF\n</p><p></p>",
+                      url:"https:\/\/docs.themelio.org\/whitepapers\/synkletos\/"
+              },
+              
+              {
+                value: "Try Themelio",
+                        label: "<p></p><p></p>",
+                      url:"https:\/\/docs.themelio.org\/try-themelio\/"
+              },
+              
+              {
+                value: "Melmint: trustless stable cryptocurrency",
+                        label: "<p>Note: this is a minimally revised version of a paper we published at CryptoEconSys 2020\nDecentralized cryptocurrencies have gathered increasing interest in the past few years, raising hopes of a new era of non-sovereign electronic money. Unfortunately, cryptocurrencies perform poorly as actual money due to their unacceptably volatile purchasing power. \u0026ldquo;Stablecoins\u0026rdquo; aiming to reduce this volatility, on the other hand, tend to peg to an external currency like the US dollar, gravely weakening the decentralization that makes cryptocurrencies so attractive.\nMelmint is a mechanism for issuing a trustlessly stable cryptocurrency, Mel, designed for the prototype Themelio blockchain but easily portable to others. Mel is defined without any reference to external pegs such as the US dollar, eliminating the need for oracles and other trusted third parties. This solves a major open problem in the field. We use Elasticoin, an existing proposal to reduce cryptocurrency volatility, as a building block for a trustless monetary policy that gives Mel robustly stable purchasing power. We evaluate Melmint through both theoretical economic arguments and stochastic market simulation, an approach not seen in the existing literature. In all our tests, Melmint is shown to be exceptionally robust in both mundane and extreme economic conditions.\nRead full PDF\n</p><p></p>",
+                      url:"https:\/\/docs.themelio.org\/whitepapers\/melmint\/"
+              },
+              
+              {
+                value: "MelVM",
+                        label: "<p>MelVM: low-level covenant VM Overview MelVM is the low-level, stack-based virtual machine that powers Themelio covenants. By only allowing looping for a fixed number of iterations, MelVM makes the worst-case cost of each covenant computable, trading off Turing completeness. Unlike Bitcoin scripts, however, MelVM covenants can compute all primitive recursive functions, allowing expressing almost all \u0026ldquo;interesting\u0026rdquo; constructs.\nMemory model MelVM uses a Harvard architecture where the code itself is not part of the memory space. Memory is divided into two regions: the stack and the heap. Except when data is transferred between the stack and the heap, MelVM instructions directly operate only on stack data, pushing and popping items from the top of the stack.\nA big difference from most low-level VMs is that the basic unit of data isn\u0026rsquo;t a word of binary data, but a recursive data structure:\npub enum Value { Int(U256), Bytes(im::Vector\u0026lt;u8\u0026gt;), Vector { members: im::Vector\u0026lt;Value\u0026gt;, is_struct: bool }, } That is, there are two base types:\n 256-bit unsigned integers Arbitrary-length bytestrings  As well as two product types:\n Vectors, with is_struct = false, semantically represent homogenous vectors such as lists of signatures Structs, with is_struct = true, semantically represent fixed-length structures such as transactions  The stack is just a FIFO stack of Values, while the heap is a mapping from 16-bit addresses to Values.\nExecution model MelVM takes as input:\n An initial stack consisting of two items:  On the very top, the spending transaction Underneath it, a custom input (e.g. an index indicating which signature spends the coin)   An initial heap consisting of the following items:  Addr 0x10: the fully decoded previous block header (e.g. if the covenant is spent in block 100, this is header 99) Addr    List of opcodes In the \u0026ldquo;meaning\u0026rdquo; field, all expressions are evaluated left to right. For example, pop() - pop() means pop a value x, then another value y, and then compute x-y.\nArithmetic Overflow always wraps. Whether or not the previous instruction overflowed can be queried.\n   Opcode Encoding Meaning     ADD 0x10 push(pop() \u002b pop())   SUB 0x11 push(pop() - pop())   MUL 0x12 push(pop() * pop())   DIV 0x13 push(pop() \/ pop())   REM 0x14 push(pop() % pop())   OFLO 0x15 push(overflowed ? 1 : 0)    Logic All operators operate on integers and are bitwise.\n   Opcode Encoding Meaning     AND 0x20 push(pop() \u0026amp; pop())   OR 0x21 push(pop() | pop())   XOR 0x22 push(pop() ^ pop())   NOT 0x23 push(~pop())    Cryptography Operators take in a bytestring and return a bytestring.\n   Opcode Encoding Meaning     HASH(n) 0x30 \u002b u16be push(blake3(pop()[..n]))   SIGEOK(n) 0x32 \u002b u16be push(ed25519_verify(msg = pop()[..n], pk = pop(), sig = pop()))    Heap access    Opcode Encoding Meaning     LOAD 0x40 push(heap[pop()])   STORE 0x41 heap[pop()] = pop()    Vectors Despite their appearance, these operations, as well as those for bytestrings, are all quasi-constant-time because vectors and bytestrings can be represented as RRB trees or similar.\n   Opcode Encoding Meaning     VEMPTY 0x50 push(empty vector)   VREF 0x51 push(pop()[pop()])   VLENGTH 0x52 push(pop().length)   VAPPEND 0x53 push(pop() || pop())   VPUSH 0x54 push(pop().push(pop()))   VSLICE 0x55 push(pop[pop()..pop()])    Bytestrings    Opcode Encoding Meaning     BEMPTY 0x60 push(empty bytestring)   BREF 0x61 push(pop()[pop()])   BLENGTH 0x62 push(pop().length)   BAPPEND 0x63 push(pop() || pop())   BPUSH 0x64 push(pop().push(pop()))   BSLICE 0x65 push(pop[pop()..pop()])    Control flow    Opcode Encoding Meaning     JMP(n) 0xa0 Jump n instructions forward   BEZ(n) 0xa1 If pop() is zero, jump n   BNZ(n) 0xa2 If pop() isn\u0026rsquo;t zero, jump n   LOOP(n, body) 0xb0 \u002b u16be \u002b u16be Loop body n times    Type conversions    Opcode Encoding Meaning     ITOB 0xc0 Pops an integer and converts to bytes   BTOI 0xc1 Pops bytes and converts first 32B to integer   SERIAL(n) 0xd0 Serialize with \u0026ldquo;weight limit\u0026rdquo;. If more than n nodes are visited abort.   DESERIAL(n) 0xd1 Bincode-deserialize with length limit.    Literals    Opcode Encoding Meaning     PUSHB(bytes) 0xf0 \u002b u8 length \u002b bytes Push the bytes to the stack   PUSHI(int) 0xf1 \u002b u256be Push the integer to the stack    </p><p></p>",
+                      url:"https:\/\/docs.themelio.org\/specifications\/melvm-specification\/"
+              },
+              
+              {
+                value: "Specifications",
+                        label: "<p>adsf\n</p><p></p>",
+                      url:"https:\/\/docs.themelio.org\/specifications\/"
+              },
+              
+              {
+                value: "MelScript",
+                        label: "<p>MelScript specification Basic concepts MelScript is a Lisp-like, purely functional, Turing-incomplete language for writing constraints in Themelio. It\u0026rsquo;s the basic \u0026ldquo;medium-level\u0026rdquo; language used in Themelio constraints.\nIt compiles in a very straightforward manner to constraint bytecode \u0026mdash; core functions map directly to bytecode, while everything else is macros layered on top.\nThe basic data type of MelScript is a linked-list representation of a RLP-encoded object: either a bytestring, or a list of bytestrings.\nSyntax Literals Literals are one of:\n Decimal numbers, always representing unsigned big-endian represented with the smallest number of bytes: 12345 Hexadecimal bytestrings: #xdeadbeef00 Literal strings, interpreted as UTF-8: \u0026quot;Hello World\u0026quot;  Program structure Programs consist of:\n Macro definitions One body expression  Macros Macros look like:\n(define (form args...) expr) which will replace (form args..) with expr in the body of the program.\nThey may also simply define a constant:\n(define form expr) Core forms All core functions have a fixed number of arguments and directly correspond to assembly. For example, the expression (~add256 x-expr y-expr) compiles to\n(compile y-expr) (compile x-expr) ADD256 and the semantics of the ADD256 instruction is push(pop() \u002b pop()).\nCore forms starting in a tilde should never appear directly in user code.\nArithmetic Arithmetic operations all operate on 256-bit big-endian unsigned integers. Only the last 32 bytes of the inputs are considered, and the operations always return 32-byte values.\n(~add256 x y) (~sub256 x y) (~mul256 x y) (~div256 x y) (~rem256 x y) Boolean operations Boolean operations are bitwise on the last 32 bytes. They only return 32 bytes.\n(~and256 x y) (~or256 x y) (~xor256 x y) (~not256 x) There\u0026rsquo;s also a non short-circuited if operator, which treats its condition as \u0026ldquo;false\u0026rdquo; if its last 32 (or less) bytes are all zero, and \u0026ldquo;true\u0026rdquo; otherwise:\n(~if256 c true-case false-case) Equality Equality is checked only on the first 32 bytes. Hash bigger inputs before comparing them.\n(~equal256? x y) Hashing Hashing takes a single input and returns a 32-byte hash. This input can either an RLP structure or a byte string; RLP structures are implicitly serialized.. It takes variable time, but this is okay, since building a bigger input would have taken more instructions anyway.\n(hash x) Signature verification Both Q and E signatures can be verified.\n(sigQ-ok? public-key msg-hash signature) (sigE-ok? public-key msg-hash signature) As a special case, if both the signature and msg-hash field is zero-length, then we iterate through the Signatures field in the spending transaction to try to find a matching signature. This special case is used in the vast majority of single-signature and multisignature wallets.\nIn general, using sigQ-ok? outside this special case (say, with Data members) requires some care, since signatures may be malleable.\nRLP operations RLP structures are treated as nested Lisp-style linked lists with explicit length tracking. Explicit serialization and deserialization is intentionally not provided; core functions like hash implicitly serialize any RLP inputs.\n(cons head lst) (car lst) (cdr lst) (length lst) empty Environment The execution environment is accessed through the special \u0026ldquo;function\u0026rdquo; env. This is literally compiled as, for example\nPUSH \u0026#34;SELFHASH\u0026#34; ENV Accessing a nonexistent environment variable will result in instantly failing the constraint. The following environment variables are available:\n;; Hash of the compiled constraint code itself  (env \u0026#39;SELFHASH) ;; Transaction output in which the constraint is embedded, as an RLP structure (env \u0026#39;SELFTXOH) ; TxOutputAndHeight structure (env \u0026#39;SELFTXI) ; TxInput structure ;; Spender (the transaction spending the coin having this constraint) (env \u0026#39;SPENDTX) ; whole transaction as RLP, with ZEROED-OUT SIGNATURE FIELD! (for hash) (env \u0026#39;SPENDSIGS) ; signature field of the transaction ;; Last block header (if TX at block n, header n-1) (env \u0026#39;LASTHEADER) Built-in macros Arithmetic, boolean, and equality Arithmetic, boolean, and equality operators can take multiple arguments.\n(\u002b x y z...) =\u0026gt; (~add256 x (~add256 y (~add256 z ...))) (= x y z...) =\u0026gt; (~equal256? x (~equal256? y (~equal256? z ...))) (or x y z...) ... List operations List operations expand to a bunch of cars, conds, etc.\n;; get the nth element of a list (ref lst 0) =\u0026gt; (car lst) (ref lst n) =\u0026gt; (ref (cdr lst) (- n 1)) Conditions There\u0026rsquo;s two ways of accessing the ~if256 core form:\n(if c x y) =\u0026gt; (~if256 c x y) (cond [c1 e1] [c2 e2] ... [else ex]) =\u0026gt; (~if256 c1 e1 (cond [c2 e2]...)) Bytecode weights The weight of a constraint is computed as $$\\ell \u002b \\sum_iw_i$$, where $$\\ell$$ is the length of the constraint and $$w_i$$ is the weight of the ith instruction. Here are the weights of the instructions:\n   Instruction Encoding Weight     ADD256 0x10 4   SUB256 0x11 4   MUL256 0x12 6   DIV256 0x13 6   REM256 0x14 6   AND256 0x1a 4   OR256 0x1b 4   XOR256 0x1c 4   IF256 0x1f 4   EQUAL256 0x20 4   HASH 0x30 50   SIGEOK 0x40 100   SIGQOK 0x41 1000   CONS 0x50 50   CAR 0x51 6   CDR 0x52 6   LENGTH 0x53 6   ENV 0xa0 50   PUSH 0x00 0    </p><p></p>",
+                      url:"https:\/\/docs.themelio.org\/specifications\/melscript-specification\/"
+              },
+              
+              {
+                value: "Glossary",
+                        label: "<p>State elements constitute the components of the world state\n Blocks are defined by their constituent transactions, optionally with a consensus proof Consensus proofs are attached to blocks, turning them into confirmed blocks. The world state contains history and coin state   Each transaction has:\n Transaction inputs, each of which spends a coin (mapping in the coin state) by unlocking its covenant Transaction outputs, each of which has a value, a denomination, and a MelVM covenant Attached data   Currencies:\n The base currency is \u0026ldquo;Mel\u0026rdquo; and the unit is \u0026ldquo;mel\u0026rdquo;. This is like \u0026ldquo;Bitcoin\u0026rdquo; vs \u0026ldquo;bitcoin\u0026rdquo;.  We accept Mel, Bitcoin, and other cryptocurrencies. The burger cost 4 mels   Decimal SI prefixes can be used.  A burger and a side of fries costs 6 mels and 33 centimels. The smallest unit of money on Themelio is 1 micromel.   Sym and syms is similar. Actual usage that emerges will probably be different and will be \u0026ldquo;correct\u0026rdquo;.   Algorithms:\n The PoS system as a whole is Synkletos. Symphonia is an internal name referring to a particular implementation of non-pipelined HotStuff. It\u0026rsquo;s not really an \u0026ldquo;official\u0026rdquo; part of Themelio\u0026rsquo;s definition. Melmint is the cryptocurrency issuance mechanism. It\u0026rsquo;s not a currency.  In the last week Melmint minted a record 3 megamels onto the Themelio blockchain, half of which were locked up and reissued as ERC-20 tokens.    </p><p></p>",
+                      url:"https:\/\/docs.themelio.org\/specifications\/glossary\/"
+              },
+              
+              {
+                value: "Themelio Knowledge Base",
+                        label: "<p>Table of contents  Themelio overview  Whitepapers   Themelio: a stable blockchain for an unstable world Synkletos: Themelio\u0026rsquo;s collusion-resistant consensus mechanism Melmint: trustless stable cryptocurrency  Try Themelio   My first alphanet transaction Running an auditor node  Specifications   MelScript: high-level covenant language MelVM: low-level covenant VM Glossary  </p>",
+                      url:"https:\/\/docs.themelio.org\/"
+              },
+              
+              {
+                value: "Categories",
+                        label: "<p></p>",
+                      url:"https:\/\/docs.themelio.org\/categories\/"
+              },
+              
+              {
+                value: "Tags",
+                        label: "<p></p>",
+                      url:"https:\/\/docs.themelio.org\/tags\/"
+              },
+              
+            ];
+              $( "#search" ).autocomplete({
+                source: projects
+              })
+                      .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+                return $( "<li>" )
+                        .append( "<a href=" + item.url + " + \" &quot;\" +  >" + item.value + "</a>" + item.label )
+                        .appendTo( ul );
+              };
+            });
+          </script>
+        </div>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    </header>
+    <!-- /header -->
+    
+    
+
+<!-- details page -->
+<section class="single section-sm pb-0">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3">
+          <ul class="sidebar">
+            
+
+            
+            
+
+
+
+
+
+
+
+
+<li data-nav-id="https://docs.themelio.org/table-of-contents/" title="Themelio overview" class="sidelist
+  ">
+  <a href="https://docs.themelio.org/table-of-contents/">
+    Themelio overview
+  </a>
+  
+  
+</li>
+
+
+
+            
+            
+
+
+
+
+
+
+
+
+<li data-nav-id="https://docs.themelio.org/whitepapers/" title="Whitepapers" class="sidelist
+  ">
+  <a href="https://docs.themelio.org/whitepapers/">
+    Whitepapers
+  </a>
+  
+  
+    <ul class="col-lg-12">
+      
+        
+          
+
+
+
+
+
+
+
+
+<li data-nav-id="https://docs.themelio.org/whitepapers/themelio/" title="Themelio: a stable blockchain for an unstable world" class="sidelist
+  ">
+  <a href="https://docs.themelio.org/whitepapers/themelio/">
+    Themelio: a stable blockchain for an unstable world
+  </a>
+  
+  
+</li>
+
+
+
+        
+      
+        
+          
+
+
+
+
+
+
+
+
+<li data-nav-id="https://docs.themelio.org/whitepapers/synkletos/" title="Synkletos: Themelio&#39;s collusion-resistant consensus mechanism" class="sidelist
+  ">
+  <a href="https://docs.themelio.org/whitepapers/synkletos/">
+    Synkletos: Themelio&#39;s collusion-resistant consensus mechanism
+  </a>
+  
+  
+</li>
+
+
+
+        
+      
+        
+          
+
+
+
+
+
+
+
+
+<li data-nav-id="https://docs.themelio.org/whitepapers/melmint/" title="Melmint: trustless stable cryptocurrency" class="sidelist
+  ">
+  <a href="https://docs.themelio.org/whitepapers/melmint/">
+    Melmint: trustless stable cryptocurrency
+  </a>
+  
+  
+</li>
+
+
+
+        
+      
+    </ul>
+  
+</li>
+
+
+
+            
+            
+
+
+
+
+
+
+
+
+<li data-nav-id="https://docs.themelio.org/try-themelio/" title="Try Themelio" class="sidelist
+  ">
+  <a href="https://docs.themelio.org/try-themelio/">
+    Try Themelio
+  </a>
+  
+  
+    <ul class="col-lg-12">
+      
+        
+          
+
+
+
+
+
+
+
+
+<li data-nav-id="https://docs.themelio.org/try-themelio/alphanet-client/" title="My first alphanet transaction" class="sidelist
+  active">
+  <a href="https://docs.themelio.org/try-themelio/alphanet-client/">
+    My first alphanet transaction
+  </a>
+  
+  
+</li>
+
+
+
+        
+      
+        
+          
+
+
+
+
+
+
+
+
+<li data-nav-id="https://docs.themelio.org/try-themelio/auditor-node/" title="Running an auditor node" class="sidelist
+  ">
+  <a href="https://docs.themelio.org/try-themelio/auditor-node/">
+    Running an auditor node
+  </a>
+  
+  
+</li>
+
+
+
+        
+      
+    </ul>
+  
+</li>
+
+
+
+            
+            
+
+
+
+
+
+
+
+
+<li data-nav-id="https://docs.themelio.org/specifications/" title="Specifications" class="sidelist
+  ">
+  <a href="https://docs.themelio.org/specifications/">
+    Specifications
+  </a>
+  
+  
+    <ul class="col-lg-12">
+      
+        
+          
+
+
+
+
+
+
+
+
+<li data-nav-id="https://docs.themelio.org/specifications/melvm-specification/" title="MelVM" class="sidelist
+  ">
+  <a href="https://docs.themelio.org/specifications/melvm-specification/">
+    MelVM
+  </a>
+  
+  
+</li>
+
+
+
+        
+      
+        
+          
+
+
+
+
+
+
+
+
+<li data-nav-id="https://docs.themelio.org/specifications/melscript-specification/" title="MelScript" class="sidelist
+  ">
+  <a href="https://docs.themelio.org/specifications/melscript-specification/">
+    MelScript
+  </a>
+  
+  
+</li>
+
+
+
+        
+      
+        
+          
+
+
+
+
+
+
+
+
+<li data-nav-id="https://docs.themelio.org/specifications/glossary/" title="Glossary" class="sidelist
+  ">
+  <a href="https://docs.themelio.org/specifications/glossary/">
+    Glossary
+  </a>
+  
+  
+</li>
+
+
+
+        
+      
+    </ul>
+  
+</li>
+
+
+
+            
+          </ul>
+      </div>
+      <div class="col-lg-9">
+        <div class="p-lg-5 p-4 bg-white">
+          <h1 class="mb-1">My first alphanet transaction</h1>
+          
+          <hr/>
+          <div class="content"><p>This document will guide you through setting up a Themelio alphanet client and sending your first transaction. Before you follow the steps listed here, you probably want to read <a href="./">the introduction to Themelio</a> to understand some basic concepts.</p>
+<h2 id="assumptions">Assumptions</h2>
+<p>All the instructions here assume that</p>
+<ul>
+<li>You&rsquo;re running a Unix (Linux or macOS) system. The alphanet client should work on Windows, but it isn&rsquo;t well-tested.</li>
+<li>You have a working Internet connection</li>
+<li>You have <code>git</code> installed</li>
+<li>You have a stable Rust compiler, including the <code>cargo</code>  command</li>
+</ul>
+<h2 id="install-themelio-core">Install themelio-core</h2>
+<p>Install <code>themelio-core</code> with <code>cargo</code> directly from GitHub:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">$ cargo install --git https://github.com/themeliolabs/themelio-core.git themelio-core
+</code></pre></div><p><code>cargo</code> downloads and compiles the entire Themelio codebase and all its dependencies. This will take a while.</p>
+<h2 id="create-alices-and-bobs-wallets">Create Alice&rsquo;s and Bob&rsquo;s wallets</h2>
+<p>Before we send any transactions, we first create two wallets between which we can send money.</p>
+<h3 id="start-the-client">Start the client</h3>
+<p><code>themelio-core</code> is a monolithic program with a large number of subcommands that each implement some Themelio-related service. Right now, all you want is to run a thin-client wallet, so run</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">$ themelio-core anet-client
+
+[anet client v0.1.0]%
+</code></pre></div><p>You should see a command prompt show up. This prompt will be the main interface you use to interact with Themelio&rsquo;s alphanet as a thin client.</p>
+<h3 id="create-two-wallets">Create two wallets</h3>
+<p>To create a wallet, use the <code>wallet-new</code> command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[anet client v0.1.0]% wallet-new alice
+&gt;&gt; Created wallet &#34;alice&#34;
+&gt;&gt; Address: &lt;ALICE_ADDRESS&gt;
+&gt;&gt; Secret: &lt;ALICE_SECRET&gt;
+</code></pre></div><p>This generates and stores to disk a new wallet called &ldquo;alice&rdquo;, printing out the <strong>address</strong> and the <strong>secret</strong>. Note both of these values.</p>
+<p>{% hint style=&ldquo;warning&rdquo; %}
+The wallet secret <strong>will not be saved to disk!</strong> You should back up the secret somewhere safe if you need to recover the contents of the wallet.
+{% endhint %}</p>
+<p>Repeat the process for Bob, and you&rsquo;re done for this step.</p>
+<h2 id="add-money-to-alices-wallet">Add money to Alice&rsquo;s wallet</h2>
+<h3 id="open-alices-wallet">Open Alice&rsquo;s wallet</h3>
+<p>We first need to open Alice&rsquo;s wallet using the secret:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[anet client v0.1.0]% wallet-unlock alice &lt;ALICE_SECRET&gt;
+&gt;&gt; Wallet unlocked successfully!
+[anet client v0.1.0](alice)%
+</code></pre></div><p>This gives us a command prompt within the context of the <code>alice</code> wallet.</p>
+<h3 id="use-the-alphanet-faucet">Use the alphanet faucet</h3>
+<p>Themelio&rsquo;s alphanet has a <em>faucet</em> facility that allows anybody to print mels out of thin air. The faucet allows easy testing on the alphanet and would of course be removed in the mainnet.</p>
+<p>Let&rsquo;s print 1000 mels:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[anet client v0.1.0](alice)% faucet 1000 TML
+&gt;&gt; Faucet transaction for 1000 broadcast!
+&gt;&gt; Waiting for confirmation...
+&gt;&gt; Confirmed at block 10!
+&gt;&gt; CID=&lt;FAUCET_CID&gt;
+</code></pre></div><p>This gives us a <strong>coin ID</strong>, or CID, that we use as a &ldquo;receipt&rdquo; to insert coins into the wallet:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[anet client v0.1.0](alice)% coin-add &lt;FAUCET_CID&gt;
+&gt;&gt; Syncing state...
+&gt;&gt; Coin found! Added 1000.0000 TML to wallet
+</code></pre></div><h2 id="send-money-to-bob">Send money to Bob</h2>
+<h3 id="send-the-transaction">Send the transaction</h3>
+<p>Now we are ready to send money to Bob. Let&rsquo;s send over 500 TML:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[anet client v0.1.0](alice)% tx-send &lt;BOB_ADDRESS&gt; 500 TML
+&gt;&gt; Syncing state...
+&gt;&gt; Fee required: 0.0123 TML. Accept? [y/n] y
+&gt;&gt; Transaction &lt;TXID&gt; broadcast!
+&gt;&gt; Waiting for confirmation...
+&gt;&gt; Confirmed at block 10!
+&gt;&gt; CID=&lt;ALICE_TO_BOB_CID&gt;
+</code></pre></div><p>This gives us another CID that Bob will use to receive the money.</p>
+<h3 id="open-bobs-wallet">Open Bob&rsquo;s wallet</h3>
+<p>We now open Bob&rsquo;s wallet to receive Alice&rsquo;s money:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[anet client v0.1.0](alice)% exit
+[anet client v0.1.0]% wallet-open bob &lt;BOB_SECRET&gt;
+&gt;&gt; Wallet unlocked successfully!
+[anet client v0.1.0](bob)%
+</code></pre></div><h3 id="receiving-the-money">Receiving the money</h3>
+<p>We use the CID to receive the money from Alice:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[anet client v0.1.0](bob)% coin-add &lt;ALICE_TO_BOB_CID&gt;
+&gt;&gt; Syncing state...
+&gt;&gt; Coin found! Added 500.0000 TML to wallet
+</code></pre></div><h2 id="congratulations">Congratulations!</h2>
+<p>You&rsquo;ve successfully sent 500 mels from Alice to Bob. Alice now has 499.987 TML in her wallet, while Bob has 500 TML.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>In this guide, you used a validating thin client that does not synchronize the entire blockchain state. This has slightly less security and doesn&rsquo;t allow much functionality without a reliable Internet connection, so in some applications you would want to run an auditor node to replicate and fully validate blocks. That&rsquo;s covered in the next guide.</p>
+</div>
+          
+          <p class="post-meta border-bottom pb-3 mb-0 mt-3">Updated on 05 Jan 2020</p>
+          <nav class="pagination mt-3">
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+
+            
+            
+            
+            
+            
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+
+            
+            
+            
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+
+            
+            
+            
+
+            
+            
+            
+            
+            
+            
+            
+            
+
+            
+            
+            
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+
+            
+            
+            
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+
+            
+            
+            
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+
+            
+            
+            
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+
+            
+            
+            
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+
+            
+            
+            
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+
+            
+            
+            
+
+            
+            
+            
+            
+            
+            
+            
+            
+
+            
+            
+            
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+
+            
+            
+            
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+
+            
+            
+            
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+
+            
+            <a class="nav nav-prev" href="https://docs.themelio.org/try-themelio/"><i class="ti-arrow-left mr-2"></i> <span class="d-none d-md-block">Try Themelio</span></a>
+            
+            
+            <a class="nav nav-next" href="https://docs.themelio.org/try-themelio/auditor-node/"> <span class="d-none d-md-block">Running an auditor node</span><i class="ti-arrow-right ml-2"></i></a>
+            
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /details page -->
+
+
+
+
+
+    <!-- footer -->
+<footer class="section pb-4">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-8 text-md-left text-center">
+       <p class="mb-md-0 mb-4">Copyright © 2020 Themelio Labs (<a href="https://themelio.org/">https://themelio.org/</a>)</p>
+      </div>
+      <div class="col-md-4 text-md-right text-center">
+        <ul class="list-inline">
+          
+          <li class="list-inline-item"><a class="text-color d-inline-block p-2" href="#"><i class="ti-twitter-alt"></i></a></li>
+          
+          <li class="list-inline-item"><a class="text-color d-inline-block p-2" href="#"><i class="ti-github"></i></a></li>
+          
+          <li class="list-inline-item"><a class="text-color d-inline-block p-2" href="#"><i class="ti-linkedin"></i></a></li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- /footer -->
+
+<!-- Main Script -->
+
+<script src="https://docs.themelio.org/js/script.min.js"></script>
+  </body>
+
+</html>

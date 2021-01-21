@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Specifications on themelio</title>
+    <link>https://docs.themelio.org/specifications/</link>
+    <description>Recent content in Specifications on themelio</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright © 2020 Themelio Labs (https://themelio.org/)</copyright>
+    <lastBuildDate>Sat, 29 Dec 2018 11:02:05 +0600</lastBuildDate><atom:link href="https://docs.themelio.org/specifications/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MelVM</title>
+      <link>https://docs.themelio.org/specifications/melvm-specification/</link>
+      <pubDate>Sat, 29 Dec 2018 11:02:05 +0600</pubDate>
+      
+      <guid>https://docs.themelio.org/specifications/melvm-specification/</guid>
+      <description>MelVM: low-level covenant VM Overview MelVM is the low-level, stack-based virtual machine that powers Themelio covenants. By only allowing looping for a fixed number of iterations, MelVM makes the worst-case cost of each covenant computable, trading off Turing completeness. Unlike Bitcoin scripts, however, MelVM covenants can compute all primitive recursive functions, allowing expressing almost all &amp;ldquo;interesting&amp;rdquo; constructs.
+Memory model MelVM uses a Harvard architecture where the code itself is not part of the memory space.</description>
+    </item>
+    
+    <item>
+      <title>MelScript</title>
+      <link>https://docs.themelio.org/specifications/melscript-specification/</link>
+      <pubDate>Sat, 29 Dec 2018 11:02:05 +0600</pubDate>
+      
+      <guid>https://docs.themelio.org/specifications/melscript-specification/</guid>
+      <description>MelScript specification Basic concepts MelScript is a Lisp-like, purely functional, Turing-incomplete language for writing constraints in Themelio. It&amp;rsquo;s the basic &amp;ldquo;medium-level&amp;rdquo; language used in Themelio constraints.
+It compiles in a very straightforward manner to constraint bytecode &amp;mdash; core functions map directly to bytecode, while everything else is macros layered on top.
+The basic data type of MelScript is a linked-list representation of a RLP-encoded object: either a bytestring, or a list of bytestrings.</description>
+    </item>
+    
+    <item>
+      <title>Glossary</title>
+      <link>https://docs.themelio.org/specifications/glossary/</link>
+      <pubDate>Sat, 29 Dec 2018 11:02:05 +0600</pubDate>
+      
+      <guid>https://docs.themelio.org/specifications/glossary/</guid>
+      <description>State elements constitute the components of the world state
+ Blocks are defined by their constituent transactions, optionally with a consensus proof Consensus proofs are attached to blocks, turning them into confirmed blocks. The world state contains history and coin state   Each transaction has:
+ Transaction inputs, each of which spends a coin (mapping in the coin state) by unlocking its covenant Transaction outputs, each of which has a value, a denomination, and a MelVM covenant Attached data   Currencies:</description>
+    </item>
+    
+  </channel>
+</rss>

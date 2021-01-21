@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Try Themelio on themelio</title>
+    <link>https://docs.themelio.org/try-themelio/</link>
+    <description>Recent content in Try Themelio on themelio</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright © 2020 Themelio Labs (https://themelio.org/)</copyright>
+    <lastBuildDate>Sat, 29 Dec 2018 11:02:05 +0600</lastBuildDate><atom:link href="https://docs.themelio.org/try-themelio/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My first alphanet transaction</title>
+      <link>https://docs.themelio.org/try-themelio/alphanet-client/</link>
+      <pubDate>Sat, 29 Dec 2018 11:02:05 +0600</pubDate>
+      
+      <guid>https://docs.themelio.org/try-themelio/alphanet-client/</guid>
+      <description>This document will guide you through setting up a Themelio alphanet client and sending your first transaction. Before you follow the steps listed here, you probably want to read the introduction to Themelio to understand some basic concepts.
+Assumptions All the instructions here assume that
+ You&amp;rsquo;re running a Unix (Linux or macOS) system. The alphanet client should work on Windows, but it isn&amp;rsquo;t well-tested. You have a working Internet connection You have git installed You have a stable Rust compiler, including the cargo command  Install themelio-core Install themelio-core with cargo directly from GitHub:</description>
+    </item>
+    
+    <item>
+      <title>Running an auditor node</title>
+      <link>https://docs.themelio.org/try-themelio/auditor-node/</link>
+      <pubDate>Sat, 29 Dec 2018 11:02:05 +0600</pubDate>
+      
+      <guid>https://docs.themelio.org/try-themelio/auditor-node/</guid>
+      <description>Running an auditor node This document will guide you through setting up an auditor, which is the equivalent of a full node in most other blockchains. An auditor replicates every consensus-confirmed block, validating its contents and ensuring network security while providing a local cache of the entire blockchain state.
+Assumptions All the instructions here assume that you have an up-to-date themelio-core binary installed. If not, simply install it with cargo:</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -3,19 +3,19 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-3">
-          <ul class="sidebar">
-            {{ $currentNode := . }}
-<!--            <a class="back-btn" href="{{ .Site.BaseURL | relLangURL }}"></a>-->
-            {{range .Site.Home.Sections.ByWeight}}
-            {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode}}
-            {{ end }}
-          </ul>
+        <ul class="sidebar">
+          {{ $currentNode := . }}
+          <!--            <a class="back-btn" href="{{ .Site.BaseURL | relLangURL }}"></a>-->
+          {{range .Site.Home.Sections.ByWeight}}
+          {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode}}
+          {{ end }}
+        </ul>
       </div>
       <div class="col-lg-9">
         <div class="p-lg-5 p-4 bg-white">
           <h1 class="mb-1">{{ .Title }}</h1>
           {{ if .Content }}
-          <hr/>
+          <hr />
           <div class="content">{{.Content}}</div>
           {{ else }}
           <div class="bg-light p-4">
@@ -51,7 +51,7 @@
             {{end}}
             {{ $pages := ($currentNode.Scratch.Get "pages") }}
 
-            {{ range $pages.ByWeight  }}
+            {{ range $pages.ByWeight }}
             {{ template "menu-nextprev" dict "menu" . "currentnode" $currentNode }}
             {{end}}
             {{ end }}
@@ -80,22 +80,26 @@
 {{ $fileUniqueID := "" }}
 {{ with .File }}{{ $fileUniqueID = .UniqueID }}{{ end }}
 {{ $currentNodeFileUniqueID := "" }}
+{{ $numberOfPages := (add (len .Pages) (len .Sections)) }}
 {{ with $currentNode.File }}{{ $currentNodeFileUniqueID = .UniqueID }}{{ end }}
 <li data-nav-id="{{.Permalink}}" title="{{.Title}}" class="sidelist
   {{if eq $fileUniqueID $currentNodeFileUniqueID}}active{{end}}">
-  <a href="{{.Permalink}}">
-    {{safeHTML .Params.Pre}}{{or .Params.menuTitle .LinkTitle .Title}}{{safeHTML .Params.Post}}
-  </a>
-  {{ $numberOfPages := (add (len .Pages) (len .Sections)) }}
   {{ if ne $numberOfPages 0 }}
-    <ul class="col-lg-12">
-      {{ range .Pages.ByWeight }}
-        {{ if and .Params.hidden (not $.showhidden) }}
-        {{else}}
-          {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode }}
-        {{end}}
-      {{end}}
-    </ul>
+  <span class="navsection">
+    {{safeHTML .Params.Pre}}{{or .Params.menuTitle .LinkTitle .Title}} {{safeHTML .Params.Post}}
+  </span>
+  <ul class="col-lg-12">
+    {{ range .Pages.ByWeight }}
+    {{ if and .Params.hidden (not $.showhidden) }}
+    {{else}}
+    {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode }}
+    {{end}}
+    {{end}}
+  </ul>
+  {{else}}
+  <a href="{{.Permalink}}">
+    {{safeHTML .Params.Pre}}{{or .Params.menuTitle .LinkTitle .Title}} {{safeHTML .Params.Post}}
+  </a>
   {{ end }}
 </li>
 

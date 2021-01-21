@@ -26,7 +26,6 @@
     --text-color-dark:{{ .Site.Params.text_color_dark }};
     --white-color:{{ .Site.Params.white_color }};
     --light-color:{{ .Site.Params.light_color }};
-    --font-family:{{ replace .Site.Params.font_family ' ' '+' | title }};
   }
   </style>
 
@@ -48,7 +47,6 @@
 {{ "<!-- match-height JS -->" | safeHTML }}
 <script src="{{ `plugins/match-height/jquery.matchHeight-min.js` | absURL }}"></script>
 
-{{ template "_internal/google_analytics.html" . }}
   
 {{ if templates.Exists ( printf "partials/overrides/header.html" ) }}
   {{ partial "partials/overrides/header.html" . }}
