@@ -153,7 +153,6 @@ ul {
   list-style-type: none;
   margin: 0px;
   padding-left: 0;
-  font-size: 15px;
 }
 
 ol {
@@ -579,6 +578,11 @@ textarea.form-control {
   opacity: 0.3;
   left: 0;
   top: 8px;
+}
+
+li {
+  margin-bottom: 0 !important;
+  margin-top: 5px;
 }
 
 .list-styled li {

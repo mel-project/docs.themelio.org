@@ -10,6 +10,13 @@ googleAnalytics = "" # paste your analytics ID here. (Ex: UA-123-45)
 [markup.goldmark.renderer]
 unsafe = true
 
+[markup]
+  [markup.tableOfContents]
+    endLevel = 3
+    ordered = true
+    startLevel = 1
+
+
 
 ############################# Default Parameters ##########################
 [params]

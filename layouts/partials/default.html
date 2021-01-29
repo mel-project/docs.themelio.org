@@ -15,6 +15,7 @@
         <div class="p-lg-5 p-4 bg-white">
           <h1 class="mb-1">{{ .Title }}</h1>
           {{ if .Content }}
+          {{ .TableOfContents }}
           <hr />
           <div class="content">{{.Content}}</div>
           {{ else }}
@@ -72,6 +73,8 @@
 {{ "<!-- /details page -->" | safeHTML }}
 
 <!-- templates -->
+
+
 {{ define "section-tree-nav" }}
 {{ $showvisitedlinks := .showvisitedlinks }}
 {{ $currentNode := .currentnode }}
