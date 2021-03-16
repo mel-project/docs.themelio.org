@@ -1,32 +1,88 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Specifications on themelio</title>
+    <title>Specifications on Themelio knowledge base</title>
     <link>https://docs.themelio.org/specifications/</link>
-    <description>Recent content in Specifications on themelio</description>
+    <description>Recent content in Specifications on Themelio knowledge base</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright © 2020 Themelio Labs (https://themelio.org/)</copyright>
     <lastBuildDate>Sat, 29 Dec 2018 11:02:05 +0600</lastBuildDate><atom:link href="https://docs.themelio.org/specifications/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>MelVM</title>
+      <title>Themelio Yellow Paper v1</title>
+      <link>https://docs.themelio.org/specifications/yellow/</link>
+      <pubDate>Sat, 29 Dec 2018 11:02:05 +0600</pubDate>
+      
+      <guid>https://docs.themelio.org/specifications/yellow/</guid>
+      <description>In this &amp;ldquo;yellow paper&amp;rdquo;, we discuss Themelio&amp;rsquo;s abstract model of the state of the blockchain. Themelio uses a richly-scripted coin-based model that is different from both the simple coin-based model of Bitcoin and the accounts-and-contracts model of Ethereum.
+ Basic concepts Blockchains as state machines Throughout this yellow paper, we will be discussing Themelio as a transaction-based state machine, a conceptual framework introduced by the creators of Ethereum in their yellow paper.</description>
+    </item>
+    
+    <item>
+      <title>Consensus specification (WIP)</title>
+      <link>https://docs.themelio.org/specifications/consensus-spec/</link>
+      <pubDate>Sat, 29 Dec 2018 11:02:05 +0600</pubDate>
+      
+      <guid>https://docs.themelio.org/specifications/consensus-spec/</guid>
+      <description>In this page, we specify Synkletos, Themelio&amp;rsquo;s consensus algorithm. We give a concrete instantiation of the concepts discussed in the Synkletos whitepaper.
+ Basic concepts Let&amp;rsquo;s start by introducing some basic concepts that are needed to understand Synkletos.
+Three consensus roles In Themelio, all participants in the blockchain belong to one of three roles:
+ Stakers directly participate in consensus. They have stake, denominated in Sym, locked up on-chain, and receive consensus voting power in exchange.</description>
+    </item>
+    
+    <item>
+      <title>Melmint v2 specification (WIP)</title>
+      <link>https://docs.themelio.org/specifications/tech-melmint/</link>
+      <pubDate>Sat, 29 Dec 2018 11:02:05 +0600</pubDate>
+      
+      <guid>https://docs.themelio.org/specifications/tech-melmint/</guid>
+      <description>In this page, we will fully specify the actual workings of Melmint on the Themelio blockchain. This is in contrast to the whitepaper, which only provides a high-level design.
+We call the mechanism Melmint v2 because it has some several important differences with the &amp;ldquo;paper&amp;rdquo; Melmint version.
+ Introduction &amp;ldquo;Paper Melmint&amp;rdquo; In our original publication, Melmint is divided into two halves:
+ A DOSC/sym auction that establishes a DOSC/sym exchange rate A mel/sym exchange guarantee that allows anybody to destroy 1 mel in exchange for $k$ DOSC worth of newly printed syms, or vice versa, minus a small fee.</description>
+    </item>
+    
+    <item>
+      <title>Melnet specification (WIP)</title>
+      <link>https://docs.themelio.org/specifications/melnet-spec/</link>
+      <pubDate>Sat, 29 Dec 2018 11:02:05 +0600</pubDate>
+      
+      <guid>https://docs.themelio.org/specifications/melnet-spec/</guid>
+      <description>Melnet is an almost trivial request/response protocol that underpins Themelio&amp;rsquo;s peer-to-peer network.
+Basic semantics Each peer-to-peer network is identified with a netname, which is sent with all requests.
+The only kind of communication pattern is a simple request-response, which is sent over a TCP connection. The way the connection is used is similar to HTTP/1.1: the client sends a request over a connection, waiting for the response before sending another one.</description>
+    </item>
+    
+    <item>
+      <title>MelVM: low-level covenant VM </title>
       <link>https://docs.themelio.org/specifications/melvm-specification/</link>
       <pubDate>Sat, 29 Dec 2018 11:02:05 +0600</pubDate>
       
       <guid>https://docs.themelio.org/specifications/melvm-specification/</guid>
-      <description>MelVM: low-level covenant VM Overview MelVM is the low-level, stack-based virtual machine that powers Themelio covenants. By only allowing looping for a fixed number of iterations, MelVM makes the worst-case cost of each covenant computable, trading off Turing completeness. Unlike Bitcoin scripts, however, MelVM covenants can compute all primitive recursive functions, allowing expressing almost all &amp;ldquo;interesting&amp;rdquo; constructs.
+      <description>Overview MelVM is the low-level, stack-based virtual machine that powers Themelio covenants. By only allowing looping for a fixed number of iterations, MelVM makes the worst-case cost of each covenant computable, trading off Turing completeness. Unlike Bitcoin scripts, however, MelVM covenants can compute all primitive recursive functions, allowing expressing almost all &amp;ldquo;interesting&amp;rdquo; constructs.
 Memory model MelVM uses a Harvard architecture where the code itself is not part of the memory space.</description>
     </item>
     
     <item>
-      <title>MelScript</title>
+      <title>MelScript: high-level covenant language (WIP)</title>
       <link>https://docs.themelio.org/specifications/melscript-specification/</link>
       <pubDate>Sat, 29 Dec 2018 11:02:05 +0600</pubDate>
       
       <guid>https://docs.themelio.org/specifications/melscript-specification/</guid>
-      <description>MelScript specification Basic concepts MelScript is a Lisp-like, purely functional, Turing-incomplete language for writing constraints in Themelio. It&amp;rsquo;s the basic &amp;ldquo;medium-level&amp;rdquo; language used in Themelio constraints.
-It compiles in a very straightforward manner to constraint bytecode &amp;mdash; core functions map directly to bytecode, while everything else is macros layered on top.
-The basic data type of MelScript is a linked-list representation of a RLP-encoded object: either a bytestring, or a list of bytestrings.</description>
+      <description>The high-level MelScript language is essentially an extension of simply typed lambda calculus, packaged in a friendly syntax.
+Structure of a MelScript covenant A MelScript covenant consists of zero or more definitions followed by a single expression. Each definition itself follows an analogous structure.
+Here&amp;rsquo;s an example that constraints a coin to only be spent in a transaction whose total output in micromels is odd, and has less than 16 outputs:</description>
+    </item>
+    
+    <item>
+      <title>Fastsync protocol</title>
+      <link>https://docs.themelio.org/specifications/fastsync/</link>
+      <pubDate>Sat, 29 Dec 2018 11:02:05 +0600</pubDate>
+      
+      <guid>https://docs.themelio.org/specifications/fastsync/</guid>
+      <description>The fastsync protocol is used by both stakers and auditors to catch up to the latest confirmed SealedState without starting from the genesis block and applying block after block.
+This is done through a two-step process:
+ The &amp;ldquo;catcher-up&amp;rdquo; does a InitFastSync request. The server responds with a host:port where the fastsync protocol will be run. The catcher-up connects to host:port over TCP and initiates the fastsync protocol. This consists of the server serializing the entire state and streaming it, while the client receives.</description>
     </item>
     
     <item>

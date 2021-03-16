@@ -11,11 +11,10 @@
           {{ end }}
         </ul>
       </div>
-      <div class="col-lg-9">
+      <div class="col-lg-6 col-xl-6">
         <div class="p-lg-5 p-4 bg-white">
           <h1 class="mb-1">{{ .Title }}</h1>
           {{ if .Content }}
-          {{ .TableOfContents }}
           <hr />
           <div class="content">{{.Content}}</div>
           {{ else }}
@@ -25,7 +24,6 @@
             </ul>
           </div>
           {{ end }}
-          <p class="post-meta border-bottom pb-3 mb-0 mt-3">Updated on {{ .Lastmod.Format "02 Jan 2006" }}</p>
           <nav class="pagination mt-3">
             <!-- Next prev page -->
             {{ $currentNode := . }}
@@ -66,6 +64,9 @@
             {{end}}
           </nav>
         </div>
+      </div>
+      <div class="d-none d-lg-block col-lg-3">
+        <div id="toc-container">{{ .TableOfContents }}</div>
       </div>
     </div>
   </div>

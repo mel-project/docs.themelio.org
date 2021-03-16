@@ -1,5 +1,5 @@
 ---
-title: "MelScript"
+title: "MelScript: high-level covenant language (WIP)"
 date: 2018-12-29T11:02:05+06:00
 lastmod: 2020-01-05T10:42:26+06:00
 weight: 12
@@ -8,221 +8,221 @@ draft: false
 keywords: [""]
 ---
 
-# MelScript specification
+The high-level MelScript language is essentially an extension of simply typed lambda calculus, packaged in a friendly syntax.
 
-## Basic concepts
+## Structure of a MelScript covenant
 
-MelScript is a Lisp-like, purely functional, Turing-incomplete language for writing constraints in Themelio. It's the basic "medium-level" language used in Themelio constraints.
+A MelScript covenant consists of zero or more **definitions** followed by a single **expression**. Each definition itself follows an analogous structure.
 
-It compiles in a very straightforward manner to constraint bytecode --- core functions map directly to bytecode, while everything else is macros layered on top.
+Here's an example that constraints a coin to only be spent in a transaction whose total output in micromels is odd, and has less than 16 outputs:
 
-The basic data type of MelScript is a linked-list representation of a RLP-encoded object: either a bytestring, or a list of bytestrings.
+```lua
+using globals::CURRENT_TX
+using std
+
+function total_output[$OCOUNT]() -> Nat
+    CURRENT_TX.outputs |>
+                    limit[$OCOUNT]() |>
+                    filter((coin: std::TxOutput) => coin.coin_type == std::TMEL) |>
+                    map((coin: std::TxOutput) => coin.value)
+end
+
+total_output[$16]() % 2 == 1
+```
+
+## MelScript's type system
+
+MelScript uses a type system heavily based on "const generics" to enable richly-featured programming with compile-time-determined runtime cost. The type system is fundamentally structural, and types can be completely understood as describing sets of values. Parametric polymorphism \("generics"\) is supported, implemented entirely by monomorphization \("templates"\) _after_ typechecking, like Rust and unlike C++.
+
+### Base types
+
+There are four base types:
+
+- `Nat`, representing an unsigned 256-bit integer
+- `Int`, representing a signed 256-bit integer
+- `Bool`, representing a boolean
+- `Bytes[$N]`, a const-generic type representing a byte array with _exactly_ `N` elements.
+- `VarBytes[$N]`, a const-generic type representing a byte array with _at most_ `N` elements. `VarBytes[$N]` is a supertype of `Bytes[$N]`
+
+### Product types
+
+There are three kinds of product types:
+
+- Tuples, written as `(T, U, V...)`. They are fixed-length, and elements can be accessed as `tuple.0` etc.
+- Arrays, written as `Array[T; $N]` representing a fixed-length array of exactly `N` elements, all of type `T`.
+- Variable-length arrays, written as `VarArray[T; $N]`, representing an array that has up to `N` elements. `VarArray[T; $N]` is a supertype of `Array[T; $N]`.
+
+### Sum types
+
+A sum type between `T` and `U` is denoted as `T+U`. For example, a value with type `Nat + (Int, Int)` may either be an unsigned integer or a tuple of two signed integers.
+
+The special type `Any` essentially denotes a type that could be any type.
+
+Sum types can be disambiguated through conditionals and the `is` operator:
+
+```lua
+-- if v is an integer, return itself
+-- otherwise return 0
+function force_to_int(v: Any) -> Int
+    if v is Int then
+        v
+    else
+        0
+    end
+end
+```
+
+### Subtraction types
+
+A subtraction type between `T` and `U` is denoted as `T \ U`. This denotes a value that is in type `T` but not in type `U`.
+
+For example, a value with type `Int \ Nat` must be a negative integer.
+
+### Type aliases
+
+Type aliases give a name to a complex type so that type signatures don't become extremely cumbersome to type.
+
+#### Simple aliases
+
+```lua
+-- Point is just another name for (Int, Int)
+alias Point = (Int, Int)
+```
+
+#### Struct aliases
+
+Struct aliases have special behavior: they allow field-accessor syntax that can be used whenever a variable is explicitly given a particular alias. This exception to purely structural typing allows us to define semantically distinct structures:
+
+```lua
+-- Point is essentially equivalent to (Int, Int), but with a field-accessor syntax
+alias Point = {
+    x: Int,
+    y: Int,
+}
+
+-- syntax examples
+let pt = Point { x: 3, y: 5 }
+pt.x -- "struct" syntax
+pt.0 -- but this still works
+(1, 5) is Point -- but this returns true
+-- and we can do this
+let pp = (1, 5)
+if pp is Point then
+    pp.x
+else
+    0
+end
+```
+
+### Occurrence typing
+
+In previous examples, we've already seen MelScript's **occurrence typing** in action. The type of a variable may be **refined** within a certain scope based on predicates.
+
+The simplest example is the `is` operator that returns `true` iff the argument is a certain type:
+
+```lua
+let foo: Int | (Nat, Nat) = ...
+-- at this point, foo has type "Int | (Nat, Nat)"
+if foo is Int then
+    -- now, foo has type "Int"
+    foo + 1
+else
+    -- we know that here foo could only be of type "(Nat, Nat)"
+    foo.0 + 1
+```
+
+We can also use `assert` to assert that something is a certain type, aborting the whole script if it fails:
+
+```lua
+let foo: Int = ...
+-- this is only defined for positive integers. Nat is a subtype of Int
+int_sqrt(assert foo as Nat)
+```
 
 ## Syntax
 
-### Literals
+### Arithmetic expressions
 
-Literals are one of:
+We use the usual infix syntax
 
-* Decimal numbers, always representing unsigned big-endian represented with the smallest number of bytes: `12345`
-* Hexadecimal bytestrings: `#xdeadbeef00`
-* Literal strings, interpreted as UTF-8: `"Hello World"`
+```lua
+x + y -- addition
+x * y -- multiplication
+x - y -- subtraction
+x / y -- integer division
+x % y -- remainder
+-x    -- negation
 
-### Program structure
-
-Programs consist of:
-
-* Macro definitions
-* One body expression
-
-### Macros
-
-Macros look like:
-
-```scheme
-(define (form args...) expr)
+      -- bitwise operations only on Nat
+x ^ y -- bitwise xor. NOT exponentiation, which wouldn't be constant-time
+x | y -- bitwise or
+x & y -- bitwise and
+~x    -- bitwise not
 ```
 
-which will replace `(form args..)` with `expr` in the body of the program.
+### Boolean expressions
 
-They may also simply define a constant:
+Boolean expressions are short-circuited as expected.
 
-```scheme
-(define form expr)
+```lua
+x and y
+x or y
+not x
 ```
 
-## Core forms
+### Looping and flow control
 
-All core functions have a fixed number of arguments and directly correspond to assembly. For example, the expression `(~add256 x-expr y-expr)` compiles to
+The `if` form is an **expression**:
 
-```text
-(compile y-expr)
-(compile x-expr)
-ADD256
+```lua
+let foo = if bar then baz else nuu end
 ```
 
-and the semantics of the `ADD256` instruction is `push(pop() + pop())`.
+The `for..do` form is a statement \(an expression with type `()`\), and is run for its side effects:
 
-Core forms starting in a tilde should never appear directly in user code.
-
-### Arithmetic
-
-Arithmetic operations all operate on 256-bit big-endian unsigned integers. Only the last 32 bytes of the inputs are considered, and the operations always return 32-byte values.
-
-```scheme
-(~add256 x y)
-(~sub256 x y)
-(~mul256 x y)
-(~div256 x y)
-(~rem256 x y)
+```lua
+for elem in list do
+    if elem % 2 == 0 then
+        return elem
+    else
+end
 ```
 
-### Boolean operations
+The `for..collect..where` form collects its contents into a list:
 
-Boolean operations are _bitwise_ on the last 32 bytes. They only return 32 bytes.
-
-```scheme
-(~and256 x y)
-(~or256 x y)
-(~xor256 x y)
-(~not256 x)
+```lua
+let even_elems = for elem in list
+    collect elem
+    where elem % 2 == 0
+end
 ```
 
-There's also a **non short-circuited** if operator, which treats its condition as "false" if its last 32 \(or less\) bytes are all zero, and "true" otherwise:
+### Defining functions
 
-```scheme
-(~if256 c true-case false-case)
-```
+Functions are defined like this:
 
-### Equality
-
-Equality is checked only on the first 32 bytes. Hash bigger inputs before comparing them.
-
-```scheme
-(~equal256? x y)
-```
-
-### Hashing
-
-Hashing takes a single input and returns a 32-byte hash. This input can either an RLP structure or a byte string; RLP structures are implicitly serialized.. It takes variable time, but this is okay, since building a bigger input would have taken more instructions anyway.
-
-```scheme
-(hash x)
-```
-
-### Signature verification
-
-Both Q and E signatures can be verified.
-
-```scheme
-(sigQ-ok? public-key msg-hash signature)
-(sigE-ok? public-key msg-hash signature)
-```
-
-**As a special case**, if both the `signature` and `msg-hash` field is zero-length, then we iterate through the `Signatures` field in the spending transaction to try to find a matching signature. This special case is used in the vast majority of single-signature and multisignature wallets.
-
-In general, using `sigQ-ok?` outside this special case \(say, with `Data` members\) requires some care, since signatures may be malleable.
-
-### RLP operations
-
-RLP structures are treated as nested Lisp-style linked lists with explicit length tracking. Explicit serialization and deserialization is intentionally not provided; core functions like `hash` implicitly serialize any RLP inputs.
-
-```scheme
-(cons head lst)
-(car lst)
-(cdr lst)
-(length lst)
-empty
-```
-
-### Environment
-
-The execution environment is accessed through the special "function" `env`. This is literally compiled as, for example
-
-```text
-PUSH "SELFHASH"
-ENV
-```
-
-Accessing a nonexistent environment variable will result in instantly failing the constraint. The following environment variables are available:
-
-```scheme
-;; Hash of the compiled constraint code itself 
-(env 'SELFHASH)
-
-;; Transaction output in which the constraint is embedded, as an RLP structure
-(env 'SELFTXOH) ; TxOutputAndHeight structure
-(env 'SELFTXI)  ; TxInput structure
-
-;; Spender (the transaction spending the coin having this constraint)
-(env 'SPENDTX) ; whole transaction as RLP, with ZEROED-OUT SIGNATURE FIELD! (for hash)
-(env 'SPENDSIGS) ; signature field of the transaction
-
-;; Last block header (if TX at block n, header n-1)
-(env 'LASTHEADER)
-```
-
-## Built-in macros
-
-### Arithmetic, boolean, and equality
-
-Arithmetic, boolean, and equality operators can take multiple arguments.
-
-```scheme
-(+ x y z...) => (~add256 x (~add256 y (~add256 z ...)))
-(= x y z...) => (~equal256? x (~equal256? y (~equal256? z ...)))
-(or x y z...)
+```lua
+function f(x: Int, y: Int) -> Int
 ...
+end
 ```
 
-### List operations
+MelScript does not at the moment support higher-order functions or anonymous functions.
 
-List operations expand to a bunch of cars, conds, etc.
+### Modules
 
-```scheme
-;; get the nth element of a list
-(ref lst 0) => (car lst)
-(ref lst n) => (ref (cdr lst) (- n 1))
+Each module corresponds to a file.
+
+Something is exported by prepending its definition by `public`:
+
+```lua
+public function...
+public type ...
 ```
 
-### Conditions
+Importing another module uses the `using` keyword. Local files can be used too.
 
-There's two ways of accessing the `~if256` core form:
-
-```scheme
-(if c x y) => (~if256 c x y)
-
-(cond
-  [c1 e1]
-  [c2 e2]
-  ...
-  [else ex]) => (~if256 c1 e1 
-                  (cond [c2 e2]...))
+```lua
+using std
+using "some_file" as sfile -- creates namespace sfile::* in this file
 ```
-
-## Bytecode weights
-
-The weight of a constraint is computed as $$\ell + \sum_iw_i$$, where $$\ell$$ is the length of the constraint and $$w_i$$ is the weight of the ith instruction. Here are the weights of the instructions:
-
-| Instruction | Encoding | Weight |
-| :--- | :--- | :--- |
-| ADD256 | 0x10 | 4 |
-| SUB256 | 0x11 | 4 |
-| MUL256 | 0x12 | 6 |
-| DIV256 | 0x13 | 6 |
-| REM256 | 0x14 | 6 |
-| AND256 | 0x1a | 4 |
-| OR256 | 0x1b | 4 |
-| XOR256 | 0x1c | 4 |
-| IF256 | 0x1f | 4 |
-| EQUAL256 | 0x20 | 4 |
-| HASH | 0x30 | 50 |
-| SIGEOK | 0x40 | 100 |
-| SIGQOK | 0x41 | 1000 |
-| CONS | 0x50 | 50 |
-| CAR | 0x51 | 6 |
-| CDR | 0x52 | 6 |
-| LENGTH | 0x53 | 6 |
-| ENV | 0xa0 | 50 |
-| PUSH | 0x00 | 0 |
-

@@ -1,5 +1,5 @@
 ---
-title: "Themelio Yellow Paper"
+title: "Themelio Yellow Paper v1"
 date: 2018-12-29T11:02:05+06:00
 lastmod: 2020-01-22
 weight: 1
@@ -98,11 +98,18 @@ We now discuss some supporting functions and datatypes that will be recurring in
 
 ### Serialization
 
-Themelio uses [bincode](https://crates.io/crates/bincode) serialization in its default configuration. Bincode has the following properties that make it very suitable for serialization Themelio data:
+Themelio uses [bincode](https://crates.io/crates/bincode) serialization. Bincode has the following properties that make it very suitable for serializing Themelio data:
 
 - Very fast
 - Well-integrated with Rust's `serde` serialization ecosystem
 - Each serializable object has one canonical serialization. This makes concepts like "the hash of a transaction" trivially well-defined.
+
+In particular, we use bincode with:
+
+- Little-endian, varint encoding of integers
+- Trailing bytes banned
+
+(see the [source code](https://github.com/themeliolabs/themelio-core/blob/master/libs/stdcode/src/lib.rs))
 
 We omit serialization and deserialization from our algorithm descriptions. For example, the hash of the bincode serialization of $v$ is simply denoted $H(v)$.
 
@@ -134,23 +141,29 @@ The _world state_, `State`, is the basic structure that encapsulates all the inf
 `State` is defined as follows:
 
 ```rust
+pub enum NetID {
+    Testnet = 0x01,
+    Mainnet = 0xff,
+}
+
 pub struct State {
+    // Identifies the network.
+    pub network: NetID
+
     // Core state
     pub height: u64,
     pub history: SmtMapping<u64, Header>,
-    pub coins: SmtMapping<CoinID, CoinDataHeight>,
-    pub transactions: SmtMapping<HashVal, Transaction>,
+    pub coins: SmtMapping<txn::CoinID, txn::CoinDataHeight>,
+    pub transactions: SmtMapping<HashVal, txn::Transaction>,
 
     // Fee economy state
-    pub fee_pool: u64,
-    pub fee_multiplier: u64,
-    pub tips: u64,
+    pub fee_pool: u128,
+    pub fee_multiplier: u128,
+    pub tips: u128,
 
-    // Melmint state
-    pub dosc_speed: u64,
-    pub auction_bids: SmtMapping<HashVal, Transaction>,
-    pub sym_price: u64,
-    pub mel_price: u64,
+    // Melmint/Melswap state
+    pub dosc_speed: u128,
+    pub pools: PoolMapping,
 
     // Consensus state
     pub stakes: SmtMapping<HashVal, StakeDoc>,
@@ -161,12 +174,32 @@ We now take a look at its individual elements.
 
 ## Core state
 
+### Network ID
+
+The state always carries a _network ID_, which identifies whether the state belongs to the canonical "mainnet" (`NetID::Mainnet`) or a temporary "testnet". The genesis state has a hardcoded network ID, and this ID can never be changed by any state transition. This makes different network separate at the level of the state-transition function.
+
 ### Height and history
 
 The first two elements position the state within the series of blocks that form the blockchain:
 
 - `State::height` is number of blocks since the beginning of the blockchain. Thus, we talk about the block with height 0, 1, 2, ...
-- `State::history` is a SMT that maps each _previous_ height with a `Header`. `Header` is a type that summarizes a `State`; we will cover it in TODO.
+- `State::history` is a SMT that maps each _previous_ height with a `Header`. `Header` is a fixed-size type that summarizes and commits to `State`:
+
+```rust
+pub struct Header {
+    pub network: NetID,
+    pub previous: HashVal,
+    pub height: u64,
+    pub history_hash: HashVal,
+    pub coins_hash: HashVal,
+    pub transactions_hash: HashVal,
+    pub fee_pool: u128,
+    pub fee_multiplier: u128,
+    pub dosc_speed: u128,
+    pub pools_hash: HashVal,
+    pub stake_doc_hash: HashVal,
+}
+```
 
 ### Coin mapping
 
@@ -203,7 +236,7 @@ This essentially encapsulates the transaction's "associated data". More specific
 - `denom` identifies the denomination of the coin. Generally, this is the hash of the transaction that first created the new denomination. There are three special cases for builtin assets:
   - `m` identifies micromels
   - `s` identifies microsyms
-  - `d-$WEEK`, where `$WEEK` is the block number divided by 20000, identifies DOSCs created during week `$WEEK`
+  - `d` identifies microdosc
 
 The basic action of a transaction is to remove coins from `State::coins` and put newly created coins in.
 
@@ -211,7 +244,7 @@ The basic action of a transaction is to remove coins from `State::coins` and put
 
 The transaction mapping contains all the transactions within the last
 block, mapping the transaction hash $H(T)$ to the transaction
-$T$. Transactions themselves are structures which we'll describe in TODO.
+$T$. Transactions themselves are structures which we'll describe in a later section.
 
 Note that the world state does not anywhere contain the ordering of the
 transactions. This is because **transactions within a block are unordered**: unlike almost all existing blockchains, there is no
@@ -228,16 +261,14 @@ The fee economy state consists of:
 
 These variables interact with Themelio's fee system, which we will describe in the transaction-level and block-level state transition functions.
 
-## Melmint state
+## Melmint/Melswap state
 
-The Melmint state is used to control the [Melmint](/whitepapers/melmint) mechanism that stabilizes the value of each mel. This consists of:
+The Melmint/Melswap state is used to control the [Melmint](/specifications/tech-melmint) mechanism that stabilizes the value of each mel. This consists of:
 
 - `State::dosc_speed`, the **DOSC speed** that measures how much work the fastest processor can do in 24 hours.
-- `State::auction_bids`, a mapping of all **auction-bid transactions** in the current DOSC auction. For all transactions $T$, the mapping maps $H(T) \Rightarrow T$.
-- `State::sym_price` tracks the auction-based sym price, in µDOSC/sym.
-- `State::mel_price` tracks the pegged mel price, in µDOSC/mel. This is almost always 1,000,000.
+- `State::pools`, a mapping from token denominations to values of type `PoolState`
 
-Melmint's design is described in its whitepaper, and the precise ways these variables are used will be discussed when we describe the state transition functions.
+The precise ways these variables are used are discussed in the [Melmint/Melswap specification](/specifications/tech-melmint).
 
 ## Consensus state
 
@@ -285,12 +316,12 @@ pub struct Transaction {
 pub enum TxKind {
     Normal = 0x00,
     Stake = 0x10,
-    DoscMint = 0x50,
-    AuctionBid = 0x51,
-    AuctionBuyout = 0x52,
-    AuctionFill = 0x53,
 
-    // testing only
+    DoscMint = 0x50,
+    Swap = 0x51,
+    LiqDeposit = 0x52,
+    LiqWithdraw = 0x53,
+
     Faucet = 0xff,
 }
 ```
@@ -307,7 +338,7 @@ pub enum TxKind {
 
 ### Applying a transaction to the world state
 
-Now that we know the elements of each transaction $T$, we can describe the transaction-level state transition function $\Upsilon$. Applying a transaction to the state involves three steps: $\Upsilon^I$, where the inputs of the transaction are spent, $\Upsilon^O$, where the outputs of the transaction are added to the state, and $\Upsilon^*$, where effects and constraints of non-ordinary kinds are applied.
+Now that we know the elements of each transaction $T$, we can describe the transaction-level state transition function $\Upsilon$. Applying a transaction to the state involves three steps: $\Upsilon^I$, where the inputs of the transaction are spent, $\Upsilon^O$, where the outputs of the transaction are added to the state, and $\Upsilon^S$, where effects and constraints of non-ordinary kinds are applied.
 
 The algorithm of applying and verifying a transaction against a world state is described as follows. We will discuss ``special'' transactions, the fee economy, and MelScript constraints separately.
 
@@ -336,14 +367,14 @@ No checking is done in this phase; we simply add the outputs into the state. For
   - **for** each $i$th $\mathtt{coindata}$ in $T.\mathtt{outputs}$
     - **if** $\mathtt{coindata.denom}$ has length zero,
       - **set** $\mathtt{coindata.denom}$ to $H(T)$
-    - **insert** $\mathtt{CoinID\{txhash: H(T), index: i \}}$ into $\sigma.\mathtt{coins}$
+    - **insert** $\mathtt{CoinID\\{txhash: H(T), index: i \\}}$ into $\sigma.\mathtt{coins}$
   - **return** the changed $\sigma$
 
 #### Applying "special" actions
 
 Here we handle all the special actions of non-`Normal` transactions.
 
-- $\Upsilon^*(\sigma,T)$:
+- $\Upsilon^S(\sigma,T)$:
   - **if** $T.\mathtt{kind}=\mathtt{DoscMint}$
     - **let** $\mathtt{cdh}=\sigma.\mathtt{coins}[T.\mathtt{inputs}[0]]$
     - **if** $\sigma.\mathtt{height} - \mathtt{cdh.height} < 100$ then **abort** (can't measure such small timeframes accurately)
@@ -353,15 +384,53 @@ Here we handle all the special actions of non-`Normal` transactions.
     - **measure** speed of minter $\mathtt{my\\_speed}$ as $2^d/(\sigma.\mathtt{height} - \mathtt{cdh.height})$
     - **let** $\delta=\frac{2^d \times \mathtt{my\\_speed}}{\sigma.\mathtt{dosc\\_speed}}$
     - **ensure** that the total output DOSC do not exceed $\delta$
-  - **else if** $T.\mathtt{kind}=\mathtt{AuctionBid}$
-    - **ensure** that $\sigma.\mathtt{height} \bmod 20 < 10$ (we're in the first half of an auction)
-    - **ensure** that $T.\mathtt{data}$ is 32 bytes (it needs to be a valid covhash)
-    - **ensure** that $T.\mathtt{outputs}[0].\mathtt{denom}$ is DOSC
-    - **insert** $H(T) \Rightarrow T$ to $\sigma.\mathtt{auction\\_bids}$
-  - **else if** $T.\mathtt{kind}=\mathtt{AuctionBuyout}$
-    - **ensure** that $T.\mathtt{inputs}$ has some input $\mathtt{ainput}$ where there is a mapping $\mathtt{ainput} \Rightarrow \mathtt{acoindata}$ in $\sigma.\mathtt{coins}$, where $\mathtt{acoindata}$
+  - **else if** $T.\mathtt{kind}=\mathtt{Stake}$
+    - **check** that $T.\mathtt{data}$ deserializes to a valid `StakeDoc`
+    - **check** that the first input of $T$ is $s$ Sym, where $s$ is the value in `StakeDocs`
+    - **check** that `e_post_end` is greater than `e_start` in the `StakeDoc`, and that `e_start` is in the future
+    - **insert** $H(T) \Rightarrow T.\mathtt{data}$ into $\sigma.\mathtt{stakes}$.
 
 ### Batch-applying transactions
+
+We note two peculiar properties of Themelio transactions. First, for
+normal transactions where $\Upsilon^S$ is a no-op, it's clear that for
+any set of transactions $T_1,T_n$, we obtain the same final state no
+matter in what order we apply the transactions to a starting state.
+There may be orders in which the application fails halfway through (for
+example, attempting to apply $T_j$ before $T_i$ while $T_j$ spends an
+output of $T_j$), but for all valid orders, the result will be the same.
+Intuitively, this is because all transactions do is remove and add
+coins into the state.
+
+Furthermore, the "special action" function $\Upsilon^S$ is carefully designed so that this same property, which we call
+**order-independence**, holds for all transactions. An interesting
+implication of order-independence is that there is no such thing as the
+order of transactions within a block --- blocks contain _sets_, not
+_lists_, of transactions. This is why for a `State` $\sigma$, $\sigma.\mathtt{transactions}$ is an unordered mapping, not a list, of transactions.
+
+Secondly, for each transaction the order in which $\Upsilon_I$ and
+$\Upsilon_O$ is applied does not actually matter. That is, the
+transaction can actually add its outputs to the state before spending
+its inputs, and this will always behave exactly the same way as the
+"natural" order. This is because a transaction can never either directly
+or indirectly refer back to its own outputs in its inputs, due to
+preimage resistance of the hash function.
+
+These two properties allow us to batch-apply an unordered set of
+transactions that may depend on each other --- given a set of transactions $T^{+}=\{T_i\}$ and a
+starting state $\sigma$, produce
+$\sigma' = \Upsilon^+(\sigma, T^+) = \Upsilon(\dots\Upsilon(\Upsilon(\sigma, T_1), T_2), \dots T_n)$
+where $(T_1,\dots,T_n)$ is some topological sorting of the transactions
+--- without actually computing a topological sort at all. This is done by first apply all the outputs, and then applying the inputs and special functions:
+
+- $\Upsilon^+(\sigma, T^+)$:
+  - **for** $T_i \in T^+$
+    - **set** $\sigma= \Upsilon^O(T_i)$
+  - **for** $T_i \in T^+$
+    - **set** $\sigma= \Upsilon^I(T_i)$
+  - **for** $T_i \in T^+ | T_i.\mathtt{kind} \neq \mathtt{Normal}$
+    - **set** $\sigma= \Upsilon^S(T_i)$
+  - **return** $\sigma$
 
 ## Blocks
 
@@ -385,12 +454,13 @@ pub struct ProposerAction {
 
 `SealedState` is produced by the state-sealing function $\Omega(\sigma, P)$. The "proposer action" $P$ is an optional non-transaction action that the block proposer uses to pay himself the fees incurred in the block, as well as up/downvoting the fee level. More specifically,
 
-- `fee_multiplier_delta` represents how much to change $\sigma.\mathtt{fee\\_multiplier}$, where -128 represents the biggest possible decrease and 127 representins the biggest possible increase.. The maximum amount the fee multiplier can change is $1/128$ of the fee multiplier.
+- `fee_multiplier_delta` represents how much to change $\sigma.\mathtt{fee\\_multiplier}$, where -128 represents the biggest possible decrease and 127 representins the biggest possible increase. The maximum amount the fee multiplier can change is $1/128$ of the fee multiplier.
 - `reward_dest` is the covenant hash that the fees of the block will be sent. This is generally an address that the block proposer controls. Every block height, the proposer withdraws $2^{-16}$ times the fee pool, as well as all the tips. This is implemented by adding a coin "out of nowhere" into $\sigma.\mathtt{coins}$.
 
 The state-sealing function is thus:
 
 - $\Sigma=\Omega(\sigma, P)$:
+  - **apply** all Melmint/Melswap-related sealing functionality, described in [its specification](/specifications/tech-melmint)
   - **let** $\mathtt{max\\_movement}=\sigma.\mathtt{fee\\_multiplier}/128$
   - **let** $\mathtt{scaled\\_movement}=\mathtt{max\\_movement}\times P.\mathtt{fee\\_multiplier\\_delta}/128$
   - **increment/decrement** $\sigma.\mathtt{fee\\_multiplier}$ by $\mathtt{scaled\\_movement}$
@@ -404,9 +474,12 @@ The state-sealing function is thus:
 
 ### State advancement
 
-Given a confirmed `SealedState` at height $n$, how does the blockchain proceed? It needs to somehow "advance" the `SealedState` to a `State` at height $n+1$. This is the purpose of the **state-advance function**, $\sigma^0_{n+1}=\Delta(\Sigma_n)$
+Given a confirmed `SealedState` at height $n$, how does the blockchain proceed? It needs to somehow "advance" the `SealedState` to a `State` at height $n+1$. This is the purpose of the **state-advance function**, $\sigma^0_{n+1}=\Delta(\Sigma_n)$:
 
-**TBD**
+- Insert the current block header into `State::history`
+- Advance height by 1
+- Remove all stale entries in `State::stakes`
+- Update `State::dosc_speed`
 
 ### "Block" representation
 

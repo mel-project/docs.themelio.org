@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories on themelio</title>
+    <title>Categories on Themelio knowledge base</title>
     <link>https://docs.themelio.org/categories/</link>
-    <description>Recent content in Categories on themelio</description>
+    <description>Recent content in Categories on Themelio knowledge base</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright © 2020 Themelio Labs (https://themelio.org/)</copyright><atom:link href="https://docs.themelio.org/categories/index.xml" rel="self" type="application/rss+xml" />

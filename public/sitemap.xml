@@ -8,6 +8,11 @@
   </url>
   
   <url>
+    <loc>https://docs.themelio.org/specifications/yellow/</loc>
+    <lastmod>2020-01-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://docs.themelio.org/whitepapers/</loc>
     <lastmod>2020-01-05T10:42:26+06:00</lastmod>
   </url>
@@ -38,7 +43,22 @@
   </url>
   
   <url>
+    <loc>https://docs.themelio.org/specifications/consensus-spec/</loc>
+    <lastmod>2020-01-05T10:42:26+06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://docs.themelio.org/specifications/tech-melmint/</loc>
+    <lastmod>2020-01-05T10:42:26+06:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://docs.themelio.org/whitepapers/melmint/</loc>
+    <lastmod>2020-01-05T10:42:26+06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://docs.themelio.org/specifications/melnet-spec/</loc>
     <lastmod>2020-01-05T10:42:26+06:00</lastmod>
   </url>
   
@@ -54,6 +74,11 @@
   
   <url>
     <loc>https://docs.themelio.org/specifications/melscript-specification/</loc>
+    <lastmod>2020-01-05T10:42:26+06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://docs.themelio.org/specifications/fastsync/</loc>
     <lastmod>2020-01-05T10:42:26+06:00</lastmod>
   </url>
   
