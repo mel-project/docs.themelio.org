@@ -8,6 +8,10 @@ draft: false
 keywords: [""]
 ---
 
+**NOTE**: Because `themelio-core` is no longer a single, monolithic binary, this guide is **outdated** and will soon be replaced.
+
+---
+
 This document will guide you through setting up a Themelio alphanet client and sending your first transaction. Before you follow the steps listed here, you probably want to read [the introduction to Themelio](./) to understand some basic concepts.
 
 ## Assumptions
