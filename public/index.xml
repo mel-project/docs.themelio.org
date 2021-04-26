@@ -33,9 +33,10 @@
       <pubDate>Sat, 29 Dec 2018 11:02:05 +0600</pubDate>
       
       <guid>https://docs.themelio.org/try-themelio/alphanet-client/</guid>
-      <description>This document will guide you through setting up a Themelio alphanet client and sending your first transaction. Before you follow the steps listed here, you probably want to read the introduction to Themelio to understand some basic concepts.
+      <description>NOTE: Because themelio-core is no longer a single, monolithic binary, this guide is outdated and will soon be replaced.
+ This document will guide you through setting up a Themelio alphanet client and sending your first transaction. Before you follow the steps listed here, you probably want to read the introduction to Themelio to understand some basic concepts.
 Assumptions All the instructions here assume that
- You&amp;rsquo;re running a Unix (Linux or macOS) system. The alphanet client should work on Windows, but it isn&amp;rsquo;t well-tested. You have a working Internet connection You have git installed You have a stable Rust compiler, including the cargo command  Install themelio-core Install themelio-core with cargo directly from GitHub:</description>
+ You&amp;rsquo;re running a Unix (Linux or macOS) system.</description>
     </item>
     
     <item>
@@ -44,8 +45,9 @@ Assumptions All the instructions here assume that
       <pubDate>Sat, 29 Dec 2018 11:02:05 +0600</pubDate>
       
       <guid>https://docs.themelio.org/try-themelio/auditor-node/</guid>
-      <description>Running an auditor node This document will guide you through setting up an auditor, which is the equivalent of a full node in most other blockchains. An auditor replicates every consensus-confirmed block, validating its contents and ensuring network security while providing a local cache of the entire blockchain state.
-Assumptions All the instructions here assume that you have an up-to-date themelio-core binary installed. If not, simply install it with cargo:</description>
+      <description>This document will guide you through setting up an auditor, which is the equivalent of a full node in most other blockchains. An auditor replicates every consensus-confirmed block, validating its contents and ensuring network security while providing a local cache of the entire blockchain state.
+Assumptions All the instructions here assume that you have an up-to-date themelio-node binary installed. If not, simply install it with cargo:
+$ cargo install --git https://github.</description>
     </item>
     
     <item>

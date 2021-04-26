@@ -23,11 +23,9 @@ A big difference from most low-level VMs is that the basic unit of data isn't a 
 pub enum Value {
     Int(U256),
     Bytes(im::Vector<u8>),
-    Vector {
-        members: im::Vector<Value>,
-        is_struct: bool
-    },
+    Vector(im::Vector<Value>),
 }
+
 ```
 
 That is, there are two **base types**:
@@ -35,10 +33,7 @@ That is, there are two **base types**:
 - 256-bit unsigned integers
 - Arbitrary-length bytestrings
 
-As well as two **product types**:
-
-- Vectors, with `is_struct = false`, semantically represent homogenous vectors such as lists of signatures
-- Structs, with `is_struct = true`, semantically represent fixed-length structures such as transactions
+As well as a **product type**: an immutable vector.
 
 The stack is just a FIFO stack of `Value`s, while the heap is a mapping from 16-bit **addresses** to `Value`s.
 
@@ -46,12 +41,30 @@ The stack is just a FIFO stack of `Value`s, while the heap is a mapping from 16-
 
 MelVM takes as input:
 
-- An **initial stack** consisting of two items:
-  - On the very top, the spending transaction
-  - Underneath it, a custom input \(e.g. an index indicating which signature spends the coin\)
-- An **initial heap** consisting of the following items:
-  - Addr 0x10: the fully decoded _previous_ block header \(e.g. if the covenant is spent in block 100, this is header 99\)
-  - Addr
+```rust
+/// Heap address where the transaction trying to spend the coin encumbered by this covenant (spender) is put
+pub const ADDR_SPENDER_TX: u16 = 0;
+/// Heap address where the spender's hash is put.
+pub const ADDR_SPENDER_TXHASH: u16 = 1;
+/// Heap address where the *parent* (the transaction that created the coin now getting spent)'s hash is put
+pub const ADDR_PARENT_TXHASH: u16 = 2;
+/// Heap address where the index, at the parent, of the coin being spent is put. For example, if we are spending the third output of some transaction, `Heap[ADDR_PARENT_INDEX] = 2`.
+pub const ADDR_PARENT_INDEX: u16 = 3;
+/// Heap address where the hash of the running covenant is put.
+pub const ADDR_SELF_HASH: u16 = 4;
+/// Heap address where the face value of the coin being spent is put.
+pub const ADDR_PARENT_VALUE: u16 = 5;
+/// Heap address where the denomination of the coin being spent is put.
+pub const ADDR_PARENT_DENOM: u16 = 6;
+/// Heap address where the additional data of the coin being spent is put.
+pub const ADDR_PARENT_ADDITIONAL_DATA: u16 = 7;
+/// Heap address where the height of the parent is put.
+pub const ADDR_PARENT_HEIGHT: u16 = 7;
+/// Heap address where the "spender index" is put. For example, if this coin is spent as the first input of the spender, then `Heap[ADDR_SPENDER_INDEX] = 0`.
+pub const ADDR_SPENDER_INDEX: u16 = 8;
+/// Heap address where the header of the last block is put. If the covenant is being evaluated for a transaction in block N, this is the header of block N-1.
+pub const ADDR_LAST_HEADER: u16 = 9;
+```
 
 ## List of opcodes
 
@@ -61,14 +74,13 @@ In the "meaning" field, all expressions are evaluated left to right. For example
 
 Overflow always wraps. Whether or not the previous instruction overflowed can be queried.
 
-| Opcode | Encoding | Meaning                    |
-| :----- | :------- | :------------------------- |
-| ADD    | 0x10     | `push(pop() + pop())`      |
-| SUB    | 0x11     | `push(pop() - pop())`      |
-| MUL    | 0x12     | `push(pop() * pop())`      |
-| DIV    | 0x13     | `push(pop() / pop())`      |
-| REM    | 0x14     | `push(pop() % pop())`      |
-| OFLO   | 0x15     | `push(overflowed ? 1 : 0)` |
+| Opcode | Encoding | Meaning               |
+| :----- | :------- | :-------------------- |
+| ADD    | 0x10     | `push(pop() + pop())` |
+| SUB    | 0x11     | `push(pop() - pop())` |
+| MUL    | 0x12     | `push(pop() * pop())` |
+| DIV    | 0x13     | `push(pop() / pop())` |
+| REM    | 0x14     | `push(pop() % pop())` |
 
 ### Logic
 
@@ -80,6 +92,9 @@ All operators operate on integers and are bitwise.
 | OR     | 0x21     | `push(pop() \| pop())` |
 | XOR    | 0x22     | `push(pop() ^ pop())`  |
 | NOT    | 0x23     | `push(~pop())`         |
+| EQL    | 0x24     | `push(pop() == pop())` |
+| LT     | 0x25     | `push(pop() < pop())`  |
+| GT     | 0x26     | `push(pop() > pop())`  |
 
 ### Cryptography
 
@@ -92,34 +107,40 @@ Operators take in a bytestring and return a bytestring.
 
 ### Heap access
 
-| Opcode | Encoding | Meaning               |
-| :----- | :------- | :-------------------- |
-| LOAD   | 0x40     | `push(heap[pop()])`   |
-| STORE  | 0x41     | `heap[pop()] = pop()` |
+| Opcode      | Encoding     | Meaning               |
+| :---------- | :----------- | :-------------------- |
+| LOAD        | 0x40         | `push(heap[pop()])`   |
+| STORE       | 0x41         | `heap[pop()] = pop()` |
+| LOADIMM(n)  | 0x42 + u16be | `push(heap[n])`       |
+| STOREIMM(n) | 0x43 + u16be | `heap[n] = pop()`     |
 
 ### Vectors
 
 Despite their appearance, these operations, as well as those for bytestrings, are all quasi-constant-time because vectors and bytestrings can be represented as RRB trees or similar.
 
-| Opcode  | Encoding | Meaning                   |
-| :------ | :------- | :------------------------ |
-| VEMPTY  | 0x50     | `push(empty vector)`      |
-| VREF    | 0x51     | `push(pop()[pop()])`      |
-| VLENGTH | 0x52     | `push(pop().length)`      |
-| VAPPEND | 0x53     | `push(pop() ++ pop())`    |
-| VPUSH   | 0x54     | `push(pop().push(pop()))` |
-| VSLICE  | 0x55     | `push(pop[pop()..pop()])` |
+| Opcode  | Encoding | Meaning                     |
+| :------ | :------- | :-------------------------- |
+| VREF    | 0x50     | `push(pop()[pop()])`        |
+| VAPPEND | 0x51     | `push(pop() ++ pop())`      |
+| VEMPTY  | 0x52     | `push(empty vector)`        |
+| VLENGTH | 0x53     | `push(pop().length)`        |
+| VSLICE  | 0x54     | `push(pop[pop()..pop()])`   |
+| VSET    | 0x55     | `push(pop[pop() => pop()])` |
+| VPUSH   | 0x56     | `push(pop().push(pop()))`   |
+| VCONS   | 0x57     | `push(cons(pop(), pop()))`  |
 
 ### Bytestrings
 
-| Opcode  | Encoding | Meaning                   |
-| :------ | :------- | :------------------------ |
-| BEMPTY  | 0x60     | `push(empty bytestring)`  |
-| BREF    | 0x61     | `push(pop()[pop()])`      |
-| BLENGTH | 0x62     | `push(pop().length)`      |
-| BAPPEND | 0x63     | `push(pop() ++ pop())`    |
-| BPUSH   | 0x64     | `push(pop().push(pop()))` |
-| BSLICE  | 0x65     | `push(pop[pop()..pop()])` |
+| Opcode  | Encoding | Meaning                     |
+| :------ | :------- | :-------------------------- |
+| BREF    | 0x70     | `push(pop()[pop()])`        |
+| BAPPEND | 0x71     | `push(pop() ++ pop())`      |
+| BEMPTY  | 0x72     | `push(empty vector)`        |
+| BLENGTH | 0x73     | `push(pop().length)`        |
+| BSLICE  | 0x74     | `push(pop[pop()..pop()])`   |
+| BSET    | 0x75     | `push(pop[pop() => pop()])` |
+| BPUSH   | 0x76     | `push(pop().push(pop()))`   |
+| BCONS   | 0x77     | `push(cons(pop(), pop()))`  |
 
 ### Control flow
 
@@ -132,12 +153,10 @@ Despite their appearance, these operations, as well as those for bytestrings, ar
 
 ### Type conversions
 
-| Opcode            | Encoding | Meaning                                                                    |
-| :---------------- | :------- | :------------------------------------------------------------------------- |
-| ITOB              | 0xc0     | Pops an integer and converts to bytes                                      |
-| BTOI              | 0xc1     | Pops bytes and converts first 32B to integer                               |
-| ~~SERIAL\(n\)~~   | ~~0xd0~~ | ~~Serialize with "weight limit". If more than n nodes are visited abort.~~ |
-| ~~DESERIAL\(n\)~~ | ~~0xd1~~ | ~~Bincode-deserialize with length limit~~.                                 |
+| Opcode | Encoding | Meaning                                      |
+| :----- | :------- | :------------------------------------------- |
+| ITOB   | 0xc0     | Pops an integer and converts to bytes        |
+| BTOI   | 0xc1     | Pops bytes and converts first 32B to integer |
 
 ### Literals
 

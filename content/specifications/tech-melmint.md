@@ -129,7 +129,7 @@ Similar to `Swap` transactions, they are processed in the "pipeline" just like `
 Melmint is now a simple "central bank" mechanism that supplies liquidity to Melswap to **loosely** target a given DOSC/mel exchange rate. This is implemented as the following procedure on block seal, after Melswap is processed:
 
 - Calculate the implied sym/nomDOSC exchange rate $R_{SD}=X_S/X_D$ through the nomDOSC/mel exchange rate $X_D$ and sym/mel exchange rate $X_S$.
-- "Nudge" the sym/mel pool, containing $s$ syms and $m$ mels, with towards 1 mel = $\kappa$ nomDOSC worth of sym, where $\kappa$ is the DOCS inflator:
+- "Nudge" the sym/mel pool, containing $s$ syms and $m$ mels, with towards 1 mel = $\kappa$ nomDOSC worth of sym, where $\kappa$ is the DOSC inflator:
   - Compute the target ratio: $\hat{R}\_{SM} = \kappa \times R\_{SD}$
   - We first nudge the number of syms: $s' = \lfloor0.9999s \rfloor + \lfloor 0.0001(m \cdot \hat{R}_{SM}) \rfloor$
   - Now the "product" is out of whack, so we restore the product. Compute the "stretch factor" $\gamma=s'/s$ and set
