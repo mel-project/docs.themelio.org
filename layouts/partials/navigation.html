@@ -1,64 +1,42 @@
-<nav class="navbar py-3 navbar-expand-md navbar-light">
-  <div class="container">
-    <a class="navbar-brand px-2" href="{{ site.BaseURL | relLangURL }}">
-      {{ $logo:= site.Params.logo }}
-      {{ $logoWhite:= site.Params.logo_white }}
-      {{ if (or $logo $logoWhite) }}
-      {{ if .IsHome }}
-      <img class="img-fluid" src="{{if $logoWhite }}{{ $logoWhite | absURL }} {{ else }} {{ $logo | absURL }}{{ end }}" alt="{{ site.Title }}">
-      {{ else }}
-      <img class="img-fluid" src="{{ $logo | absURL }}" alt="{{ site.Title }}">
-      {{ end }}
-      {{ else }}
-      {{ site.Title }}
-      {{ end }}
-      {{ site.Title }}
-    </a>
-    <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+<nav class="navbar py-md-2 py-1 navbar-expand-md navbar-dark">
+  <div class="container-fluid">
+    <div class="row align-items-center" style="width: 100%;">
+      <div class="col-3">
+        <a class="navbar-brand px-2" href="{{ site.BaseURL | relLangURL }}">
+          {{ $logo:= site.Params.logo }}
+          {{ $logoWhite:= site.Params.logo_white }}
+          {{ if (or $logo $logoWhite) }}
+          {{ if .IsHome }}
+          <img class="img-fluid" src="{{if $logoWhite }}{{ $logoWhite | absURL }} {{ else }} {{ $logo | absURL }}{{ end }}" alt="{{ site.Title }}">
+          {{ else }}
+          <img class="img-fluid" src="{{ $logo | absURL }}" alt="{{ site.Title }}">
+          {{ end }}
+          {{ else }}
+          {{ end }}
+        </a>
+      </div>
 
-    <div class="collapse navbar-collapse text-center" id="navigation">
-      <ul class="navbar-nav mr-auto">
-        {{ range site.Menus.main }}
-        <li class="nav-item">
-          <a class="nav-link" href="{{ .URL | absLangURL }}">{{ .Name }}</a>
-        </li>
-        {{ end }}
-      </ul>
 
-      <ul class="navbar-nav ml-auto">
-        <div class="position-relative">
-
-          <i class="ti-search search-icon"></i>
-          <input id="search" class="form-control" placeholder="{{ .Site.Params.banner.placeholder }}">
-          <!-- Javascript -->
-          {{ $currentNode := . }}
-          {{ $currentNode.Scratch.Set "pages" .Site.Pages }}
-          {{ $pages := ($currentNode.Scratch.Get "pages") }}
-          <script>
-            $(function () {
-              var projects = [
-                {{ range $pages }}
-              {
-                value: "{{ .Title }}",
-                label: "<p>{{.Plain}}</p>{{range.Params.Keywords}}<p>{{.}}</p>{{end}}",
-                url: "{{ .Permalink }}"
-              },
-              {{ end }}
-            ];
-            $("#search").autocomplete({
-              source: projects
-            })
-              .data("ui-autocomplete")._renderItem = function (ul, item) {
-                return $("<li>")
-                  .append("<a href=" + item.url + " + \" &quot;\" +  >" + item.value + "</a>" + item.label)
-                  .appendTo(ul);
-              };
-            });
-          </script>
+      <div class="col-6 top-nav">
+        <div class="d-md-block d-none">
+          <a>Home</a>
+          <a>Roadmap</a>
+          <a>Developers</a>
+          <a class="nav-active">Docs</a>
         </div>
-      </ul>
+      </div>
+
+      <div class="col-3 text-right"> <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#collapse" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button></div>
+    </div>
+    <div class="row align-items-center collapse" style="width: 100%;" id="collapse">
+      <div class="col top-nav">
+        <a>Home</a><br>
+        <a>Roadmap</a><br>
+        <a>Developers</a><br>
+        <a class="nav-active">Docs</a>
+      </div>
     </div>
   </div>
 </nav>

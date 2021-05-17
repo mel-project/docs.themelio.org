@@ -1,16 +1,29 @@
 ################################# Default configuration ###################
-baseURL = "https://docs.themelio.org/"
+baseURL = "https://next-docs.themelio.org/"
 theme = "dot-hugo"
-title = "Themelio knowledge base"
+title = "Themelio docs"
 # disable language
 disableLanguages = ["fr"]
+# relativeURLs=true
 # google analytics
 googleAnalytics = "" # paste your analytics ID here. (Ex: UA-123-45)
 # unsafe html
-[markup.goldmark.renderer]
+[markup.goldmark.renderer] 
 unsafe = true
 
 [markup]
+  [markup.highlight]
+    anchorLineNos = false
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = ""
+    lineAnchors = ""
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = true
+    style = "emacs"
+    tabWidth = 4
   [markup.tableOfContents]
     endLevel = 3
     ordered = true
@@ -27,16 +40,16 @@ logo_white = ""
 # when logo is empty, it will shown your site title
 
 # customize color
-primary_color = "#00a6b3"
-body_color = "#f9f9f9"
-text_color = "#242738"
-text_color_dark = "#242738"
+primary_color = "#006e54"
+body_color = "#f8fbf8"
+text_color = "#383c3c"
+text_color_dark = "#383c3c"
 white_color = "#ffffff"
 light_color = "#f8f9fa"
 
 # font family
-font_family = "Inter" # Choose font family from : https://fonts.google.com/
-font_family_display = "HK Grotesk" # Choose font family from : https://fonts.google.com/
+font_family = "Public Sans" # Choose font family from : https://fonts.google.com/
+font_family_display = "Public Sans" # Choose font family from : https://fonts.google.com/
 
 # contact form action
 contact_form_action = "#" # contact form works with : https://formspree.io
@@ -47,9 +60,9 @@ contact_form_action = "#" # contact form works with : https://formspree.io
 #icon = "ti-facebook" # themify icon pack : https://themify.me/themify-icons
 #link = "#"
 
-[[params.social]]
-icon = "ti-twitter-alt" # themify icon pack : https://themify.me/themify-icons
-link = "#"
+# [[params.social]]
+# icon = "ti-twitter-alt" # themify icon pack : https://themify.me/themify-icons
+# link = "#"
   
 [[params.social]]
 icon = "ti-github" # themify icon pack : https://themify.me/themify-icons
@@ -86,51 +99,13 @@ copyright = "Copyright © 2020 Themelio Labs (https://themelio.org/)"
 
 
 ################## english navigation #################
-[[Languages.en.menu.main]]
-name = "Home"
-url = "https://themelio.org/"
-weight = 1
+# [[Languages.en.menu.main]]
+# name = "Home"
+# url = "https://themelio.org/"
+# weight = 1
 
-[[Languages.en.menu.main]]
-name = "Resources"
-url = "https://themelio.org/resources.html"
-weight = 2
-
-
-################################### Franch Language ######################
-[Languages.fr]
-languageName = "Fr"
-languageCode = "fr-fr"
-weight = 2
-copyright = "Copyright © 2020 Themelio Labs (https://themelio.org/)"
-
-# banner
-[Languages.fr.params.banner]
-title = "Comment pouvons nous aider?"
-subtitle = "Trouvez rapidement des conseils et des réponses auprès de notre équipe d'assistance ou contactez-nous."
-bg_image = "images/banner.jpg"
-placeholder = "Avoir une question? Il suffit de demander ici ou de saisir les termes"
-
-# call to action
-[Languages.fr.params.cta]
-enable = true
-title = "Vous n'avez pas trouvé de réponse à votre question?"
-content = "Contactez-nous pour plus de détails sur les services supplémentaires et la tarification du travail personnalisé"
-# call to action button
-[Languages.fr.params.cta.button]
-enable = true
-label = "Contactez nous"
-link = "contact"
-
-
-################## french navigation #################
-[[Languages.fr.menu.main]]
-name = "Accueil"
-url = "/"
-weight = 1
-
-[[Languages.fr.menu.main]]
-name = "Faq"
-url = "faq"
-weight = 2
+# [[Languages.en.menu.main]]
+# name = "Resources"
+# url = "https://themelio.org/resources.html"
+# weight = 2
 

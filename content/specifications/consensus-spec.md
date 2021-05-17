@@ -1,7 +1,5 @@
 ---
-title: "Consensus specification (WIP)"
-date: 2018-12-29T11:02:05+06:00
-lastmod: 2020-01-05T10:42:26+06:00
+title: "Consensus specification"
 weight: 10
 draft: false
 # search related keywords
@@ -28,12 +26,12 @@ In this document, we largely focus on the **stakers**, since they are the one wh
 
 ## Proof of stake
 
-Stakers lock up **Sym**, a token that is used only for proof-of-stake. On chain, this is represented by coins of denomination `DENOM_TSYM`, and similar to the mel, 1,000,000 on-chain units (µsym) equals "one sym".
+Stakers lock up **Sym**, a token that is used only for proof-of-stake. On chain, this is represented by coins of denomination `Denom::Sym`, and similar to the mel, 1,000,000 on-chain units (µsym) equals "one sym".
 
 Compared to most other PoS mechanisms, Themelio's PoS has two uncommon features:
 
 - Stakers precommit to how long to lock up their syms. There is no mechanism for early withdrawal.
-- The period of time in which a staker has voting power is not perfectly aligned with the time in which the syms are locked up. Instead, voting power always stays constant within an **epoch** of 100,000 blocks (~ 34 days).
+- The period of time in which a staker has voting power is not perfectly aligned with the time in which the syms are locked up. Instead, voting power always stays constant within an **epoch** of 200,000 blocks (~ 69 days 10 hours).
 
 Both of these features are designed to mitigate the "weak subjectivity" problem and maximize security and usability for clients. We will discuss the detailed mechanics in a subsequent section.
 
@@ -50,7 +48,7 @@ We start by looking at how stakers lock up syms. To stake a sum of sym, a transa
 ```rust
 pub struct StakeDoc {
     /// Public key for signing consensus.
-    pub pubkey: tmelcrypt::Ed25519PK,
+    pub pubkey: Ed25519PK,
     /// First 100,000-block epoch when staker has power.
     pub e_start: u64,
     /// Ending epoch. This is the epoch *after* the last epoch in which the syms are effective, and the last epoch in which the syms are locked.
@@ -62,7 +60,7 @@ pub struct StakeDoc {
 
 The blockchain then checks that:
 
-- `e_start` is greater than `current_block_height/EPOCH_LENGTH`. That is, the starting epoch must be in the future.
+- `e_start` is greater than `current_block_height/STAKE_EPOCH`. That is, the starting epoch must be in the future.
 - `e_post_end` is greater than `e_start`.
 - `syms_staked` is exactly equal to the value of the first output of the transaction
 

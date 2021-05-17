@@ -1,24 +1,41 @@
-{{ "<!-- details page -->" | safeHTML }}
+<section class="single section-sm pb-0 d-lg-none titlenav-section">
+  <div class="row titlenav">
+    <div class="col-10">
+      <span class="collapse-title">{{ .Title }}</span>
+    </div>
+    <div class="col-2 text-right">
+      <a data-toggle="collapse" href="#collapseSidebar" role="button" aria-expanded="false" aria-controls="collapseSidebar"><span class="oi" data-glyph="collapse-down" aria-hidden="true"></span></a>
+    </div>
+    <div class="col-12 collapse" id="collapseSidebar">
+      <ul class="collapse-sidebar">
+        {{ $currentNode := . }}
+        {{range .Site.Home.Sections.ByWeight}}
+        {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode}}
+        {{ end }}
+      </ul>
+    </div>
+  </div>
+</section>
+
 <section class="single section-sm pb-0">
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-3">
+      <div class="col-lg-3 d-none d-lg-block">
         <ul class="sidebar">
           {{ $currentNode := . }}
-          <!--            <a class="back-btn" href="{{ .Site.BaseURL | relLangURL }}"></a>-->
           {{range .Site.Home.Sections.ByWeight}}
           {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode}}
           {{ end }}
         </ul>
       </div>
-      <div class="col-lg-6 col-xl-6">
-        <div class="p-lg-5 p-4 bg-white">
+      <div class="col-lg-9 col-xl-6 content-col">
+        <div class="p-lg-5 p-4">
           <h1 class="mb-1">{{ .Title }}</h1>
           {{ if .Content }}
           <hr />
           <div class="content">{{.Content}}</div>
           {{ else }}
-          <div class="bg-light p-4">
+          <div class=" p-4">
             <ul class="page-list">
               {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode }}
             </ul>
@@ -65,13 +82,13 @@
           </nav>
         </div>
       </div>
-      <div class="d-none d-lg-block col-lg-3">
+      <div class="d-none d-xl-block col-xl-3">
         <div id="toc-container">{{ .TableOfContents }}</div>
       </div>
     </div>
   </div>
 </section>
-{{ "<!-- /details page -->" | safeHTML }}
+
 
 <!-- templates -->
 

@@ -1,9 +1,8 @@
-{{ "<!-- footer -->" | safeHTML }}
 <footer class="section pb-4">
-  <div class="container">
+  <div class="container-fluid">
     <div class="row align-items-center">
       <div class="col-md-8 text-md-left text-center">
-       <p class="mb-md-0 mb-4">{{ .Site.Params.copyright | markdownify }}</p>
+        <p class="mb-md-0 mb-4">{{ .Site.Params.copyright | markdownify }}</p>
       </div>
       <div class="col-md-4 text-md-right text-center">
         <ul class="list-inline">
@@ -15,39 +14,38 @@
     </div>
   </div>
 </footer>
-{{ "<!-- /footer -->" | safeHTML }}
 
-{{ "<!-- Main Script -->" | safeHTML }}
 {{ $script := resources.Get "js/script.js" | minify}}
 <script src="{{ $script.Permalink }}"></script>
-<script type="text/javascript" async
-    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    MathJax.Hub.Config({
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
     tex2jax: {
-      inlineMath: [['$','$'], ['\\(','\\)']],
-      displayMath: [['$$','$$']],
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$']],
       processEscapes: true,
       processEnvironments: true,
       skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-      TeX: { equationNumbers: { autoNumber: "AMS" },
-           extensions: ["AMSmath.js", "AMSsymbols.js"] }
-    }
-    });
-    MathJax.Hub.Queue(function() {
-      // Fix <code> tags after MathJax finishes running. This is a
-      // hack to overcome a shortcoming of Markdown. Discussion at
-      // https://github.com/mojombo/jekyll/issues/199
-      var all = MathJax.Hub.getAllJax(), i;
-      for(i = 0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
+      TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        extensions: ["AMSmath.js", "AMSsymbols.js"]
       }
-    });
+    }
+  });
+  MathJax.Hub.Queue(function () {
+    // Fix <code> tags after MathJax finishes running. This is a
+    // hack to overcome a shortcoming of Markdown. Discussion at
+    // https://github.com/mojombo/jekyll/issues/199
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
 
-    MathJax.Hub.Config({
+  MathJax.Hub.Config({
     // Autonumbering by mathjax
     TeX: { equationNumbers: { autoNumber: "AMS" } },
     "HTML-CSS": {
       scale: 90
     }
-    });
-  </script>
+  });
+</script>

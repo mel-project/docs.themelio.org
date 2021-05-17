@@ -14,9 +14,6 @@
 
   {{ "<!--Favicon-->" | safeHTML }}
   <link rel="icon" href="{{ `images/favicon.png` | absURL }}" type="image/x-icon">
-
-  {{ "<!-- fonts -->" | safeHTML }}
-  <link href="https://fonts.googleapis.com/css?family={{replace .Site.Params.font_family ' ' '+' | title}}:300,400,700&display=swap" rel="stylesheet">
   
   <style>
   :root{
@@ -46,6 +43,8 @@
 
 {{ "<!-- match-height JS -->" | safeHTML }}
 <script src="{{ `plugins/match-height/jquery.matchHeight-min.js` | absURL }}"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic.min.css" integrity="sha512-LeCmts7kEi09nKc+DwGJqDV+dNQi/W8/qb0oUSsBLzTYiBwxj0KBlAow2//jV7jwEHwSCPShRN2+IWwWcn1x7Q==" crossorigin="anonymous" />
 
   
 {{ if templates.Exists ( printf "partials/overrides/header.html" ) }}
