@@ -1,5 +1,5 @@
 ################################# Default configuration ###################
-baseURL = "https://next-docs.themelio.org/"
+baseURL = "https://docs.themelio.org/"
 theme = "dot-hugo"
 title = "Themelio docs"
 # disable language
@@ -10,6 +10,7 @@ googleAnalytics = "" # paste your analytics ID here. (Ex: UA-123-45)
 # unsafe html
 [markup.goldmark.renderer] 
 unsafe = true
+hardWraps = true
 
 [markup]
   [markup.highlight]
@@ -28,6 +29,7 @@ unsafe = true
     endLevel = 3
     ordered = true
     startLevel = 1
+
 
 
 

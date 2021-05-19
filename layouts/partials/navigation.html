@@ -1,7 +1,7 @@
 <nav class="navbar py-md-2 py-1 navbar-expand-md navbar-dark">
   <div class="container-fluid">
     <div class="row align-items-center" style="width: 100%;">
-      <div class="col-3">
+      <div class="col-9 col-md-3">
         <a class="navbar-brand px-2" href="{{ site.BaseURL | relLangURL }}">
           {{ $logo:= site.Params.logo }}
           {{ $logoWhite:= site.Params.logo_white }}
@@ -17,11 +17,11 @@
       </div>
 
 
-      <div class="col-6 top-nav">
-        <div class="d-md-block d-none">
-          <a>Home</a>
-          <a>Roadmap</a>
-          <a>Developers</a>
+      <div class="col-6 top-nav d-md-block d-none">
+        <div class="">
+          <a href="https://themelio.org/">Home</a>
+          <a href="https://themelio.org/roadmap.html">Roadmap</a>
+          <a href="https://themelio.org/resources.html">Resources</a>
           <a class="nav-active">Docs</a>
         </div>
       </div>
@@ -32,9 +32,9 @@
     </div>
     <div class="row align-items-center collapse" style="width: 100%;" id="collapse">
       <div class="col top-nav">
-        <a>Home</a><br>
-        <a>Roadmap</a><br>
-        <a>Developers</a><br>
+        <a href="https://themelio.org/">Home</a>
+        <a href="https://themelio.org/roadmap.html">Roadmap</a>
+        <a href="https://themelio.org/resources.html">Resources</a>
         <a class="nav-active">Docs</a>
       </div>
     </div>
