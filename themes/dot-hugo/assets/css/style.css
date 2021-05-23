@@ -41,7 +41,7 @@ code {
 }
 
 .titlenav-section {
-  position: fixed;
+  position: sticky;
   top: 53px;
   z-index: 1000;
 }
@@ -835,8 +835,11 @@ tbody {
 
 .sidebar {
   /* background-color: var(--white-color); */
-  position: fixed;
-  top: 120px;
+  /* position: sticky;
+  top: 120px; */
+  top: 60px;
+  padding-top: 70px;
+  position: sticky;
 }
 
 .sidebar .navsection,

@@ -63,4 +63,4 @@ You can find [a detailed treatment of Synkletos right here](../whitepapers/synkl
 
 Themelio has launched its **alphanet**. This gives us a proof-of-concept to tinker with that you can also participate in. At this point, development is highly agile and prioritizes flexibility over stability.
 
-To get started, you can learn more about Themelio in this knowledge base, [join our Discord channel](https://discord.gg/MzzffF7v2E), and try transacting in some placeholder "Monopoly money" with our [alphanet wallet](getting-started-with-the-alphanet.md).
+To get started, you can learn more about Themelio in this knowledge base, [join our Discord channel](https://discord.gg/2HmurW9T9K), and try transacting in some placeholder "Monopoly money" with our [alphanet wallet](getting-started-with-the-alphanet.md).
