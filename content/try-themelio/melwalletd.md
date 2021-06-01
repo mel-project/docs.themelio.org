@@ -1,6 +1,6 @@
 ---
 title: "melwalletd reference"
-weight: 1
+weight: 3
 draft: false
 # search related keywords
 keywords: [""]
@@ -8,7 +8,7 @@ keywords: [""]
 
 As with other UTXO-based blockchains like Bitcoin that lacks an "account" abstraction, Themelio requires somewhat involved logic for _wallets_ --- software that manages on-chain assets and provides an interface roughly similar to a bank account.
 
-In Themelio, the "canonical" wallet software is **melwalletd**, a headless program that internally manages wallets and exposes a local REST API for operations on the wallets. Although you can use it directly as a Themelio wallet, melwalletd is intended more as a backend to GUI wallets, such as **melwallet-cli**, a CLI wallet that this reference will briefly touch.
+In Themelio, the "canonical" wallet software is **melwalletd**, a headless program that internally manages wallets and exposes a local REST API for operations on the wallets. Although you can use it directly as a Themelio wallet, melwalletd is intended more as a backend to wallet apps, such as **melwallet-cli**, a CLI wallet that this reference will briefly touch.
 
 ---
 
@@ -44,7 +44,7 @@ If the directory doesn't exist it will be created. By default, melwalletd will s
 
 ```shell
 $ curl -s 'localhost:11773/wallets/alice' -X PUT --data '{"testnet": true}'
-"4239e79eab9b39c49de990363197a64e1a54f0f9a0d12a936e85e69ea7fb05b006425dfe7967003e2a5362e36231730f2faaa6068979afc52784f916466e05b6"
+"5d256f9f12036e04aa433e0c439c7d2c6f06261b2a804bcb99598c218874c0c3e8fc9285b385abec4e955b79e3ed5fb58bf9dd6b60c86b5f2a4238e1194b476e"
 ```
 
 ### Listing all wallets
@@ -65,9 +65,19 @@ $ curl -s 'localhost:11773/wallets/alice' -X PUT --data '{"testnet": true}'
 $ curl -s localhost:11773/wallets | jq
 {
   "alice": {
-    "total_micromel": 2002000000,
+    "total_micromel": 0,
     "network": 1,
-    "address": "t18784psd022na6g2e3889rmz33453jfbzz4gfmnj4jtd8f5a7t2n0"
+    "address": "t607gqktd3njqewnjcvzxv2m4ta6epbcv1sdjkp0qkmztaq3wxn350"
+  },
+  "labooyah": {
+    "total_micromel": 0,
+    "network": 255,
+    "address": "t1jhtj4ex1n069xr8w6mbkgrt25jgzw0pam1a25redg9ykpsykbq70"
+  },
+  "testnet": {
+    "total_micromel": 17322999920,
+    "network": 1,
+    "address": "t6zf5m662ge2hwax4hcs5kzqmr1a5214fa9sj2rbtassw04n6jffr0"
   }
 }
 ```
@@ -97,36 +107,20 @@ $ curl -s localhost:11773/wallets | jq
 $ curl -s localhost:11773/wallets/alice | jq
 {
   "summary": {
-    "total_micromel": 1001000000,
+    "total_micromel": 0,
     "network": 1,
-    "address": "t18784psd022na6g2e3889rmz33453jfbzz4gfmnj4jtd8f5a7t2n0"
+    "address": "t607gqktd3njqewnjcvzxv2m4ta6epbcv1sdjkp0qkmztaq3wxn350"
   },
   "full": {
-    "unspent_coins": [
-      [
-        {
-          "txhash": "f8294d0d2c794a889eae5b1fce62e954615f13e0eb79b1fc021364f84660cb25",
-          "index": 0
-        },
-        {
-          "coin_data": {
-            "covhash": "41d04b65a010aaa3404e1a109c53e3190a393d7ff920fa5644969a879547d0aa",
-            "value": 1001000000,
-            "denom": "6d",
-            "additional_data": ""
-          },
-          "height": 53947
-        }
-      ]
-    ],
+    "unspent_coins": [],
     "spent_coins": [],
     "tx_in_progress": {
-      "4950f3af9da569e1a99a7e738026a581d6e96caaf02d94b02efcd645540a2d2f": {
+      "86588da7863b39152105e4f78c04e07a5d3f3ebf61d799f95293372dabdb06a1": {
         "kind": 255,
         "inputs": [],
         "outputs": [
           {
-            "covhash": "41d04b65a010aaa3404e1a109c53e3190a393d7ff920fa5644969a879547d0aa",
+            "covhash": "t607gqktd3njqewnjcvzxv2m4ta6epbcv1sdjkp0qkmztaq3wxn350",
             "value": 1001000000,
             "denom": "6d",
             "additional_data": ""
@@ -134,36 +128,15 @@ $ curl -s localhost:11773/wallets/alice | jq
         ],
         "fee": 1000000,
         "scripts": [],
-        "data": "95de2e898daf8df1e9a2f4e74ff0e8d0ae92591cb887fe68f33d9a9d02911e21",
+        "data": "3516f96885d6e49f3447dd9971cfc9f92e17198394ee402e3ae00f84c6d7fbe6",
         "sigs": []
       }
     },
-    "tx_confirmed": {
-      "f8294d0d2c794a889eae5b1fce62e954615f13e0eb79b1fc021364f84660cb25": [
-        {
-          "kind": 255,
-          "inputs": [],
-          "outputs": [
-            {
-              "covhash": "41d04b65a010aaa3404e1a109c53e3190a393d7ff920fa5644969a879547d0aa",
-              "value": 1001000000,
-              "denom": "6d",
-              "additional_data": ""
-            }
-          ],
-          "fee": 1000000,
-          "scripts": [],
-          "data": "2b03d04c322d4a51c75cdbc94399b205d0460dc2868b178e42b822a0cc15e125",
-          "sigs": []
-        },
-        53947
-      ]
-    },
-    "my_covenant": "420009f100000000000000000000000000000000000000000000000000000000000000064200005050f02006425dfe7967003e2a5362e36231730f2faaa6068979afc52784f916466e05b6420001320020",
+    "tx_confirmed": {},
+    "my_covenant": "420009f100000000000000000000000000000000000000000000000000000000000000064200005050f020e8fc9285b385abec4e955b79e3ed5fb58bf9dd6b60c86b5f2a4238e1194b476e420001320020",
     "network": 1
   }
 }
-
 ```
 
 ---
@@ -189,7 +162,7 @@ Quoted hexadecimal transaction hash of the transaction being sent.
 
 ```shell
 $ curl -s localhost:11773/wallets/alice/send-faucet -X POST
-"6c5edfe4dec3d173ad4a20a86b8ece6205b872afbb551744916362d519588cef"
+"86588da7863b39152105e4f78c04e07a5d3f3ebf61d799f95293372dabdb06a1"
 ```
 
 ### Checking on a transaction
@@ -212,14 +185,14 @@ A JSON object with fields:
 
 ```shell
 $ curl -s localhost:11773/wallets/alice/transactions/
-6c5edfe4dec3d173ad4a20a86b8ece6205b872afbb551744916362d519588cef | jq
+86588da7863b39152105e4f78c04e07a5d3f3ebf61d799f95293372dabdb06a1 | jq
 {
   "raw": {
     "kind": 255,
     "inputs": [],
     "outputs": [
       {
-        "covhash": "41d04b65a010aaa3404e1a109c53e3190a393d7ff920fa5644969a879547d0aa",
+        "covhash": "t607gqktd3njqewnjcvzxv2m4ta6epbcv1sdjkp0qkmztaq3wxn350",
         "value": 1001000000,
         "denom": "6d",
         "additional_data": ""
@@ -227,20 +200,20 @@ $ curl -s localhost:11773/wallets/alice/transactions/
     ],
     "fee": 1000000,
     "scripts": [],
-    "data": "9e54625e99642b19453869cbd81c7c75c48dd71ca7e0f029663f013654147cfd",
+    "data": "3516f96885d6e49f3447dd9971cfc9f92e17198394ee402e3ae00f84c6d7fbe6",
     "sigs": []
   },
-  "confirmed_height": 53977,
+  "confirmed_height": 93477,
   "outputs": [
     {
       "coin_data": {
-        "covhash": "41d04b65a010aaa3404e1a109c53e3190a393d7ff920fa5644969a879547d0aa",
+        "covhash": "t607gqktd3njqewnjcvzxv2m4ta6epbcv1sdjkp0qkmztaq3wxn350",
         "value": 1001000000,
         "denom": "6d",
         "additional_data": ""
       },
       "is_change": true,
-      "coin_id": "6c5edfe4dec3d173ad4a20a86b8ece6205b872afbb551744916362d519588cef-0"
+      "coin_id": "86588da7863b39152105e4f78c04e07a5d3f3ebf61d799f95293372dabdb06a1-0"
     }
   ]
 }
@@ -344,3 +317,11 @@ $ curl -s localhost:11773/wallets/alice/prepare-tx -X POST --data '{
 **Response**
 
 - Quoted transaction hash
+
+---
+
+## Using melwallet-cli
+
+`melwallet-cli` is a simple, easy-to-use CLI frontend to `melwalletd`.
+
+Our []

@@ -30,20 +30,20 @@ cargo 1.52.1
 ### Compiling `themelio-node`
 
 ```shell
-$ cargo install --git https://github.com/themeliolabs/themelio-core.git themelio-node
+$ cargo install --locked --git https://github.com/themeliolabs/themelio-core.git themelio-node
 ...
 ```
 
 ### Compiling `melwalletd`
 
 ```shell
-$ cargo install --git https://github.com/themeliolabs/melwalletd.git
+$ cargo install --locked --git https://github.com/themeliolabs/melwalletd.git
 ```
 
 ### Compiling `melminter`
 
 ```shell
-$ cargo install --git https://github.com/themeliolabs/melwalletd.git
+$ cargo install --locked --git https://github.com/themeliolabs/melwalletd.git
 ```
 
 ## Using the CLI tools
