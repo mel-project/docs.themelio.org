@@ -115,7 +115,7 @@ Note that we specify the units as µMEL (1 million µMEL = 1 MEL).
 We can now wait until the money settles on the blockchain with the given command:
 
 ```text
-melwallet-cli wait-confirmation -w alice 35149dd7e23e4acbc3823578ddd73aa09e0ddd08f970b2b673e7f5e58dab6dc9
+$ melwallet-cli wait-confirmation -w alice 35149dd7e23e4acbc3823578ddd73aa09e0ddd08f970b2b673e7f5e58dab6dc9
 Confirmed at height 93819
 (in block explorer: https://scan-testnet.themelio.org/blocks/93819/35149dd7e23e4acbc3823578ddd73aa09e0ddd08f970b2b673e7f5e58dab6dc9)
 ```

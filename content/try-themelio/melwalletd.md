@@ -432,4 +432,44 @@ $ curl -s localhost:11773/wallets/alice/prepare-tx -X POST --data '{
 
 `melwallet-cli` is a simple, easy-to-use CLI frontend to `melwalletd`.
 
-Our []
+Our ["my first transaction"]({{< ref my-first-tx.md>}}) guide has a brief introduction to `melwallet-cli`. More details can be seen in the in-program help:
+
+```text
+$ melwallet-cli -h
+melwallet-client 0.1.0
+
+USAGE:
+    melwallet-cli <SUBCOMMAND>
+
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+
+SUBCOMMANDS:
+    create-wallet        Create a wallet
+    help                 Prints this message or the help of the given subcommand(s)
+    list-wallets         List all available wallets
+    send-faucet          Send a 1000 MEL faucet transaction for a testnet wallet
+    send-tx              Send a transaction to the network
+    wait-confirmation    Wait for a particular transaction to confirm
+```
+
+```text
+$ melwallet-cli create-wallet -h
+melwallet-cli-create-wallet 0.1.0
+Create a wallet
+
+USAGE:
+    melwallet-cli create-wallet [FLAGS] [OPTIONS] -w <wallet>
+
+FLAGS:
+    -h, --help       Prints help information
+        --testnet
+    -V, --version    Prints version information
+
+OPTIONS:
+        --endpoint <endpoint>    HTTP endpoint of a running melwalletd instance [default: 127.0.0.1:11773]
+    -w <wallet>                  Name of the wallet to create or use
+```
+
+etc, for all the different subcommands.
