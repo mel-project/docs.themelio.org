@@ -192,6 +192,114 @@ $ curl -s localhost:11773/wallets/alice/send-faucet -X POST
 "6c5edfe4dec3d173ad4a20a86b8ece6205b872afbb551744916362d519588cef"
 ```
 
+### Listing all transactions
+
+**Endpoint**
+`GET /wallets/[name]/transactions/`
+
+**Response**
+
+A JSON object with fields:
+
+- `tx_in_progress`: Hashtable mapping transaction hash to a raw transaction object in JSON format.
+- `tx_confirmed`: Hashtable mapping transaction hash to tuple pair (transaction object, confirmed height).
+
+**Example**
+
+```shell
+$ curl -s localhost:11773/wallets/bar/transactions | jq                                                                      ~
+{
+  "tx_in_progress": {
+    "f72416b72ae8a0e00e80f571cb0905bfdb7f1c3bba923b5008cac27e3ae2f99b": {
+      "kind": 0,
+      "inputs": [
+        {
+          "txhash": "042816e3c4e5cf5fe140189ca1d2504852fd9721ca44f7e91e21521bc36bc830",
+          "index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "covhash": "t6zf5m662ge2hwax4hcs5kzqmr1a5214fa9sj2rbtassw04n6jffr0",
+          "value": 10000,
+          "denom": "6d",
+          "additional_data": ""
+        },
+        {
+          "covhash": "t24k6kcb5epsbw7c1vx2aq3cpkshk398bbw9gm88qc21d9szcs54tg",
+          "value": 1000988954,
+          "denom": "6d",
+          "additional_data": ""
+        }
+      ],
+      "fee": 23,
+      "scripts": [
+        "420009f100000000000000000000000000000000000000000000000000000000000000064200005050f02044406b661affad63580f1b8d978cc8e06bb7debf2a95b7dbd70a0707e45dd87e420001320020"
+      ],
+      "data": "",
+      "sigs": [
+        "ba4846bb1db91cf767efaf6c965cccfbd0b9778ff215caa61dffe6efccde7c1ef53636fc1ce65d27bbd8d7b48fcd8bfae70c4c1beee3d50df8f8dc96ac320d0e"
+      ]
+    }
+  },
+  "tx_confirmed": {
+    "042816e3c4e5cf5fe140189ca1d2504852fd9721ca44f7e91e21521bc36bc830": [
+      {
+        "kind": 0,
+        "inputs": [
+          {
+            "txhash": "6e7d17356e9453836f1539e2e903fdb4c8ad07a6556d0a91cdfab214af476877",
+            "index": 0
+          }
+        ],
+        "outputs": [
+          {
+            "covhash": "t6zf5m662ge2hwax4hcs5kzqmr1a5214fa9sj2rbtassw04n6jffr0",
+            "value": 1000,
+            "denom": "6d",
+            "additional_data": ""
+          },
+          {
+            "covhash": "t24k6kcb5epsbw7c1vx2aq3cpkshk398bbw9gm88qc21d9szcs54tg",
+            "value": 1000998977,
+            "denom": "6d",
+            "additional_data": ""
+          }
+        ],
+        "fee": 23,
+        "scripts": [
+          "420009f100000000000000000000000000000000000000000000000000000000000000064200005050f02044406b661affad63580f1b8d978cc8e06bb7debf2a95b7dbd70a0707e45dd87e420001320020"
+        ],
+        "data": "",
+        "sigs": [
+          "f3de58f94427983b46fcf4466c78f4f70257bbce686bc2a8e7a836b507474ff40e9bb675f12ea5570a612c60c0878966575cf5d19c96fe7006a56b7540dfa108"
+        ]
+      },
+      93622
+    ],
+    "6e7d17356e9453836f1539e2e903fdb4c8ad07a6556d0a91cdfab214af476877": [
+      {
+        "kind": 255,
+        "inputs": [],
+        "outputs": [
+          {
+            "covhash": "t24k6kcb5epsbw7c1vx2aq3cpkshk398bbw9gm88qc21d9szcs54tg",
+            "value": 1001000000,
+            "denom": "6d",
+            "additional_data": ""
+          }
+        ],
+        "fee": 1000000,
+        "scripts": [],
+        "data": "873340b25a7b250871e009ec995ce35a80d43214d3816f258c4d4aee20df03c1",
+        "sigs": []
+      },
+      93619
+    ]
+  }
+}
+```
+
 ### Checking on a transaction
 
 **Endpoint**
