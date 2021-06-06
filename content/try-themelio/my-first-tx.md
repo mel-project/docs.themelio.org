@@ -33,23 +33,10 @@ $ cargo install --locked --bin melwallet-cli --git https://github.com/themeliola
 
 Before we send any transactions, we first create two wallets between which we can send money.
 
-### Start the daemon
-
-`melwalletd` is a _background_ process that must be running to use Themelio wallets. In a _separate_ terminal, run the following and keep it running. You can also use something like `screen` or `tmux` to run it in the background.
-
-```text
-$ melwalletd --wallet-dir ~/.themelio-wallets/
-Jun 01 11:21:41.316  INFO melwalletd: opened wallet directory: []
-```
-
-This starts the background wallet daemon. You can pass some other directory to `melwalletd` too --- that will be where it stores persistent wallet data.
-
-### Create two wallets
-
 Let's now create two wallets: `alice` and `bob`. To do so, first switch to another terminal and use `melwallet-cli create-wallet` to create two wallets:
 
 ```text
-$ melwallet-cli create-wallet -w alice --testnet
+$ melwallet-cli create-wallet -a -w alice --testnet
 Wallet name:  alice
 Network:      testnet
 Address:      <ALICE_ADDRESS>
@@ -57,7 +44,7 @@ Balance:      0 µMEL
 
 SECRET KEY (write this down):  <ALICE_SECRET>
 
-$ melwallet-cli create-wallet -w bob --testnet
+$ melwallet-cli create-wallet -a -w bob --testnet
 Wallet name:  bob
 Network:      testnet
 Address:      <BOB_ADDRESS>
@@ -71,6 +58,8 @@ This generates and stores to disk the two wallets. We create the wallets on the 
 - The **address** is a public identifier that uniquely identifies a wallet. It's what you give other people when you want to receive money.
 - The **secret key** should be kept VERY secret --- anybody with it can steal all your money! It is also not saved to disk: you must save it separately. When you use `melwallet-cli` to send money, you'll need your secret key to unlock your money.
 
+Note that by using the `-a` flag, we are _autostarting_ the `melwalletd` daemon in the background. By default, this will store wallets in `~/.auto-melwallet/`.
+
 ## Add money to Alice's wallet
 
 ### Use the testnet faucet
@@ -80,15 +69,15 @@ Because we created testnet wallets, we can use the _testnet faucet_: special tra
 `melwallet-cli send-faucet` sends a faucet transaction to credit the wallet with 1000 MEL:
 
 ```text
-$ melwallet-cli send-faucet -w alice
+$ melwallet-cli send-faucet -a -w alice
 Transaction hash:  9974a514351a0696b6d7e3851da957ff508e44857b4967e3d46b8d16685b9769
 (wait for confirmation with melwallet-cli wait-confirmation -w alice 9974a514351a0696b6d7e3851da957ff508e44857b4967e3d46b8d16685b9769)
 ```
 
-The faucet transaction is now already on its way. As the output suggests, you can wait for the transaction to confirm:
+The faucet transaction is now already on its way. As the output suggests, you can wait for the transaction to confirm (adding the `-a` flag because we are using autostart mode):
 
 ```text
-$ melwallet-cli wait-confirmation -w alice 9974a514351a0696b6d7e3851da957ff508e44857b4967e3d46b8d16685b9769
+$ melwallet-cli wait-confirmation -a -w alice 9974a514351a0696b6d7e3851da957ff508e44857b4967e3d46b8d16685b9769
 ...............Confirmed at height 93807
 (in block explorer: https://scan-testnet.themelio.org/blocks/93807/9974a514351a0696b6d7e3851da957ff508e44857b4967e3d46b8d16685b9769)
 ```
@@ -100,7 +89,7 @@ $ melwallet-cli wait-confirmation -w alice 9974a514351a0696b6d7e3851da957ff508e4
 Now we are ready to send money to Bob. Let's send over 500 MEL:
 
 ```text
-$ melwallet-cli send-tx -w alice --to <BOB_ADDRESS>,500000000
+$ melwallet-cli send-tx -a -w alice --to <BOB_ADDRESS>,500000000
 TRANSACTION RECIPIENTS
 Address         Amount          Additional data
 <BOB_ADDRESS>   500000000 µMEL  ""
@@ -115,19 +104,33 @@ Note that we specify the units as µMEL (1 million µMEL = 1 MEL).
 We can now wait until the money settles on the blockchain with the given command:
 
 ```text
-$ melwallet-cli wait-confirmation -w alice 35149dd7e23e4acbc3823578ddd73aa09e0ddd08f970b2b673e7f5e58dab6dc9
+$ melwallet-cli wait-confirmation -a -w alice 35149dd7e23e4acbc3823578ddd73aa09e0ddd08f970b2b673e7f5e58dab6dc9
 Confirmed at height 93819
 (in block explorer: https://scan-testnet.themelio.org/blocks/93819/35149dd7e23e4acbc3823578ddd73aa09e0ddd08f970b2b673e7f5e58dab6dc9)
 ```
 
 ### Receiving the money
 
-**TODO**
+In Themelio, wallets based on thin clients, like `melwallet-cli`, cannot trustlessly know exactly what money has been sent to them without processing every transaction and becoming a full node. Other UTXO blockchains like Bitcoin simply have thin clients trust somebody else to scan the blockchain for them.
+
+However, we intentionally omit any functionality that would require third-party trust in our thin-client-based tools. This means that for Bob to see the money Alice sent him, he must input a "receipt" that Alice gives him: the _coin ID_ of the coin sent to Bob. Coin IDs represent discrete sums of money on the blockchain, and we refer to them by `<transaction hash>-<index>`. For example, the money sent to Bob was the first output of the transaction with hash `35149dd7e23e4acbc3823578ddd73aa09e0ddd08f970b2b673e7f5e58dab6dc9`, so the CoinID is `35149dd7e23e4acbc3823578ddd73aa09e0ddd08f970b2b673e7f5e58dab6dc9-0`.
+
+We add the money to Bob's wallet:
+
+```text
+Coin successfully added!
+Wallet name:  bob
+Network:      testnet
+Address:      t0cvmtcqrtepb8tbsasmp3rm4kcv8w4s5s0w80ff46ecgbfafa7k5g
+Balance:      500000000  µMEL
+```
+
+We now see that Bob has the 500 MEL from Alice!
 
 ## Congratulations!
 
-You've successfully sent 500 mels from Alice to Bob. Alice now has 499.987 TML in her wallet, while Bob has 500 TML.
+You've successfully sent 500 mels from Alice to Bob.
 
 ## Next steps
 
-In this guide, you used a validating thin client that does not synchronize the entire blockchain state. This has slightly less security and doesn't allow much functionality without a reliable Internet connection, so in some applications you would want to run an auditor node to replicate and fully validate blocks. That's covered in the next guide.
+In this guide, you used a validating thin client that does not synchronize the entire blockchain state. This has slightly less security and doesn't allow much functionality without a reliable Internet connection, so in some applications you would want to run an full node to replicate and fully validate blocks. That's covered in the next guide.

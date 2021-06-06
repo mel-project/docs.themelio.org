@@ -63,7 +63,7 @@ Note that three things were needed to connect to the testnet:
 
 ## Running a staker
 
-Right now, the staker network is not yet open to public participation. This section will be updated with more detailed information once anyone can become a staker.
+_Right now, the staker network is not yet open to public participation. This section will be updated with more detailed information once anyone can become a staker._
 
 ## Other options
 
