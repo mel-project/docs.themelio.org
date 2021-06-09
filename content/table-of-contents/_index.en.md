@@ -18,7 +18,7 @@ Traditional blockchains either implement one application or try to provide a com
 
 On the other hand, Themelio’s design is firmly centered around decoupling the blockchain from user-facing applications. Themelio does one thing --- provide robust low-level functionality critical to secure decentralized apps --- and strives to do it very well.
 
-In fact, we aim to develop a protocol flexible and robust enough to never need change. Themelio will be _completely governance-free_ **(TODO: link something that describes Themelio's governance strategy?)** after the stable network launches, simply sidestepping the [contentious problem of coordinating consensus-critical protocol upgrades](https://nullchinchilla.me/against-blockchain-governance/).
+In fact, we aim to develop a protocol flexible and robust enough to never need change. Themelio will be _completely governance-free_ after the stable network launches, simply sidestepping the [contentious problem of coordinating consensus-critical protocol upgrades](https://nullchinchilla.me/against-blockchain-governance/).
 
 We envision Themelio as a radically simple, stable, and long-term foundation that can power a vast and diverse ecosystem. As such, we expect Themelio to play a fundamental and ubiquitous role in the security infrastructure of a new and decentralized Internet, much like how IP, "immutable" [since 1983](https://tools.ietf.org/html/rfc791), still underpins Internet communication.
 
@@ -63,4 +63,4 @@ You can find [a detailed treatment of Synkletos right here](../whitepapers/synkl
 
 Themelio has launched its **alphanet**. This gives us a proof-of-concept to tinker with that you can also participate in. At this point, development is highly agile and prioritizes flexibility over stability.
 
-To get started, you can learn more about Themelio in this knowledge base, [join our Discord channel](https://discord.gg/2HmurW9T9K), and try transacting in some placeholder "Monopoly money" with our [alphanet wallet](getting-started-with-the-alphanet.md).
+To get started, you can learn more about Themelio in this knowledge base, [join our Discord channel](https://discord.gg/2HmurW9T9K), and try transacting in some placeholder "Monopoly money" with our [alphanet wallet]({{< ref "../try-themelio/my-first-tx.md" >}}).
