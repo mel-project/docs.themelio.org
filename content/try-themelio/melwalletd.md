@@ -35,16 +35,16 @@ If the directory doesn't exist it will be created. By default, melwalletd will s
 **Body fields**
 
 - `testnet`: whether or not to make a testnet wallet
+- `pwd`: optional field; password with which to encrypt the private key. **Warning**: if not given, private key will be stored in cleartext!
 
 **Response**
 
-- Quoted string representing private key of newly created wallet
+- Nothing
 
 **Example**
 
 ```shell
 $ curl -s 'localhost:11773/wallets/alice' -X PUT --data '{"testnet": true}'
-"5d256f9f12036e04aa433e0c439c7d2c6f06261b2a804bcb99598c218874c0c3e8fc9285b385abec4e955b79e3ed5fb58bf9dd6b60c86b5f2a4238e1194b476e"
 ```
 
 ### Listing all wallets
@@ -58,6 +58,7 @@ $ curl -s 'localhost:11773/wallets/alice' -X PUT --data '{"testnet": true}'
   - `total_micromel`: total µMEL balance of wallet
   - `network`: 1 for testnet, 255 for mainnet
   - `address`: address-encoded covenant hash
+  - `locked`: boolean saying whether or not the wallet is locked.
 
 **Example**
 
@@ -67,17 +68,20 @@ $ curl -s localhost:11773/wallets | jq
   "alice": {
     "total_micromel": 0,
     "network": 1,
-    "address": "t607gqktd3njqewnjcvzxv2m4ta6epbcv1sdjkp0qkmztaq3wxn350"
+    "address": "t607gqktd3njqewnjcvzxv2m4ta6epbcv1sdjkp0qkmztaq3wxn350",
+    "locked": true
   },
   "labooyah": {
     "total_micromel": 0,
     "network": 255,
-    "address": "t1jhtj4ex1n069xr8w6mbkgrt25jgzw0pam1a25redg9ykpsykbq70"
+    "address": "t1jhtj4ex1n069xr8w6mbkgrt25jgzw0pam1a25redg9ykpsykbq70",
+    "locked": true
   },
   "testnet": {
     "total_micromel": 17322999920,
     "network": 1,
-    "address": "t6zf5m662ge2hwax4hcs5kzqmr1a5214fa9sj2rbtassw04n6jffr0"
+    "address": "t6zf5m662ge2hwax4hcs5kzqmr1a5214fa9sj2rbtassw04n6jffr0",
+    "locked": true
   }
 }
 ```
@@ -93,6 +97,7 @@ $ curl -s localhost:11773/wallets | jq
   - `total_micromel`: total µMEL balance of wallet
   - `network`: 1 for testnet, 255 for mainnet
   - `address`: address-encoded covenant hash
+  - `locked`: whether or not the wallet is locked
 - `full`: a **full wallet object** with fields
   - `unspent_coins`: array of unspent coins, each of which is an array with two elements: a CoinID and a CoinDataHeight.
   - `spent_coins`: previous members of `unspent_coins` that are now spent
@@ -109,7 +114,8 @@ $ curl -s localhost:11773/wallets/alice | jq
   "summary": {
     "total_micromel": 0,
     "network": 1,
-    "address": "t607gqktd3njqewnjcvzxv2m4ta6epbcv1sdjkp0qkmztaq3wxn350"
+    "address": "t607gqktd3njqewnjcvzxv2m4ta6epbcv1sdjkp0qkmztaq3wxn350",
+    "locked": true
   },
   "full": {
     "unspent_coins": [],
@@ -142,6 +148,32 @@ $ curl -s localhost:11773/wallets/alice | jq
 ---
 
 ## Using a single wallet
+
+### Unlocking a wallet
+
+**Endpoint**
+`POST /wallets/[name]/unlock`
+
+**Body fields**
+
+- `password`: password
+
+**Response**
+
+None
+
+### Locking a wallet
+
+**Endpoint**
+`POST /wallets/[name]/lock`
+
+**Body fields**
+
+None
+
+**Response**
+
+None
 
 ### Sending a faucet transaction
 
@@ -432,44 +464,4 @@ $ curl -s localhost:11773/wallets/alice/prepare-tx -X POST --data '{
 
 `melwallet-cli` is a simple, easy-to-use CLI frontend to `melwalletd`.
 
-Our ["my first transaction"]({{< ref my-first-tx.md>}}) guide has a brief introduction to `melwallet-cli`. More details can be seen in the in-program help:
-
-```text
-$ melwallet-cli -h
-melwallet-client 0.1.0
-
-USAGE:
-    melwallet-cli <SUBCOMMAND>
-
-FLAGS:
-    -h, --help       Prints help information
-    -V, --version    Prints version information
-
-SUBCOMMANDS:
-    create-wallet        Create a wallet
-    help                 Prints this message or the help of the given subcommand(s)
-    list-wallets         List all available wallets
-    send-faucet          Send a 1000 MEL faucet transaction for a testnet wallet
-    send-tx              Send a transaction to the network
-    wait-confirmation    Wait for a particular transaction to confirm
-```
-
-```text
-$ melwallet-cli create-wallet -h
-melwallet-cli-create-wallet 0.1.0
-Create a wallet
-
-USAGE:
-    melwallet-cli create-wallet [FLAGS] [OPTIONS] -w <wallet>
-
-FLAGS:
-    -h, --help       Prints help information
-        --testnet
-    -V, --version    Prints version information
-
-OPTIONS:
-        --endpoint <endpoint>    HTTP endpoint of a running melwalletd instance [default: 127.0.0.1:11773]
-    -w <wallet>                  Name of the wallet to create or use
-```
-
-etc, for all the different subcommands.
+Our ["my first transaction"]({{< ref my-first-tx.md>}}) guide has a brief introduction to `melwallet-cli`. More details can be seen in the in-program help `melwallet-cli -h`.
