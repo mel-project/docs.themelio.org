@@ -52,7 +52,7 @@ Network:      testnet
 Address:      <ALICE_ADDRESS>
 Balance:      0 µMEL
 
-$ melwallet-cli create --w bob --testnet
+$ melwallet-cli create -w bob --testnet
 Wallet name:  bob
 Network:      testnet
 Address:      <BOB_ADDRESS>
