@@ -55,45 +55,64 @@ In lieu of paper Melmint's demurrage, we introduce **DOSC inflation**. We keep t
 
 # Specification
 
-## Melswap: a Uniswapesque built-in DEX
+## Melswap: a Uniswap-esque built-in DEX
 
-The foundation of Melmint v2 is Melswap, a decentralized exchange built into Themelio that allows free exchange between any Themelio `denom` and Mel. Melswap is an extremely simple Uniswap-like "constant product" automated market maker, and it is based on three concepts: **pools**, **swapping**, and **liquidity tokens**.
+The foundation of Melmint v2 is Melswap, a decentralized exchange built into Themelio that allows free exchange between any two Themelio `Denom`s. Melswap is an extremely simple Uniswap-like "constant product" automated market maker, and it is based on three concepts: **pools**, **swapping**, and **liquidity tokens**.
 
 ### Pools
 
-We keep a **pool** that stores liquidity for a particular token and Mel. The transaction level `State` has a member `State::pools` of type `SmtMapping<Vec<u8>, PoolState>`, mapping each denomination to a `PoolState` structure:
+We keep a **pool** that stores liquidity for a particular token and Mel. The transaction level `State` has a member `State::pools` of type `SmtMapping<PoolKey, PoolState>`. A `PoolKey` is
+
+```rust
+pub struct PoolKey {
+  pub left: Denom,
+  pub right: Denom,
+}
+```
+
+where `left` must be lexicographically smaller than `right`. This structure uses _custom serialization_: if either `left` or `right` is `Denom::Mel`, then the whole `PoolKey` is serialized as the _other_ token. Otherwise, the PoolKey is serialized as 32 bytes of zeroes, plus the standard stdcode serialization for `(left, right)`.
+
+> **Note**: this strange serialization is for backwards compatibility from before Melswap supported swapping between two non-Mel tokens. [TIP-902](https://github.com/themeliolabs/themelio-core/issues/29) added support for non-Mel/non-Mel swapping.
+
+Each `PoolState` is:
 
 ```rust
 pub struct PoolState {
-    pub mels: u128, // unit is µmel
-    pub tokens: u128,
-    pub price_accum: u128,
+    pub left_tokens: u128,
+    pub right_tokens: u128,
+    pub price_accum: u128, // unit: lefts per right
     pub liqs: u128,
 }
 ```
 
-WLOG, we call the token of a particular pool the "token", which is exchanged for µmel
+We call the "left" token "lefts" and the right hand token "rights" in our description.
 
 ### Swapping
 
-**Swapping** a custom token with Mel, or vice versa, involves sending a sum of money into a particular pool, while withdrawing the other token.
+**Swapping** a involves sending a sum of either lefts or rights into a particular pool, while withdrawing the other token.
 
-To swap a custom token with Mel, we use a transaction with kind `Swap`. The `data` field refers to a key in `State::pools`.
+We use a transaction with kind `Swap`. The `data` field refers to a key in `State::pools`.
 
 Nothing "special" happens when the transaction is applied to the state, and it is processed exactly like a transaction of type `Normal`.
 
-This is because to safeguard order-independence of all transactions, the actual execution of all swaps within a block is done on _block sealing_ --- in a sense, swaps settle at the next block height rather than immediately. When a block is sealed, we settle swaps by following this procedure:
+This is because to safeguard order-independence of all transactions, the actual execution of all swaps within a block is done on _block sealing_ --- in a sense, swaps settle at the next block height rather than immediately. When a block is sealed, we _settle all the swaps in the block simultaneously_.
 
-- Find all transactions in this block of kind `Swap`, whose first output has not been spent, whose `data` field points to an existing pool, and whose first output's denomination is either the pool token or Mel. These are the **swap requests**.
+This is done by following this procedure:
+
+- Find all transactions in this block of kind `Swap`, whose first output has not been spent, whose `data` field points to an existing pool, and whose first output's denomination is either lefts or rights. These are the **swap requests**. The first output of every swap request is supposed to be swapped to its counterpart.
 - For each pool mentioned in some swap request:
-  - Add the first output of all swap requests for that pool, whether token or Mel, into the pool. Let $\Delta_m$ be the µmels added, $\Delta_\alpha$ be the tokens added, $m$ be the original number of mels, and $\alpha$ be the original number of tokens.
-  - We compute the exchange rate of the token as simply the ratio $X=(\Delta_\alpha+\alpha)/(\Delta_m +m)$.
-  - We compute exactly how many µmels and tokens to remove from the pool: $W_\alpha = \lfloor0.995X\Delta_m\rfloor,W_m=\lfloor0.995X\Delta_\alpha\rfloor$
-  - We change the number of µmels in the pool to $m+\Delta_m-W_m$, and the number of tokens to $\alpha+\Delta_\alpha-W_\alpha$.
+  - Add the first output of all swap requests for that pool, whether left or right, into the pool. Let $\Delta_\ell$ be the lefts added, $\Delta_r$ be the tokens added, $\ell$ be the original number of lefts, and $r$ be the original number of rights.
+  - We compute the exchange rate of the token as simply the ratio $X=(\Delta_\ell+\ell)/(\Delta_r +r)$.
+  - We add $\lfloor 10^6 X \rfloor$ to `price_accum`, wrapping around on overflow.
+  - We compute exactly how many lefts and rights to remove from the pool: $W_\ell = \lfloor0.995X\Delta_r\rfloor,W_m=\lfloor0.995X\Delta_\alpha\rfloor$
+  - We change the number of lefts in the pool to $\ell+\Delta_\ell-W_\ell$, and the number of rights to $r+\Delta_r-W_r$.
   - We _settle_ each swap request by **transmuting** the `CoinData` binding of their first output in `coins`, with value $v$:
-    - If the coin is is µmel-denominated, change `denom` to that of the token, and change `value` to $$\frac{vW_\alpha}{\Delta_m}$$
-    - If the coin is token-denominated, change `denom` to µmel, and change `value` to $$\frac{vW_m}{\Delta_\alpha}$$.
-  - We add $\lfloor 10^6\times P \rfloor$ to `price_accum`, wrapping around on overflow.
+    - If the coin is is left-denominated, change `denom` to right, and change `value` to $$\left\lfloor\frac{vW_r}{\Delta_\ell}\right\rfloor$$
+    - If the coin is token-denominated, change `denom` to µmel, and change `value` to $$\left\lfloor\frac{vW_\ell}{\Delta_r}\right\rfloor$$
+
+> **Note**: we always round down. This can lead to minute amounts of tokens "getting lost", but we never guarantee that tokens cannot get lost anyway (they can be sent to the zero address), so it is always safe to err on the side of tokens getting lost.
+
+> **Note**: we use this all-at-once approach at block sealing to achieve strict order-independence. This also happily gets us a degree of frontrunning resistance.
 
 ### Liquidity tokens
 
@@ -103,39 +122,41 @@ Similar to `Swap` transactions, they are processed in the "pipeline" just like `
 
 - **Process deposits:**
 
-  - Find all `LiqDeposit` transactions in the block, whose first output's denomination is Mel, and whose second output's denomination is the pool token, neither of which have been spent.
+  - Find all `LiqDeposit` transactions in the block, whose first output's denomination is lefts, and whose second output's denomination is rights, neither of which have been spent.
   - For each pool, existing or nonexisting, mentioned in some `LiqDeposit`:
 
     - If the pool doesn't exist:
-      - Create a pool, with $M$ mels and $A$ tokens, where $M$ and $A$ are the total mels and tokens in the first and second outputs of the `LiqDeposits` for this pool.
+      - Create a pool, with $L$ lefts and $R$ rights, where $L$ and $R$ are the total lefts and rights in the first and second outputs of the `LiqDeposits` for this pool.
       - For each of the `LiqDeposit`s for this pool:
-        - Given that the transaction deposits $m$ mels, transmute the first output to $m$ liquidity tokens. Liquidity tokens have denom $H_\mathsf{``liq''}(c)$, where $c$ is the pool token's denom. Delete the second output from the state.
+        - Given that the transaction deposits $\ell$ lefts, transmute the first output to $
+        \ell$ liquidity tokens. If one of the left or right tokens is Mel, then the liquidity tokens have denom $H_\mathsf{``liq''}(c)$, where $c$ is non-mel token's `Denom`. Otherwise, the liquidity token has denom $H_\mathsf{``liq''}(K)$, where $K$ is the `PoolKey` of the pool.
+        - Delete the second output from the state.
       - Set `liqs` of the pool to the total number of liquidity tokens created.
     - If the pool does exist:
       - Add all the mels and tokens into the pool.
       - For each of the `LiqDeposit`s for this pool:
-        - Given $m,\alpha,\ell,\Delta_m,\Delta_\alpha$, the number of liquidity tokens minted is
-          $$\Delta_\ell = \ell\left\lfloor \sqrt{\frac{\Delta_m\Delta_\alpha}{m\alpha}} \right\rfloor$$
+        - Given $\ell,r,q,\Delta_\ell,\Delta_r$, the number of liquidity tokens minted is
+          $$\Delta_q = q\left\lfloor \sqrt{\frac{\Delta_\ell\Delta_r}{\ell r}} \right\rfloor$$
         - Update `liqs` and transmute accordingly.
 
 - **Process withdrawals**
-  - Find all `LiqWithdrawal` transactions in the block, whose first output's denomination is the liquidity token of the "correct" pool, which hasn't been spent.
-  - Using exact arithmetic, compute the correct number of mels and tokens to withdraw for every liquidity token.
-  - For every `LiqWithdrawal` transaction, transmute its first output to the floor of the correct number of mels, and synthesize a second output to the floor of the correct number of tokens.
+  - Find all `LiqWithdrawal` transactions in the block, whose first output's denomination is the liquidity token of the "correct" pool, which hasn't been spent. The `data` field specifies which pool it is.
+  - Using exact arithmetic, compute the correct number of lefts and rights to withdraw for every liquidity token.
+  - For every `LiqWithdrawal` transaction, transmute its first output to the floor of the correct number of lefts, and synthesize a second output to the floor of the correct number of rights.
   - Decrement `liqs` properly. This should never overflow because liqs can't proliferate elsewhere.
 
 ## The Melmint mechanism
 
 Melmint is now a simple "central bank" mechanism that supplies liquidity to Melswap to **loosely** target a given DOSC/mel exchange rate. This is implemented as the following procedure on block seal, after Melswap is processed:
 
-- Calculate the implied sym/nomDOSC exchange rate $R_{SD}=X_S/X_D$ through the nomDOSC/mel exchange rate $X_D$ and sym/mel exchange rate $X_S$.
+- Calculate the implied sym/nomDOSC exchange rate $X\_{SD}$; this is just the ratio of sym to nomDOSC in the sym/nomDOSC pool.
 - "Nudge" the sym/mel pool, containing $s$ syms and $m$ mels, with towards 1 mel = $\kappa$ nomDOSC worth of sym, where $\kappa$ is the DOSC inflator:
   - Compute the target ratio: $\hat{R}\_{SM} = \kappa \times R\_{SD}$
-  - We first nudge the number of syms: $s' = \lfloor0.9999s \rfloor + \lfloor 0.0001(m \cdot \hat{R}_{SM}) \rfloor$
+  - We first nudge the number of syms: $s' = \lfloor0.995s \rfloor + \lfloor 0.005(m \cdot \hat{R}_{SM}) \rfloor$
   - Now the "product" is out of whack, so we restore the product. Compute the "stretch factor" $\gamma=s'/s$ and set
     - $s \gets \lfloor s'/\lfloor\sqrt{\gamma}\rfloor \rfloor$
     - $m \gets \lfloor m\cdot \lfloor\sqrt{\gamma}\rfloor \rfloor$
-  - This sets the price 1/10000th closer to the "correct" exchange rate. Thus, the peg will restore "half way" in approximately 2 days if market conditions are neutral.
+  - This sets the price 1/200th closer to the "correct" exchange rate. Thus, the peg will restore "half way" in approximately 2 hours if market conditions are neutral.
 
 Why are we so conservative with nudging the target rate? This is largely to prevent small fluctuations or market manipulation from destabilizing Melmint. As long as the market expects Melmint to eventually defend the peg, the market will likely immediately restore deviations from the peg.
 
@@ -164,6 +185,6 @@ This is important, because it actually avoids a failure scenario in Melmint v1. 
 
 In v2, however, such a spiral cannot happen, because when there is a whiff of sym hyperinflation-induced systemic collapse, the immediate response of any rational sym holder would be to remove liquidity from the sym/mel pool to "cash out" as fast as possible. This rapidly disables Melmint's monetary policy.
 
-Furthermore, each marginal withdrawal marginally weakens Melmint, so there's no pressure to be the "first in line" to withdraw.
+Furthermore, each marginal withdrawal marginally weakens Melmint, so there's much less pressure to be the "first in line" to withdraw.
 
-Thus, Melmint is inherently run-proof the way properly priced money-market mutual funds, as opposed to bank accounts, are run-proof.
+Thus, Melmint is inherently run-proof the way properly priced money-market mutual funds, as opposed to fractional-reserve bank accounts, are run-proof.
