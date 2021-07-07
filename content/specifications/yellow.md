@@ -348,7 +348,7 @@ We check the MelVM covenants of each coin, and make sure the input and output co
 
 - $\Upsilon^I(\sigma, T)$:
   - **for** each $\mathtt{coinid}$ in $T.\mathtt{inputs}$
-    - **if** $\mathtt{coinid.txhash}$ is a key in $\sigma.\mathtt{stakes}$ or $\sigma.\mathtt{auction\\_bids}$, then the coin is frozen and we **abort**.
+    - **if** $\mathtt{coinid.txhash}$ is a key in $\sigma.\mathtt{stakes}$, then the coin is frozen and we **abort**.
     - **remove** $\mathtt{coinid} \Rightarrow \mathtt{coindataheight}$ from $\sigma.\mathtt{coins}$
     - **find** $\mathtt{cov}$ s.t. $\exists h \in T.\mathtt{covenants}$ where $H(\mathtt{cov}) = h$
     - **check** that $T$ satisfies the MelVM covenant $\mathtt{cov}$
