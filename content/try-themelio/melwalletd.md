@@ -386,7 +386,8 @@ $ curl -s localhost:11773/wallets/alice/coins/1b7446a9a5fdbfbaf817a90f989529acc8
 
 **Body fields**
 
-- `outputs`: an array of CoinDatas, representing the desired outputs of the transaction. Any change outputs that are added are guaranteed to be added after these outputs.
+- `inputs`: _optional_ an array of `CoinID`s, representing inputs that must be spent by this transaction. This is useful for building covenant chains and such.
+- `outputs`: an array of `CoinData`s, representing the desired outputs of the transaction. Any change outputs that are added are guaranteed to be added after these outputs.
 - `signing_key`: an ed25519 signing key that corresponds to the wallet's covenant.
 - `kind`: _optional_ TxKind of the transaction (defaults to Normal)
 - `data`: _optional_ additional data of the transaction (defaults to empty)
