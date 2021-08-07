@@ -391,6 +391,7 @@ $ curl -s localhost:11773/wallets/alice/coins/1b7446a9a5fdbfbaf817a90f989529acc8
 - `signing_key`: an ed25519 signing key that corresponds to the wallet's covenant.
 - `kind`: _optional_ TxKind of the transaction (defaults to Normal)
 - `data`: _optional_ additional data of the transaction (defaults to empty)
+- `nobalance`: _optional_ vector of `Denom`s on which balancing --- checking that exactly the same number of coins are produce by a transaction as those consumed by it --- should not be done. Normally, this is used to exempt nomDOSC balance from being checked when preparing a DOSC-minting transaction.
 
 **Response**
 

@@ -20,7 +20,7 @@ The recommended way of installing Themelio software at the moment is by compilin
 
 The best way to install a Rust toolchain is to follow the [official guide](https://www.rust-lang.org/learn/get-started).
 
-Make sure that your Cargo version is **at least 1.49**:
+Make sure that your Cargo version is **at least 1.52**:
 
 ```shell
 $ cargo --version
@@ -43,7 +43,7 @@ $ cargo install --locked --git https://github.com/themeliolabs/melwalletd.git
 ### Compiling `melminter`
 
 ```shell
-$ cargo install --locked --git https://github.com/themeliolabs/melwalletd.git
+$ cargo install --locked --git https://github.com/themeliolabs/melminter.git
 ```
 
 ## Using the CLI tools
