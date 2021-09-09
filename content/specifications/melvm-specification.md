@@ -153,10 +153,11 @@ Despite their appearance, these operations, as well as those for bytestrings, ar
 
 ### Type conversions
 
-| Opcode | Encoding | Meaning                                      |
-| :----- | :------- | :------------------------------------------- |
-| ITOB   | 0xc0     | Pops an integer and converts to bytes        |
-| BTOI   | 0xc1     | Pops bytes and converts first 32B to integer |
+| Opcode | Encoding | Meaning                                                                          |
+| :----- | :------- | :------------------------------------------------------------------------------- |
+| ITOB   | 0xc0     | Pops an integer and converts to bytes                                            |
+| BTOI   | 0xc1     | Pops bytes and converts first 32B to integer                                     |
+| TYPEQ  | 0xc2     | Pops a value and returns what type it is: 0 if integer, 1 if bytes, 2 if vector. |
 
 ### Literals
 
