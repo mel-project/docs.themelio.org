@@ -26,10 +26,10 @@ melminter --connect <address of a full node> --daemon <where melwalletd is liste
 For example, if we have a testnet wallet called `foobar` and a daemon listening on `127.0.0.1:11773`, we can run:
 
 ```
-melminter --connect 185.70.196.63:11814 --testnet --backup-wallet foobar
+melminter --connect 185.70.196.63:11814 --backup-wallet foobar
 ```
 
-(where `185.70.196.63:11814` is the address testnet node)
+(where `185.70.196.63:11814` is the address of a testnet node)
 
 This will start the melminter:
 
@@ -55,10 +55,20 @@ Sep 16 21:48:24.391 DEBUG melminter::worker: approx 4576.538202338s left in iter
 
 In Melmint, _nominal DOSCs_ (nomDOSCs) are minted by creating a `DoscMint` transaction with a proof of sequential work over its inputs. This is an inherently sequential process, so `melminter` starts off by creating a bunch of different coins (in different wallets starting with `__melminter_`), spending them with `DoscMint` transactions with proof-of-sequential-work attached to generate nominal DOSC.
 
-This nominal DOSC is then continually converted through Melswap into Mel, and used to pay transaction fees. Any excess is sent back to the backup walet.
+This nominal DOSC is then continually converted through Melswap into Mel, and used to pay transaction fees. Any excess is sent back to the backup wallet. All of this can be configured through `melminter` command-line arguments.
 
-TODO: thresholds? This should be configurable
+TODO: document this
 
 ## Caveats
 
-TODO
+### Minting may not be profitable
+
+Minting nomDOSCs and converting them into mels is not always profitable. Because of the mechanics of Melmint, minting is _probably not_ profitable unless you have a top-of-the-line CPU and cheap electricity. Transient volatility in the mel/nomDOSC exchange rate may also affect profitability.
+
+`melminter` makes no attempt at guessing whether or not minting is profitable.
+
+### Wallet security
+
+When `melminter`'s workers for some reason do not have enough funds to pay transaction fees, funds are transferred from the backup wallet. This is most commonly when `melminter` is started for the first time.
+
+To transfer money successfuly, `melminter` requires the backup wallet to be unlocked, and will fail if it is locked. It's strongly recommended, however, that the backup wallet be kept locked unless `melminter` is being run for the first time, so that its private key is not exposed in memory for longer than needed.
