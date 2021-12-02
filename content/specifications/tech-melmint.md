@@ -49,7 +49,7 @@ There is no more sym auction or inbuilt sym inflation. Instead, we simply use th
 
 Why not directly target the DOSC/mel pair? Because we can't let the protocol print DOSCs, lest they no longer become DOSCs. Using the mel/sym pair as the main "lever" for monetary policy allows us to extract "inflation taxes" on sym holders in exactly the same way as paper Melmint does.
 
-In lieu of paper Melmint's demurrage, we introduce **DOSC inflation**. We keep track of an exponentially increasing _DOSC inflator_ $\kappa$. The difficulty of creating on-chain nominal DOSCs (**nomDOSC**) is divided by the inflator, so that each nomDOSC represents a smaller and smaller amount of real-world computation. At the same time, the targeted nomDOSC/mel exchange rate is multiplied by the inflator, so that more and more nomDOSCs are needed to obtain one mel. This has the exact same effect as demurraging a fixed DOSC, without requiring nomDOSC balances to ever change.
+In lieu of paper Melmint's demurrage, we introduce **DOSC inflation**. We keep track of an exponentially increasing _DOSC inflator_ $\kappa$. The difficulty of creating on-chain **ergs** is divided by the inflator, so that each erg represents a smaller and smaller amount of real-world computation. At the same time, the targeted erg/mel exchange rate is multiplied by the inflator, so that more and more ergs are needed to obtain one mel. This has the exact same effect as demurraging a fixed DOSC, without requiring erg balances to ever change.
 
 ---
 
@@ -147,10 +147,10 @@ Similar to `Swap` transactions, they are processed in the "pipeline" just like `
 
 ## The Melmint mechanism
 
-Melmint is now a simple "central bank" mechanism that supplies liquidity to Melswap to **loosely** target a given DOSC/mel exchange rate. This is implemented as the following procedure on block seal, after Melswap is processed:
+Melmint is now a simple "central bank" mechanism that supplies liquidity to Melswap to **loosely** target a given erg/mel exchange rate. This is implemented as the following procedure on block seal, after Melswap is processed:
 
-- Calculate the implied sym/nomDOSC exchange rate $X\_{SD}$; this is just the ratio of sym to nomDOSC in the sym/nomDOSC pool.
-- "Nudge" the sym/mel pool, containing $s$ syms and $m$ mels, with towards 1 mel = $\kappa$ nomDOSC worth of sym, where $\kappa$ is the DOSC inflator:
+- Calculate the implied sym/erg exchange rate $X\_{SD}$; this is just the ratio of sym to erg in the sym/erg pool.
+- "Nudge" the sym/mel pool, containing $s$ syms and $m$ mels, with towards 1 mel = $\kappa$ erg worth of sym, where $\kappa$ is the DOSC inflator:
   - Compute the target ratio: $\hat{R}\_{SM} = \kappa \times R\_{SD}$
   - We first nudge the number of syms: $s' = \lfloor0.995s \rfloor + \lfloor 0.005(m \cdot \hat{R}_{SM}) \rfloor$
   - Now the "product" is out of whack, so we restore the product. Compute the "stretch factor" $\gamma=s'/s$ and set

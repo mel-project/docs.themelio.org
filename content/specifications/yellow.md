@@ -236,7 +236,7 @@ This essentially encapsulates the transaction's "associated data". More specific
 - `denom` identifies the denomination of the coin. Generally, this is the hash of the transaction that first created the new denomination. There are three special cases for builtin assets:
   - `m` identifies micromels
   - `s` identifies microsyms
-  - `d` identifies microdosc
+  - `d` identifies microergs
 
 The basic action of a transaction is to remove coins from `State::coins` and put newly created coins in.
 
@@ -352,7 +352,7 @@ We check the MelVM covenants of each coin, and make sure the input and output co
     - **remove** $\mathtt{coinid} \Rightarrow \mathtt{coindataheight}$ from $\sigma.\mathtt{coins}$
     - **find** $\mathtt{cov}$ s.t. $\exists h \in T.\mathtt{covenants}$ where $H(\mathtt{cov}) = h$
     - **check** that $T$ satisfies the MelVM covenant $\mathtt{cov}$
-  - **check** that $T$'s inputs and outputs are balanced: for every denomination that is not the empty string, total number created (including fees) must equal total number spent. One exception: for $\mathtt{DoscMint}$ transactions, DOSC-denominated "balancing" is ignored and deferred to $\Upsilon^*$.
+  - **check** that $T$'s inputs and outputs are balanced: for every denomination that is not the empty string, total number created (including fees) must equal total number spent. One exception: for $\mathtt{DoscMint}$ transactions, erg-denominated "balancing" is ignored and deferred to $\Upsilon^S$.
   - **apply fees**:
     - **check** that $T.\mathtt{fees} > \mathsf{Weight}(T)\times\sigma.\mathtt{fee\\_multiplier}$
     - **increment** $\sigma.\mathtt{tips}$ by $T.\mathtt{fees} - \mathsf{Weight}(T)\times\sigma.\mathtt{fee\\_multiplier}$

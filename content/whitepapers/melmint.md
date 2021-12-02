@@ -1,5 +1,5 @@
 ---
-title: "Melmint: trustless stable cryptocurrency"
+title: "Melmint: trustless stable cryptocurrency (v1)"
 date: 2018-12-29T11:02:05+06:00
 lastmod: 2020-01-05T10:42:26+06:00
 weight: 10
@@ -7,7 +7,8 @@ draft: false
 # search related keywords
 keywords: [""]
 ---
-**Note**: this is a minimally revised version of a paper we published at [CryptoEconSys 2020](https://cryptoeconomicsystems.pubpub.org/pub/2ggmf2k0/release/4)
+
+**Note**: this is a minimally revised version of a paper we published at [CryptoEconSys 2020](https://cryptoeconomicsystems.pubpub.org/pub/2ggmf2k0/release/4). It's also _partly obsolete_, describing an auction-based design that's superseded by Melmint v2.
 
 Decentralized cryptocurrencies have gathered increasing interest in the past few years, raising hopes of a new era of non-sovereign electronic money. Unfortunately, cryptocurrencies perform poorly as actual money due to their unacceptably volatile purchasing power. "Stablecoins" aiming to reduce this volatility, on the other hand, tend to peg to an external currency like the US dollar, gravely weakening the decentralization that makes cryptocurrencies so attractive.
 
