@@ -151,15 +151,15 @@ pub struct State {
     pub network: NetID
 
     // Core state
-    pub height: u64,
-    pub history: SmtMapping<u64, Header>,
-    pub coins: SmtMapping<txn::CoinID, txn::CoinDataHeight>,
-    pub transactions: SmtMapping<HashVal, txn::Transaction>,
+    pub height: BlockHeight,
+    pub history: SmtMapping<BlockHeight, Header>,
+    pub coins: SmtMapping<CoinID, CoinDataHeight>,
+    pub transactions: SmtMapping<HashVal, Transaction>,
 
     // Fee economy state
-    pub fee_pool: u128,
+    pub fee_pool: CoinValue,
     pub fee_multiplier: u128,
-    pub tips: u128,
+    pub tips: CoinValue,
 
     // Melmint/Melswap state
     pub dosc_speed: u128,
@@ -182,18 +182,18 @@ The state always carries a _network ID_, which identifies whether the state belo
 
 The first two elements position the state within the series of blocks that form the blockchain:
 
-- `State::height` is number of blocks since the beginning of the blockchain. Thus, we talk about the block with height 0, 1, 2, ...
+- `State::height` is number of blocks since the beginning of the blockchain. Thus, we talk about the block with height 0, 1, 2, .... `BlockHeight` is a type alias for `u64`.
 - `State::history` is a SMT that maps each _previous_ height with a `Header`. `Header` is a fixed-size type that summarizes and commits to `State`:
 
 ```rust
 pub struct Header {
     pub network: NetID,
     pub previous: HashVal,
-    pub height: u64,
+    pub height: BlockHeight,
     pub history_hash: HashVal,
     pub coins_hash: HashVal,
     pub transactions_hash: HashVal,
-    pub fee_pool: u128,
+    pub fee_pool: CoinValue,
     pub fee_multiplier: u128,
     pub dosc_speed: u128,
     pub pools_hash: HashVal,
@@ -219,7 +219,7 @@ Each `CoinID` maps to a `CoinDataHeight`:
 ```rust
 pub struct CoinData {
     pub covhash: HashVal,
-    pub value: u64,
+    pub value: CoinValue, // alias for u128
     pub denom: Vec<u8>,
 }
 
@@ -279,7 +279,7 @@ pub struct StakeDoc {
     pub pubkey: Ed25519PK,
     pub e_start: u64,
     pub e_post_end: u64,
-    pub syms_staked: u64,
+    pub syms_staked: CoinValue,
 }
 ```
 
@@ -455,6 +455,7 @@ pub struct ProposerAction {
 `SealedState` is produced by the state-sealing function $\Omega(\sigma, P)$. The "proposer action" $P$ is an optional non-transaction action that the block proposer uses to pay himself the fees incurred in the block, as well as up/downvoting the fee level. More specifically,
 
 - `fee_multiplier_delta` represents how much to change $\sigma.\mathtt{fee\\_multiplier}$, where -128 represents the biggest possible decrease and 127 representins the biggest possible increase. The maximum amount the fee multiplier can change is $1/128$ of the fee multiplier.
+  - **Note**: [TIP-901](https://github.com/themeliolabs/themelio-core/issues/26) is the canonical algorithm for applying changes to fee multipliers. In particular, handling rounding when the fee multiplier is very small is rather tricky.
 - `reward_dest` is the covenant hash that the fees of the block will be sent. This is generally an address that the block proposer controls. Every block height, the proposer withdraws $2^{-16}$ times the fee pool, as well as all the tips. This is implemented by adding a coin "out of nowhere" into $\sigma.\mathtt{coins}$.
 
 The state-sealing function is thus:
