@@ -44,7 +44,7 @@ But how is this peg maintained? There are two main steps: _erg-minting_ and the 
 
 Erg-minting involves allowing anybody to use a special transaction type (`DoscMint`) to prove that they completed a certain amount of sequential proof-of-work. This transaction then generates $k$ "ergs" for each DOSC of work done. $k$ here is not a constant, but an exponentially increasing conversion factor --- while 1 DOSC of work may generate $10$ ergs today, it might generate $100$ ergs a year from now. Due to this rapid inflation, ergs act as an on-chain, tokenized representation of _recent_ sequential work.
 
-The central mechanism uses **Melswap**, a built-in, Uniswap-like decentralized exchange that supports all Themelio-based tokens. Its objective is to _peg 1 mel to 1 DOSC worth of syms_, using a feedback loop that prints mels and buys syms or vice-versa. First, we read two exchange rates off of Melswap:
+The central mechanism uses **Melswap**, a built-in, Uniswap-like decentralized exchange that supports all Themelio-based tokens. Its objective is to _peg 1 mel to 1 DOSC worth of syms_, using a feedback loop that prints mels and buys syms or vice-versa. Recall that the Sym is Themelio's separate, proof-of-stake token. First, we read two exchange rates off of Melswap:
 
 - $s$: how many syms can 1 mel buy
 - $t$: how many syms can 1 erg buy
