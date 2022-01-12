@@ -8,7 +8,7 @@ keywords: [""]
 
 ## Coins are perfect for blockchains
 
-Themelio implements an extended UTXO- or coin-based state model. (A blockchain's state model is its representation of the blockchain ledger, aka state, and the transactions that mutate this ledger: if you're not familiar with blockchains as state machines or the coin-based model, check out our [quick explanation](link).)
+Themelio implements an extended UTXO- or coin-based state model. (A blockchain's state model is its representation of the blockchain ledger, aka state, and the transactions that mutate this ledger: if you're not familiar with blockchains as state machines or the coin-based model, check out our [quick explanation](https://medium.com/themelio/utxos-vs-accounts-54b3bbeb4428).)
 
 But coin-based models are not popular among general-purpose blockchains. Most blockchains attempting to support general decentralized apps use account-based models that directly map owners to sums of money; "smart contracts" are implemented essentially as accounts owned by on-chain code. Why, then, did we choose coins?
 
