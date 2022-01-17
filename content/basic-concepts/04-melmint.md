@@ -6,19 +6,19 @@ draft: false
 keywords: [""]
 ---
 
-## Crypto is bad at being money
+## Crypto today is bad at being money
 
 All decentralized blockchains, starting from Bitcoin, are intimately tied to on-chain cryptocurrencies. These cryptocurrencies have 2 functions:
 
-1. providing a trustless and irreversible payment medium to end users
+- providing a trustless and irreversible payment medium to end users
 
-2. serving as protocol-internal units of value for incentive design.
+- serving as protocol-internal units of value for incentive design.
 
 However, largely due to extremely volatile prices, existing cryptocurrencies are pretty bad at both of these jobs:
 
-1. Cryptocurrencies are bad at being _money_ --- an asset that is simultaneously a store of value, unit of account, and medium of exchange. At best, a cryptocurrency is used as a "hot-potato" payment intermediary; at worst, it is used entirely as a speculative asset sitting in exchanges.
+- Cryptocurrencies are bad at being _money_ --- an asset that is simultaneously a store of value, unit of account, and medium of exchange. At best, a cryptocurrency is used as a "hot-potato" payment intermediary; at worst, it is used entirely as a speculative asset sitting in exchanges.
 
-2. Designing secure financial contracts and mechanism incentives is close to impossible without a stable monetary unit. If nothing on-chain has a reliable purchasing power, pricing future assets (like in loans, etc) becomes impossible, and any kind of fixed rewards or punishments are forced to vary wildly based on the currency price.
+- Designing secure financial contracts and mechanism incentives is close to impossible without a stable monetary unit. If nothing on-chain has a reliable purchasing power, pricing future assets (like in loans, etc) becomes impossible, and any kind of fixed rewards or punishments are forced to vary wildly based on the currency price.
 
 Most existing attempts to fix this problem are _pegged stablecoins_, i.e., cryptocurrencies pegged to an external value-stable asset, usually a fiat currency like the US dollar. Stablecoin schemes include centralized currencies like Tether (they act as fiat-denominated IOUs against a trusted bank) as well as semi-decentralized systems like MakerDAO (these attempt to hold a peg through algorithmic monetary policy involving complex on-chain financial assets). In fact, stablecoins pegged to the US dollar have gained widespread use as _de facto_ units of account in on-chain mechanisms --- even infrastructural protocols like ENS (Ethereum Name System) are [starting to adopt dollar-denominated](https://medium.com/the-ethereum-name-service/ens-integrates-chainlink-eth-usd-price-oracle-183e64a05d89) incentives.
 
