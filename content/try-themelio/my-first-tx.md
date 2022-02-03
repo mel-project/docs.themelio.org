@@ -120,11 +120,9 @@ Confirmed at height 93819
 
 ### Receiving the money
 
-In Themelio, wallets based on thin clients, like `melwallet-cli`, cannot trustlessly know exactly what money has been sent to them without processing every transaction and becoming a full node. Other UTXO blockchains like Bitcoin simply have thin clients trust somebody else to scan the blockchain for them.
+`melwallet-cli` does not constantly scan the blockchain for incoming transactions, so we need to "sync" Bob's wallet. We run `melwallet-cli sync -w bob`.
 
-However, we intentionally omit any functionality that would require third-party trust in our thin-client-based tools. This means that for Bob to see the money Alice sent him, he must input a "receipt" that Alice gives him: the _coin ID_ of the coin sent to Bob. Coin IDs represent discrete sums of money on the blockchain, and we refer to them by `<transaction hash>-<index>`. For example, the money sent to Bob was the first output of the transaction with hash `35149dd7e23e4acbc3823578ddd73aa09e0ddd08f970b2b673e7f5e58dab6dc9`, so the CoinID is `35149dd7e23e4acbc3823578ddd73aa09e0ddd08f970b2b673e7f5e58dab6dc9-0`.
-
-We add the money to Bob's wallet:
+This adds the money to Bob's wallet:
 
 ```text
 Coin successfully added!
