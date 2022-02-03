@@ -19,7 +19,7 @@ All the instructions here assume that
 
 ## Install melwalletd and melwallet-cli
 
-Install `themelio-core` with `cargo` directly from GitHub:
+Install the tools with `cargo` directly from GitHub:
 
 ```text
 $ cargo install --locked --git https://github.com/themeliolabs/melwalletd.git

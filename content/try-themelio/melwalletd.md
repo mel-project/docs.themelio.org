@@ -359,9 +359,28 @@ $ curl -s localhost:11773/wallets/alice/transactions/
 }
 ```
 
+### Synchronizing the wallet
+
+This synchronizes the state of the wallet with the remote, ensuring that
+
+**Note**: This will not work if there are pending outgoing transactions from this wallet.
+
+**Endpoint**
+`PUT /wallets/[name]/sync`
+
+**Response**
+
+- _200 OK_ to indicate success
+
+**Example**
+
+```shell
+$ curl -s localhost:11773/wallets/alice/sync -X PUT
+```
+
 ### Claiming a coin
 
-**Note**: This is used to _add a coin_ to the wallet. When receiving payments, by default melwalletd will not scan the blockchain for all the coins that the wallet owns. Instead, when somebody sends you money, they should give you a CoinID that you then add to your wallet to claim the money.
+**Note**: This is used to _add a coin_ to the wallet.
 
 **Endpoint**
 `PUT /wallets/[name]/coins/[coinid]`
