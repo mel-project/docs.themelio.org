@@ -19,12 +19,12 @@ All the instructions here assume that
 
 ## Install melwalletd and melwallet-cli
 
-Install the tools with `cargo` directly from GitHub:
+Install the tools with `cargo` directly:
 
 ```text
-$ cargo install --locked --git https://github.com/themeliolabs/melwalletd.git
+$ cargo install --locked melwalletd
 
-$ cargo install --locked --bin melwallet-cli --git https://github.com/themeliolabs/melwallet-client.git
+$ cargo install --locked melwallet-client
 ```
 
 `cargo` downloads and compiles the entire codebase and all its dependencies from scratch. This will take a while.
@@ -136,7 +136,7 @@ We now see that Bob has the 500 MEL from Alice!
 
 ## Congratulations!
 
-You've successfully sent 500 mels from Alice to Bob.
+You've successfully sent 500 mel from Alice to Bob.
 
 ## Next steps
 
