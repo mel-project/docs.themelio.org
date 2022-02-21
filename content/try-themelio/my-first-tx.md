@@ -15,7 +15,7 @@ All the instructions here assume that
 - You're running a Unix \(Linux or macOS\) system. The code should work on Windows, but it isn't well-tested.
 - You have a working Internet connection
 - You have `git` installed
-- You have a 1.49+ stable Rust compiler, including the `cargo` command
+- You have a 1.58+ stable Rust compiler, including the `cargo` command
 
 ## Install melwalletd and melwallet-cli
 

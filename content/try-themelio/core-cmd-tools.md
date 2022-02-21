@@ -8,9 +8,10 @@ keywords: [""]
 
 The core functionality of Themelio is encapsulated in a few command-line tools:
 
-- `themelio-node` is the **full node** reference implementation. You'll use `themelio-node` to contribute to the network, either as a [nonvoting auditor node]({{< ref auditor-node.md>}}), or a [voting staker node]({{< ref auditor-node.md>}}) that stakes Sym to participate in Themelio's proof-of-stake consensus.
+- `themelio-node` is the **full node** reference implementation. You'll use `themelio-node` to contribute to the network, either as a [nonvoting auditor node]({{< ref auditor-node.md>}}), or a [voting staker node]({{< ref auditor-node.md>}}) that stakes SYM to participate in Themelio's proof-of-stake consensus.
 - `melwalletd` is a **thin-client wallet daemon**. It exposes a local REST API that can be directly used, but is intended mostly as a microservice that wallet GUIs, trading bots, and other programs use to transact on the blockchain.
-- `melminter` is a **Melmint minter** that uses CPU power to mint _nominal DOSCs_, which can then be converted to Mel or Sym. It interfaces with `melwalletd`.
+- `melwallet-cli` is a **command-line wallet program**, interfacing with `melwalletd`
+- `melminter` is a **Melmint minter** that uses CPU power to mint _ERG_, which can then be converted to MEL. It interfaces with `melwalletd`.
 
 ## Installing the CLI tools
 
@@ -27,7 +28,7 @@ $ cargo --version
 cargo 1.58
 ```
 
-### Compiling `themelio-node`
+### Installing `themelio-node`
 
 Unlike our other tools, this is not yet published to `crates.io` yet at the moment.
 
@@ -36,16 +37,22 @@ $ cargo install --locked --git https://github.com/themeliolabs/themelio-core.git
 ...
 ```
 
-### Compiling `melwalletd`
+### Installing `melwalletd`
 
 ```shell
 $ cargo install --locked melwalletd
 ```
 
-### Compiling `melminter`
+### Installing `melminter`
 
 ```shell
 $ cargo install --locked melminter
+```
+
+### Installing `melwallet-cli`
+
+```shell
+$ cargo install --locked melwallet-client
 ```
 
 ## Using the CLI tools
