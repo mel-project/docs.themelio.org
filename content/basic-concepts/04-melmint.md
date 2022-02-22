@@ -1,5 +1,5 @@
 ---
-title: "Melmint: a trustless stablecoin"
+title: "Melmint: an endogenous stablecoin"
 weight: 4
 draft: false
 # search related keywords
