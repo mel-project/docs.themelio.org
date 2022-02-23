@@ -10,7 +10,7 @@ googleAnalytics = "" # paste your analytics ID here. (Ex: UA-123-45)
 # unsafe html
 [markup.goldmark.renderer] 
 unsafe = true
-hardWraps = true
+hardWraps = false
 
 [markup]
   [markup.highlight]

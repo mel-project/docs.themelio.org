@@ -129,7 +129,7 @@ Similar to `Swap` transactions, they are processed in the "pipeline" just like `
       - Create a pool, with $L$ lefts and $R$ rights, where $L$ and $R$ are the total lefts and rights in the first and second outputs of the `LiqDeposits` for this pool.
       - For each of the `LiqDeposit`s for this pool:
         - Given that the transaction deposits $\ell$ lefts, transmute the first output to $
-        \ell$ liquidity tokens. If one of the left or right tokens is Mel, then the liquidity tokens have denom $H_\mathsf{``liq''}(c)$, where $c$ is non-mel token's `Denom`. Otherwise, the liquidity token has denom $H_\mathsf{``liq''}(K)$, where $K$ is the `PoolKey` of the pool.
+        \ell$ liquidity tokens. If one of the left or right tokens is Mel, then the liquidity tokens have denom $H_\mathsf{liq}(c)$, where $c$ is non-mel token's `Denom`. Otherwise, the liquidity token has denom $H_\mathsf{liq}(K)$, where $K$ is the `PoolKey` of the pool.
         - Delete the second output from the state.
       - Set `liqs` of the pool to the total number of liquidity tokens created.
     - If the pool does exist:
