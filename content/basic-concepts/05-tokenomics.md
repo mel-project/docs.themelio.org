@@ -35,7 +35,7 @@ When locking up sym, any staker can be designated as the staker that receives , 
 
 ## Sym inflation
 
-As a bootstrap mechanism, we have a small amount of _sym inflation_ in the early years of the protocol that gradually decays to zero, similar to block reward in Bitcoin.
+As a bootstrap mechanism, we have a small amount of _sym inflation_ in the early years of the protocol that gradually decays to zero, similar to the block reward in Bitcoin.
 
 In particular, we have an initial $2^{20}$ microSYM/block (around 1.04 SYM) inflation rate, that decays by half every 1,000,000 blocks (approximately 1 year).
 
