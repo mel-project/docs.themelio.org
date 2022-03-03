@@ -37,22 +37,10 @@ $ cargo install --locked --git https://github.com/themeliolabs/themelio-core.git
 ...
 ```
 
-### Installing `melwalletd`
+### Installing all other tools
 
 ```shell
-$ cargo install --locked melwalletd
-```
-
-### Installing `melminter`
-
-```shell
-$ cargo install --locked melminter
-```
-
-### Installing `melwallet-cli`
-
-```shell
-$ cargo install --locked melwallet-client
+$ cargo install --locked melwalletd melminter melwallet-client
 ```
 
 ## Using the CLI tools
