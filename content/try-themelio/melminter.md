@@ -15,33 +15,34 @@ Before using `melminter`, ensure that you have:
 - An up-to-date `melminter` and `melwalletd`. Both can be installed using `cargo`:
 
   ```
-  cargo install --locked melminter
-  cargo install --locked melwalletd
+  cargo install --locked melminter melwalletd
   ```
 
-- Some wallet in `melwalletd` **already containing some mel** (at least 0.1 MEL), perhaps created through `melwallet-cli`
+- A small amount of MEL.
 
-The second requirement may be surprising: how can minting mel require mel? This is because Melmint transactions are required to pay transaction fees just like any other transaction.
+The second requirement may be surprising: how can minting mel require mel? This is because Melmint transactions are required to pay transaction fees just like any other transaction, so you must have some "starting" mel to even begin to mint more.
 
 ## Starting the melminter
 
 The easiest way to run the melminter is to first start `melwalletd`, then simply run the following command:
 
 ```
-melminter --backup-wallet <name of an unlocked wallet> [--daemon <where melwalletd is listening>]
+melminter --payout <some wallet address>
 ```
 
-For example, if we have a testnet wallet called `foobar` and a daemon listening on `127.0.0.1:11773`, we can run:
+For example, if we have a wallet with address `t19rcw46nfdy3vfwejw1a4qpng3s2km6myevcm5erjk0e2094rg640`, we can run:
 
 ```
-melminter --backup-wallet foobar
+melminter --payout t19rcw46nfdy3vfwejw1a4qpng3s2km6myevcm5erjk0e2094rg640
 ```
-
-Note that we did not need to specify `--daemon`, because `127.0.0.1:11773` is the default value of `--daemon`.
 
 This will start a cool TUI interface that looks like this:
 
 ![](/images/melminter.png)
+
+Note the _daily return_ line, which predicts how much computational work (in DOSC) the minter will do in 24 hours, as well as how much MEL that will generate.
+
+Note that the first time you run `melminter`, it will ask you to send a particular address a small amount of MEL. You must do so for `melminter` to start; otherwise it has nothing to pay initial transaction fees.
 
 ## What is going on?
 
@@ -53,7 +54,7 @@ To understand what is happening in `melminter`, recall the [overall Melmint v2 p
 
 (You can also reconfigure the number of threads used through the `--threads` argument)
 
-This nominal DOSC is then continually converted through Melswap into mel, and used to pay transaction fees. Any excess is sent back to the backup wallet. All of this can be configured through `melminter` command-line arguments; `melminter -h` gives a full explanation.
+This nominal DOSC is then continually converted through Melswap into mel, and used to pay transaction fees. Any excess is sent to the payout address. All of this can be configured through `melminter` command-line arguments; `melminter -h` gives a full explanation.
 
 ## Caveats
 
@@ -64,9 +65,3 @@ Minting erg and converting into mel is not always profitable. Because of the mec
 Transient volatility in the mel/erg exchange rate may also affect profitability.
 
 `melminter` makes no attempt at guessing whether or not minting is profitable.
-
-### Wallet security
-
-When `melminter`'s workers for some reason do not have enough funds to pay transaction fees, funds are transferred from the backup wallet. This is most commonly when `melminter` is started for the first time.
-
-To transfer money successfully, `melminter` requires the backup wallet to be unlocked, and will fail if it is locked. It's strongly recommended, however, that the backup wallet be kept locked unless `melminter` is being run for the first time, so that its private key is not exposed in memory for longer than needed.
