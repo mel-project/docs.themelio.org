@@ -59,7 +59,7 @@ Note that three things were needed to connect to the testnet:
 
 - Connecting to a testnet bootstrap node
 - Specifying `--testnet`, to use testnet validation rules
-- Specifying a non-default database path to ensure that the blocks are on confused with mainnet blocks on disk.
+- Specifying a non-default database path to ensure that the blocks are not confused with mainnet blocks on disk.
 
 ## Running a staker
 
