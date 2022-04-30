@@ -122,7 +122,7 @@ The selection function essentially gives each proposer slot to stakers with prob
 
 ### Fees and block rewards
 
-Each block, proposers have the option of collecting fees by using the optional argument in $\Omega$, the block-sealing function (see the yellow paper). These fees have to components: a **base fee** that is added to a common fee pool, and **tips** that are given directly to the proposer. The proposer can also withdraw $2^{-16}$ times the fee pool, as well as change the base fee rate up to $1/128$ in one direction.
+Each block, proposers have the option of collecting fees by using the optional argument in $\Omega$, the block-sealing function (see the yellow paper). These fees have two components: a **base fee** that is added to a common fee pool, and **tips** that are given directly to the proposer. The proposer can also withdraw $2^{-16}$ times the fee pool, as well as change the base fee rate up to $1/128$ in one direction.
 
 The upshot is that tips are given directly to the proposer, while base fees, which are charged a rate determined by a sequential, collective vote, are distributed to all proposers, with a slight bias towards proposers in the near future.
 
