@@ -22,26 +22,32 @@ There are two kinds of full nodes:
 To run an auditor on the "mainnet" (which at the moment is far from stable, but does have a persistent history), just run:
 
 ```text
-$ themelio-node --listen 127.0.0.1:11814
+$ themelio-node --listen 127.0.0.1:11814 --database ~/.themelio-blocks
 ```
 
-`themelio-node` strives to have sane default options, and the only required argument is where to listen to for RPC calls. By default, it connects to a few default bootstrap nodes, uses mainnet validation rules, and saves blocks to disks in `/tmp/themelio-mainnet`. You should see output similar to the following:
+`themelio-node` strives to have sane default options, and the only required arguments are where to listen to for RPC calls, and where to store the blockchain. By default, it connects to a few default bootstrap nodes and uses mainnet validation rules. You should see output similar to the following:
 
 ```text
-May 04 21:16:14.505  INFO run_node: themelio_node::tasks::node: themelio-core v0.1.0 initializing...
-May 04 21:16:14.610  INFO run_node: themelio_node::tasks::node: bootstrapping with [51.83.255.223:11814, 188.227.35.45:11814]
-May 04 21:16:14.934 DEBUG blksync_loop{netid=Mainnet}: themelio_node::protocols::node: got 11 blocks from other side
-May 04 21:16:14.938 DEBUG blksync_loop{netid=Mainnet}: themelio_node::services::storage: block 14060, txcount=0, hash=#<ee289b25363d3ac6a286871dd2ad806ffe14a76054530cbf15074a5dd4b2671b> APPLIED
-May 04 21:16:14.940 DEBUG blksync_loop{netid=Mainnet}: themelio_node::services::storage: block 14061, txcount=0, hash=#<3606533419294df58b345d9d50a312aec14cdd9edc5be6b6f64af0ec6ca07ced> APPLIED
-May 04 21:16:14.941 DEBUG blksync_loop{netid=Mainnet}: themelio_node::services::storage: block 14062, txcount=0, hash=#<9a3ff17ddb3c1421c8c1db0d89014019a312805e1521896aebec7f5f0a364ee6> APPLIED
-May 04 21:16:14.942 DEBUG blksync_loop{netid=Mainnet}: themelio_node::services::storage: block 14063, txcount=0, hash=#<0772babbdbde5323bdd03801f5b404bb5171e573d3d40025c6320885e6e7e0ce> APPLIED
-May 04 21:16:14.944 DEBUG blksync_loop{netid=Mainnet}: themelio_node::services::storage: block 14064, txcount=0, hash=#<d48f31997766c0ba418d70e2d37b93a7fac1d5801efc8e1affbcdd2d5cff2ef9> APPLIED
-May 04 21:16:14.945 DEBUG blksync_loop{netid=Mainnet}: themelio_node::services::storage: block 14065, txcount=0, hash=#<0b518878e979bbb11a60bf000adc113715198415a198c96dfce92c7eda59446b> APPLIED
-May 04 21:16:14.947 DEBUG blksync_loop{netid=Mainnet}: themelio_node::services::storage: block 14066, txcount=0, hash=#<b6ea0339aa691f9c3071ac08693f6bc394266e449116ce776ddb7be36a86e272> APPLIED
-May 04 21:16:14.948 DEBUG blksync_loop{netid=Mainnet}: themelio_node::services::storage: block 14067, txcount=0, hash=#<892a6b4dac6de4d2ff346c4be74dde641392abcca63bd01b687650fc2a225916> APPLIED
-May 04 21:16:14.949 DEBUG blksync_loop{netid=Mainnet}: themelio_node::services::storage: block 14068, txcount=0, hash=#<d7a15bcbed22d63280b0bd930f2f0b840d04309528ab3a506de05e36bf2ed102> APPLIED
-May 04 21:16:14.950 DEBUG blksync_loop{netid=Mainnet}: themelio_node::services::storage: block 14069, txcount=0, hash=#<f94c6d2cb6bbcd94807dbae7cc462d02452d07154315cba7db7492640bad4e19> APPLIED
-May 04 21:16:14.952 DEBUG blksync_loop{netid=Mainnet}: themelio_node::services::storage: block 14070, txcount=0, hash=#<09378e717f9f1eb22524afdc543cd75fbe9621d52b96c26e32ee61c3998bd1a8> APPLIED
+2022-05-15T02:20:51Z INFO  themelio_node] themelio-core v0.6.6 initializing...
+[2022-05-15T02:20:51Z DEBUG themelio_node::args] database opened at /home/user/.themelio-blocks
+[2022-05-15T02:20:51Z INFO  themelio_node::storage::storage] HIGHEST AT 0
+[2022-05-15T02:20:51Z DEBUG themelio_node::args] node storage opened
+[2022-05-15T02:20:51Z INFO  themelio_node] bootstrapping with [146.59.84.29:11814]
+[2022-05-15T02:20:52Z DEBUG themelio_node::storage::storage] applied block 1 of length 215 in 0.92ms (insert 0.23ms)
+[2022-05-15T02:20:52Z DEBUG themelio_node::storage::storage] applied block 2 of length 215 in 0.58ms (insert 0.18ms)
+[2022-05-15T02:20:52Z DEBUG themelio_node::storage::storage] applied block 3 of length 215 in 0.58ms (insert 0.24ms)
+[2022-05-15T02:20:52Z DEBUG themelio_node::storage::storage] applied block 4 of length 215 in 0.45ms (insert 0.17ms)
+[2022-05-15T02:20:52Z DEBUG themelio_node::storage::storage] applied block 5 of length 215 in 0.46ms (insert 0.18ms)
+[2022-05-15T02:20:52Z DEBUG themelio_node::storage::storage] applied block 6 of length 215 in 0.45ms (insert 0.18ms)
+[2022-05-15T02:20:52Z DEBUG themelio_node::storage::storage] applied block 7 of length 215 in 0.46ms (insert 0.18ms)
+[2022-05-15T02:20:52Z DEBUG themelio_node::storage::storage] applied block 8 of length 215 in 0.51ms (insert 0.13ms)
+[2022-05-15T02:20:52Z DEBUG themelio_node::storage::storage] applied block 9 of length 215 in 0.45ms (insert 0.07ms)
+[2022-05-15T02:20:52Z DEBUG themelio_node::storage::storage] applied block 10 of length 215 in 0.45ms (insert 0.07ms)
+[2022-05-15T02:20:52Z DEBUG themelio_node::storage::storage] applied block 11 of length 215 in 0.46ms (insert 0.06ms)
+[2022-05-15T02:20:52Z DEBUG themelio_node::storage::storage] applied block 12 of length 215 in 0.48ms (insert 0.08ms)
+[2022-05-15T02:20:52Z DEBUG themelio_node::storage::storage] applied block 13 of length 215 in 0.47ms (insert 0.06ms)
+[2022-05-15T02:20:52Z DEBUG themelio_node::storage::storage] applied block 14 of length 215 in 0.46ms (insert 0.06ms)
+[2022-05-15T02:20:52Z DEBUG themelio_node::storage::storage] applied block 15 of length 215 in 0.46ms (insert 0.08ms)
 
 ```
 

@@ -28,19 +28,10 @@ $ cargo --version
 cargo 1.58
 ```
 
-### Installing `themelio-node`
-
-Unlike our other tools, this is not yet published to `crates.io` yet at the moment.
+### Installing the tools
 
 ```shell
-$ cargo install --locked --git https://github.com/themeliolabs/themelio-core.git themelio-node
-...
-```
-
-### Installing all other tools
-
-```shell
-$ cargo install --locked melwalletd melminter melwallet-client
+$ cargo install --locked themelio-node melwalletd melminter melwallet-client
 ```
 
 ## Using the CLI tools
