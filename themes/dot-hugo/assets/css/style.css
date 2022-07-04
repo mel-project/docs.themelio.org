@@ -1,18 +1,19 @@
 @import url("/plugins/bootstrap/bootstrap.min.css");
 @import url("https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900");
-@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900");
+@import url("https://themelio.org/iosevka-aile/iosevka-aile.css");
+@import url("https://themelio.org/iosevka-sparkle/iosevka-sparkle.css");
 /* @import url("https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"); */
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono");
 :root {
-  --font-family: "TeX Gyre Heros", "Helvetica", Arial, sans-serif;
-  --font-family-display: "Iosevka Sparkle", sans-serif;
+  --font-family: "Iosevka Aile Web", "Helvetica", Arial, sans-serif;
+  --font-family-display: "Iosevka Sparkle Web", sans-serif;
 }
 
 body {
   line-height: 1.6;
   font-family: var(--font-family), sans-serif;
   -webkit-font-smoothing: antialiased;
-  /* letter-spacing: -0.03em; */
+  letter-spacing: -0.025em;
   color: var(--text-color);
   background-color: var(--body-color);
 }
@@ -123,7 +124,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #003d2f;
+  color: #003e30;
   font-family: var(--font-family-display), sans-serif;
   /* font-weight: 400; */
   padding-top: 20px;
