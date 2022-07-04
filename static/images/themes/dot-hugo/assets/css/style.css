@@ -7,6 +7,7 @@
 :root {
   --font-family: "Iosevka Aile Web", "Helvetica", Arial, sans-serif;
   --font-family-display: "Iosevka Sparkle Web", sans-serif;
+  --dark-color: #003e30;
 }
 
 body {
@@ -26,7 +27,7 @@ pre {
 header {
   border-bottom: solid 1px;
   border-color: #888;
-  background-color: var(--primary-color);
+  background-color: var(--dark-color);
 }
 
 .highlight {
