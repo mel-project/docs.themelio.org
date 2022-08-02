@@ -14,10 +14,10 @@ In Themelio, the "canonical" wallet software is **melwalletd**, a headless progr
 
 ## Starting melwalletd
 
-After installing melwalletd, start it by giving it a directory in which wallets are stored:
+After installing melwalletd, start it by giving it a directory in which wallets are stored and a network to which you want to connect:
 
 ```shell
-$ melwalletd --wallet-dir ~/.themelio-wallets
+$ melwalletd --wallet-dir ~/.themelio-wallets --network testnet
 May 18 16:20:43.583  INFO melwalletd: opened wallet directory: []
 ```
 
@@ -34,7 +34,6 @@ If the directory doesn't exist it will be created. By default, melwalletd will s
 
 **Body fields**
 
-- `testnet`: whether or not to make a testnet wallet
 - `pwd`: optional field; password with which to encrypt the private key. **Warning**: if not given, private key will be stored in cleartext!
 
 **Response**
@@ -44,7 +43,7 @@ If the directory doesn't exist it will be created. By default, melwalletd will s
 **Example**
 
 ```shell
-$ curl -s 'localhost:11773/wallets/alice' -X PUT --data '{"testnet": true}'
+$ curl -s 'localhost:11773/wallets/alice' -X PUT '{"pwd": "password"}'
 ```
 
 ### Listing all wallets
