@@ -34,7 +34,7 @@ $ cargo install --locked melwallet-client
 In a _separate_ terminal window, leave the following command running:
 
 ```text
-melwalletd --wallet-dir ~/.themelio-wallets/
+melwalletd --wallet-dir ~/.themelio-wallets/ --network testnet
 ```
 
 You can also use `tmux` or similar to run it in the background. This starts the persistent wallet daemon that the frontend `melwallet-cli` will communicate with.
@@ -46,13 +46,13 @@ Before we send any transactions, we first create two wallets between which we ca
 Let's now create two wallets: `alice` and `bob`. To do so, first switch to another terminal and use `melwallet-cli create-wallet` to create two wallets:
 
 ```text
-$ melwallet-cli create -w alice --testnet
+$ melwallet-cli create -w alice 
 Wallet name:  alice
 Network:      testnet
 Address:      <ALICE_ADDRESS>
 Balance:      0 µMEL
 
-$ melwallet-cli create -w bob --testnet
+$ melwallet-cli create -w bob 
 Wallet name:  bob
 Network:      testnet
 Address:      <BOB_ADDRESS>

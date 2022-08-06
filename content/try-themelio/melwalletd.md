@@ -356,7 +356,7 @@ $ curl -s localhost:11773/wallets/alice/prepare-tx -X POST --data '{
 
 ### Sending a transaction
 
-**Note**: This endpoint will reject any transactions that are malformed or don't belong to the wallet. For personal use recommend using [melwallet-cli]({{< ref melwallet-cli.md>}}) instead. If you must use this endpoint, consider using [/prepare-tx](#preparing-a-transaction) to prepare the body of this transaction
+**Note**: This endpoint will reject any transactions that are malformed or don't belong to the wallet. For personal use recommend using [melwallet-cli]({{< ref my-first-tx.md>}}) instead. If you must use this endpoint, consider using [/prepare-tx](#preparing-a-transaction) to prepare the body of this transaction
 
 **Endpoint**
 `POST /wallets/[name]/send-tx`
