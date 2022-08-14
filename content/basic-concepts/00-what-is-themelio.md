@@ -1,5 +1,5 @@
 ---
-title: "Themelio overview"
+title: "What is Themelio?"
 date: 2018-12-29T11:02:05+06:00
 lastmod: 2020-01-05T10:42:26+06:00
 weight: 1
@@ -24,9 +24,9 @@ We envision Themelio as a radically simple, stable, and long-term foundation tha
 
 ---
 
-## Stability: the heart of Themelio
+## Self-security through stability: the heart of Themelio
 
-Themelio's core mission is to serve as an **stable root of endogenous trust**. Endogenous trust, or trust that emerges from within the protocol rather than from its users, is the "killer feature" of blockchains. It allows us to trust the blockchain with minimal assumptions about who runs it. Endogenous trust distinguishes blockchains from all previous protocols, including decentralized and federated ones like BitTorrent and IRC. By focusing on this one key aspect of blockchains and implementing it exceptionally well, Themelio aims to support a new blockchain-rooted, multilayered paradigm of decentralized Internet apps.
+Themelio's core mission is to serve as an **self-secure, endogenous root of trust**. Endogenous trust, or trust that emerges from within the protocol rather than from its users, is the "killer feature" of blockchains. It allows us to trust the blockchain with minimal assumptions about who runs it. Endogenous trust distinguishes blockchains from all previous protocols, including decentralized and federated ones like BitTorrent and IRC, by _enabling the protocol to secure itself_. By focusing on this one key aspect of blockchains and implementing it exceptionally well, Themelio aims to support a new blockchain-rooted, multilayered paradigm of decentralized Internet apps.
 
 A radically immutable protocol is the most important precondition for maintaining endogenous trust. A protocol with regular tweaks makes "governance" an unpredictable _exogenous_ process that must rely on preexisting trust in whomever guides protocol governance.
 

@@ -21,11 +21,11 @@ The recommended way of installing Themelio software at the moment is by compilin
 
 The best way to install a Rust toolchain is to follow the [official guide](https://www.rust-lang.org/learn/get-started).
 
-Make sure that your Cargo version is **at least 1.58**:
+Make sure that your Cargo version is **at least 1.61**:
 
 ```shell
 $ cargo --version
-cargo 1.58
+cargo 1.61
 ```
 
 ### Installing the tools

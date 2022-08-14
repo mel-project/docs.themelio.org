@@ -25,7 +25,7 @@ To run an auditor on the "mainnet" (which at the moment is far from stable, but 
 $ themelio-node --listen 127.0.0.1:11814 --database ~/.themelio-blocks
 ```
 
-`themelio-node` strives to have sane default options, and the only required arguments are where to listen to for RPC calls, and where to store the blockchain. By default, it connects to a few default bootstrap nodes and uses mainnet validation rules. You should see output similar to the following:
+`themelio-node` strives to have sane default options, and by default, it connects to a few default bootstrap nodes and uses mainnet validation rules. You should see output similar to the following:
 
 ```text
 2022-05-15T02:20:51Z INFO  themelio_node] themelio-core v0.6.6 initializing...
@@ -58,46 +58,18 @@ Your auditor is now running and replicating blocks within the auditor peer-to-pe
 To run the auditor on the _non-persistent_ testnet, where most covenant development and testing will happen during the betanet period, run instead
 
 ```text
-$ themelio-node --listen 127.0.0.1:11814 --bootstrap tm-1.themelio.org:11814 --testnet --database /tmp/testnet
+$ themelio-node --listen 127.0.0.1:11814 --bootstrap tm-1.themelio.org:11814 --testnet
 ```
 
 Note that three things were needed to connect to the testnet:
 
 - Connecting to a testnet bootstrap node
 - Specifying `--testnet`, to use testnet validation rules
-- Specifying a non-default database path to ensure that the blocks are on confused with mainnet blocks on disk.
 
 ## Running a staker
 
 _Right now, the staker network is not yet open to public participation. This section will be updated with more detailed information once anyone can become a staker._
 
-## Other options
+## More details
 
-One can see all the options for running a Themelio auditor node as follows:
-
-```text
-$ themelio-node --help
-themelio-node 0.1.0
-
-USAGE:
-    themelio-node [FLAGS] [OPTIONS] --listen <listen>
-
-FLAGS:
-    -h, --help       Prints help information
-        --testnet    If set to true, default to the testnet. Otherwise, mainnet validation rules are used
-    -V, --version    Prints version information
-
-OPTIONS:
-        --bootstrap <bootstrap>...
-            Bootstrap addresses. May be given as a DNS name [default: mainnet-bootstrap.themelio.org:11814]
-
-        --database <database>                        Database path [default: /tmp/themelio-mainnet]
-        --listen <listen>                            Listen address
-        --override-genesis <override-genesis>
-            If given, uses this TOML file to configure the network genesis rather than following the known
-            testnet/mainnet genesis
-        --staker-bootstrap <staker-bootstrap>...     Bootstrap addresses for the staker network
-        --staker-listen <staker-listen>              Listen address for the staker network
-        --staker-payout-addr <staker-payout-addr>    Payout address for staker rewards
-        --staker-sk <staker-sk>                      Specifies the secret key for staking
-```
+A complete guide to `themelio-node`, including functionality on running "simnets" for testing blockchain functionality entirely over a local network, can be found at its [GitHub repo](https://github.com/themeliolabs/themelio-node)

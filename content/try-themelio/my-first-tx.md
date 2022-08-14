@@ -1,21 +1,23 @@
 ---
-title: "My first transaction"
+title: "Command-line wallet"
 weight: 2
 draft: false
 # search related keywords
 keywords: [""]
 ---
 
-This document will guide you through setting up a Themelio wallet and sending your first transaction. Right now, you must use the headless wallet daemon `melwalletd` and the `melwallet-cli` CLI tool, though soon we will have a user-friendly GUI wallet that will be as easy to use as Metamask or Electrum.
+This document will guide you through setting up a Themelio wallet and sending your first transaction using the the headless wallet daemon `melwalletd` and the `melwallet-cli` CLI tool. This is just a basic tutorial for sending one transaction through the testnet; there's more complete documentation on [melwalletd](https://github.com/themeliolabs/melwalletd) and [melwallet-cli](https://github.com/themeliolabs/melwallet-client).
+
+Our GUI wallet, [Mellis](mellis.md), is a more user-friendly, albeit less feature-complete and stable option.
 
 ## Assumptions
 
 All the instructions here assume that
 
-- You're running a Unix \(Linux or macOS\) system. The code should work on Windows, but it isn't well-tested.
+- You're running a Unix \(Linux or macOS\) system. The code should work on Windows, but it isn't as well-tested.
 - You have a working Internet connection
 - You have `git` installed
-- You have a 1.58+ stable Rust compiler, including the `cargo` command
+- You have a 1.61+ stable Rust compiler, including the `cargo` command
 
 ## Install melwalletd and melwallet-cli
 
@@ -50,13 +52,13 @@ $ melwallet-cli create -w alice --testnet
 Wallet name:  alice
 Network:      testnet
 Address:      <ALICE_ADDRESS>
-Balance:      0 µMEL
+Balance:      0.000000 MEL
 
 $ melwallet-cli create -w bob --testnet
 Wallet name:  bob
 Network:      testnet
 Address:      <BOB_ADDRESS>
-Balance:      0 µMEL
+Balance:      0.000000 MEL
 ```
 
 This generates and stores to disk the two wallets. We create the wallets on the _testnet_ network, because right now there isn't a way of purchasing mainnet tokens yet. Note that the **address** is a public identifier that uniquely identifies a wallet. It's what you give other people when you want to receive money.
@@ -98,17 +100,15 @@ $ melwallet-cli unlock -w alice
 Let's send over 500 MEL:
 
 ```text
-$ melwallet-cli send-tx -w alice --to <BOB_ADDRESS>,500000000
+$ melwallet-cli send-tx -w alice --to <BOB_ADDRESS>,500.0
 TRANSACTION RECIPIENTS
 Address         Amount          Additional data
-<BOB_ADDRESS>   500000000 µMEL  ""
- (network fees) 23 µMEL
+<BOB_ADDRESS>   500.000000 MEL  ""
+ (network fees) 0.000023 MEL
 Proceed? [y/N] y
 Transaction hash:  35149dd7e23e4acbc3823578ddd73aa09e0ddd08f970b2b673e7f5e58dab6dc9
 (wait for confirmation with melwallet-cli wait-confirmation -w alice 35149dd7e23e4acbc3823578ddd73aa09e0ddd08f970b2b673e7f5e58dab6dc9)
 ```
-
-Note that we specify the units as µMEL (1 million µMEL = 1 MEL).
 
 We can now wait until the money settles on the blockchain with the given command:
 
@@ -129,7 +129,7 @@ Coin successfully added!
 Wallet name:  bob
 Network:      testnet
 Address:      t0cvmtcqrtepb8tbsasmp3rm4kcv8w4s5s0w80ff46ecgbfafa7k5g
-Balance:      500000000  µMEL
+Balance:      500.000000 MEL
 ```
 
 We now see that Bob has the 500 MEL from Alice!
@@ -140,4 +140,4 @@ You've successfully sent 500 mel from Alice to Bob.
 
 ## Next steps
 
-In this guide, you used a validating thin client that does not synchronize the entire blockchain state. This has slightly less security and doesn't allow much functionality without a reliable Internet connection, so in some applications you would want to run an full node to replicate and fully validate blocks. That's covered in the next guide.
+In this guide, you used a validating thin client that does not synchronize the entire blockchain state. This has slightly less security and doesn't allow much functionality without a reliable Internet connection, so in some applications you would want to run an full node to replicate and fully validate blocks. That's covered in the guide on [full nodes](auditor-node.md).

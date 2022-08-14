@@ -1,5 +1,5 @@
 ---
-title: "Tokenomics overview"
+title: "Token overview"
 weight: 5
 draft: false
 # search related keywords
@@ -39,10 +39,10 @@ As a bootstrap mechanism, we have a small amount of _sym inflation_ in the early
 
 In particular, we have an initial $2^{20}$ microSYM/block (around 1.04 SYM) inflation rate, that decays by half every 1,000,000 blocks (approximately 1 year).
 
-Unlike in other blockchains, this inflation is not simply paid out as a block reward to the stakers. Instead, it is _evenly split_ between two uses:
+Unlike in other blockchains, this inflation is not simply paid out as a block reward to the stakers. Instead, it is [_split_ between two uses](https://github.com/themeliolabs/themelio-node/issues/86):
 
-- 50% **funds a mel-denominated pseudo-block-reward**. This is by using the sym to buy mel in the [Melswap]({{<ref "../specifications/tech-melmint.md#specification">}}) MEL/SYM market. The mel bought is then deposited into the fee pool to be distributed among the stakers.
-- 50% **subsidizes Melmint**, by using the sym to buy erg in the SYM/ERG market. The erg bought is then destroyed. This is essentially an "auction" of newly printed sym for Melmint computation, ensuring constant activity in the Melmint mechanism.
+- 99.61% **funds a mel-denominated pseudo-block-reward**. This is by using the sym to buy mel in the [Melswap]({{<ref "../specifications/tech-melmint.md#specification">}}) MEL/SYM market. The mel bought is then deposited into the fee pool to be distributed among the stakers.
+- 0.39% **subsidizes Melmint**, by using the sym to buy erg in the SYM/ERG market. The erg bought is then destroyed. This is essentially an "auction" of newly printed sym for Melmint computation, bootstrapping a small amount ofactivity in the Melmint mechanism.
 
 ## Staker income summary
 

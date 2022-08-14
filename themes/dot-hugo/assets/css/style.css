@@ -844,8 +844,8 @@ tbody {
   /* background-color: var(--white-color); */
   /* position: sticky;
   top: 120px; */
-  top: 60px;
-  padding-top: 70px;
+  top: 80px;
+  /* padding-top: 70px; */
   position: sticky;
 }
 
