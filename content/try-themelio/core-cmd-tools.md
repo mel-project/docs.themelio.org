@@ -13,6 +13,8 @@ The core functionality of Themelio is encapsulated in a few command-line tools:
 - `melwallet-cli` is a **command-line wallet program**, interfacing with `melwalletd`
 - `melminter` is a **Melmint minter** that uses CPU power to mint _ERG_, which can then be converted to MEL. It interfaces with `melwalletd`.
 
+These are all documented on pages to the left.
+
 ## Installing the CLI tools
 
 The recommended way of installing Themelio software at the moment is by compiling from source. Since Themelio's CLI tools are written purely in Rust, this is very easy using Rust's Cargo package manager.
@@ -33,7 +35,3 @@ cargo 1.61
 ```shell
 $ cargo install --locked themelio-node melwalletd melminter melwallet-client
 ```
-
-## Using the CLI tools
-
-We will cover how to use the CLI tools in subsequent pages on [running full nodes]({{< ref auditor-node.md>}}), [using the wallet daemon]({{< ref melwalletd.md>}}), and [minting DOSC]().
