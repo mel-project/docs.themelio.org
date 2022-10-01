@@ -100,7 +100,7 @@ $ melwallet-cli unlock -w alice
 Let's send over 500 MEL:
 
 ```text
-$ melwallet-cli send-tx -w alice --to <BOB_ADDRESS>,500.0
+$ melwallet-cli send -w alice --to <BOB_ADDRESS>,500.0
 TRANSACTION RECIPIENTS
 Address         Amount          Additional data
 <BOB_ADDRESS>   500.000000 MEL  ""
