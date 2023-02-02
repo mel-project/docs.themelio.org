@@ -24,9 +24,7 @@ All the instructions here assume that
 Install the tools with `cargo` directly:
 
 ```text
-$ cargo install --locked melwalletd
-
-$ cargo install --locked melwallet-client
+$ cargo install --locked melwalletd melwallet-client
 ```
 
 `cargo` downloads and compiles the entire codebase and all its dependencies from scratch. This will take a while.
